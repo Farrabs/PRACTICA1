@@ -29,118 +29,99 @@ bool Evaluacion:: es_Num (char c){
             /*PRIMER EJERCICIO*/
 /*_________________________________________________________*/
 int Evaluacion:: Evaluar_ExpresionInfija(const char* exp){
-    Pila pila_car; Pila pila_num; Pila pila_aux;
-    SacarTamano(expresion);
-    int n1; int n2; int res;
-    if (tam_exp == 0){
-        cout << "Error. No has escrito nada. ";
-        return -1;
-    }
-    for (int i =0; i <tam_exp; i++){
-        if (exp[i] == '('){
-            pila_car.Apilar(exp[i]);
-        }
-        if((exp[i] =='+') || (exp[i] == '-') || (exp[i] == '*') || (exp[i] == '/')){
-            pila_car.Apilar(exp[i]);
-        }
-        if(es_Num(exp[i])){
-            if ((es_Num(exp[i-1])) && (es_Num(exp[i]))){
-                int n1 = pila_num.Cima();
-                int n2 = n1*10 + exp[i] - 48;
-                pila_num.Desapilar();
-                pila_num.Apilar(n2);
+    Pila pila_car; Pila pila_num; Pila pila_NumAux; Pila pila_CarAux;
+      SacarTamano(expresion);
+      int n1; int n2; int res;
+      if (tam_exp == 0){
+            cout << "Error. No has escrito nada. ";
+            return -1;
+      }
+      for (int i =0; i <tam_exp; i++){
+            if (exp[i] == '('){
+                  pila_car.Apilar(exp[i]);
             }
+            if((exp[i] =='+') || (exp[i] == '-') || (exp[i] == '*') || (exp[i] == '/')){
+                  pila_car.Apilar(exp[i]);
+            }
+            if(es_Num(exp[i])){
+                  if ((es_Num(exp[i-1])) && (es_Num(exp[i]))){
+                        int n1 = pila_num.Cima();
+                        int n2 = n1*10 + exp[i] - 48;
+                        pila_num.Desapilar();
+                        pila_num.Apilar(n2);
+                  }
             else{
-                int n = exp[i] -48;
-                pila_num.Apilar(n);
+                  int n = exp[i] -48;
+                  pila_num.Apilar(n);
+                  }
             }
-        }
         
-        if(exp[i] == ')'){
-            pila_car.Apilar(exp[i]);
-        }
-        if (pila_car.Cima() == ')'){
-            n2 = pila_num.Cima();
-            pila_num.Desapilar();
-            n1 = pila_num.Cima();
-            pila_num.Desapilar();
-            pila_car.Desapilar();
-            switch (pila_car.Cima()){
-                case '*':
-                    res = n1 * n2;
-                    break;
-                case '+':
-                    res = n1 + n2;
-                    break;
-                case '-':
-                    res = n1 - n2;
-                    break;
-                case '/':
-                    res = n1/n2;
-                    break;
-                default:
-                    break;
-            }            
-            pila_num.Apilar(res);
-            pila_car.Desapilar();pila_car.Desapilar();
-        }
-        cout << "Pila de caracteres: ";
-        pila_car.Mostrar();
-        cout << "Pila de numeros: " ;
-        pila_num.Mostrar();
-        system("pause");
-        system("cls");
-    }
-    if (pila_car.es_Vacia()){
-        return pila_num.Cima();
-    }
-    else{
+            if(exp[i] == ')'){
+                  pila_car.Apilar(exp[i]);
+            }
+            if (pila_car.Cima() == ')'){
+                  pila_car.Desapilar();
+                  n2 = pila_num.Cima();   pila_num.Desapilar();
+                  n1 = pila_num.Cima();   pila_num.Desapilar();
+
+                  switch (pila_car.Cima()){
+                      case '*':
+                          res = n1 * n2;
+                          break;
+                      case '+':
+                          res = n1 + n2;
+                          break;
+                      case '-':
+                          res = n1 - n2;
+                          break;
+                      case '/':
+                          res = n1/n2;
+                          break;
+                      default:
+                          break;
+                  }         
+   
+                  pila_num.Apilar(res);
+                  pila_car.Desapilar();pila_car.Desapilar();
+            }
+      }
+      if (pila_car.es_Vacia()){
+            return pila_num.Cima();
+      }
+      else{
             while (!pila_num.es_Vacia()){
-                int num = pila_num.Cima();
-                pila_aux.Apilar(num);
-                pila_num.Desapilar();
-                cout <<  "Expresion a resolver: "<<expresion  << endl;
-                cout << "Pila de caracteres: ";
-                pila_car.Mostrar();
-                cout << "Pila de numeros: " ;
-                pila_num.Mostrar();
-                cout << "Pila auxiliar: ";
-                pila_aux.Mostrar();
-                system("pause");
-                system("cls");
+                  int num = pila_num.Cima();
+                  pila_NumAux.Apilar(num);
+                  pila_num.Desapilar();
             }
             while (!pila_car.es_Vacia()){
-                if (pila_car.es_Vacia()){
-                    return pila_aux.Cima();
-                }
-                
-                else{
-                    n1 = pila_aux.Cima();  pila_aux.Desapilar();
-                    n2 = pila_aux.Cima();  pila_aux.Desapilar();
-                    switch (pila_car.Cima()){
-                        case '*':
-                            res = n1 * n2;
-                            break;
-                        case '+':
-                            res = n1 + n2;
-                            break;
-                        case '-':
-                            res = n1 - n2;
-                            break;
-                        case '/':
-                            res = n1/n2;
-                            break;
-                        default:
-                            break;
-                    }
-                    pila_car.Desapilar();
-                    pila_aux.Apilar(res);
-  
-                }
-
+                  int c = pila_car.Cima(); pila_car.Desapilar();
+                  pila_CarAux.Apilar(c);
             }
-        }
-    return pila_aux.Cima();
+            while (!pila_CarAux.es_Vacia()){
+                  n1 = pila_NumAux.Cima();  pila_NumAux.Desapilar();
+                  n2 = pila_NumAux.Cima();  pila_NumAux.Desapilar();
+                  switch (pila_CarAux.Cima()){
+                        case '*':
+                              res = n1 * n2;
+                              break;
+                        case '+':
+                              res = n1 + n2;
+                              break;
+                        case '-':
+                              res = n1 - n2;
+                              break;
+                        case '/':
+                              res = n1/n2;
+                              break;
+                        default:
+                              break;
+                    }
+                    pila_CarAux.Desapilar();
+                    pila_NumAux.Apilar(res);
+            }
+      }
+      return pila_NumAux.Cima();
 }
 
 
@@ -148,7 +129,7 @@ int Evaluacion:: Evaluar_ExpresionInfija(const char* exp){
         /*SEGUNDO EJERCICIO*/
 /*___________________________________________________________*/
 int Evaluacion:: Evaluar_ExpresionInfija_2(const char* expresion_nueva){
-    Pila pila_car; Pila pila_num; Pila pila_aux;
+    Pila pila_car; Pila pila_num; Pila pila_aux; Pila pila_CarAux;
     int n1; int n2; int res;
     SacarTamano(expresion);
    /* char* expresion_nueva = new char[tam_exp +2];
@@ -227,15 +208,6 @@ int Evaluacion:: Evaluar_ExpresionInfija_2(const char* expresion_nueva){
                     pila_aux.Apilar(c);
                     n1 = pila_num.Cima(); pila_num.Desapilar();
                     pila_aux.Apilar(n1);
-                    cout <<  "PASO 1:   Expresion a resolver: "<<expresion  << endl;
-                    cout << "Pila de caracteres: ";
-                    pila_car.Mostrar();
-                    cout << "Pila de numeros: " ;
-                    pila_num.Mostrar();
-                    cout << "Pila auxiliar: ";
-                    pila_aux.Mostrar();
-                    system("pause");
-                    system("cls");
             }
             pila_car.Desapilar();
             while (!pila_aux.es_Vacia()){
@@ -262,13 +234,6 @@ int Evaluacion:: Evaluar_ExpresionInfija_2(const char* expresion_nueva){
             pila_num.Apilar(n1);
             pila_aux.Desapilar();
         }
-        cout <<  "PASO 3:   Expresion a resolver: "<<expresion  << endl;
-        cout << "Pila de caracteres: ";
-        pila_car.Mostrar();
-        cout << "Pila de numeros: " ;
-        pila_num.Mostrar();
-        system("pause");
-        system("cls");
         }
         if (pila_car.es_Vacia()){
             return pila_num.Cima();
@@ -278,20 +243,15 @@ int Evaluacion:: Evaluar_ExpresionInfija_2(const char* expresion_nueva){
                 int num = pila_num.Cima();
                 pila_aux.Apilar(num);
                 pila_num.Desapilar();
-                cout <<  "Expresion a resolver: "<<expresion  << endl;
-                cout << "Pila de caracteres: ";
-                pila_car.Mostrar();
-                cout << "Pila de numeros: " ;
-                pila_num.Mostrar();
-                cout << "Pila auxiliar: ";
-                pila_aux.Mostrar();
-                system("pause");
-                system("cls");
             }
             while (!pila_car.es_Vacia()){
+                int c = pila_car.Cima(); pila_car.Desapilar();
+                pila_CarAux.Apilar(c);
+            }
+            while (!pila_CarAux.es_Vacia()){
                     n1 = pila_aux.Cima();  pila_aux.Desapilar();
                     n2 = pila_aux.Cima();  pila_aux.Desapilar();
-                    switch (pila_car.Cima()){
+                    switch (pila_CarAux.Cima()){
                         case '*':
                             res = n1 * n2;
                             break;
@@ -307,18 +267,9 @@ int Evaluacion:: Evaluar_ExpresionInfija_2(const char* expresion_nueva){
                         default:
                             break;
                     }
-                    pila_car.Desapilar();
+                    pila_CarAux.Desapilar();
                     pila_aux.Apilar(res);
                 }
-                cout <<  "Expresion a resolver: "<<expresion  << endl;
-                cout << "Pila de caracteres: ";
-                pila_car.Mostrar();
-                cout << "Pila de numeros: " ;
-                pila_num.Mostrar();
-                cout << "Pila auxiliar: ";
-                pila_aux.Mostrar();
-                system("pause");
-                system("cls");
         }
         return pila_aux.Cima();
 }
