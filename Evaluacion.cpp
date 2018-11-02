@@ -130,150 +130,153 @@ int Evaluacion:: Evaluar_ExpresionInfija(const char* exp){
 /*___________________________________________________________*/
 int Evaluacion:: Evaluar_ExpresionInfija_2(const char* expresion_nueva){
     Pila pila_car; Pila pila_num; Pila pila_aux; Pila pila_CarAux;
-    int n1; int n2; int res;
-    SacarTamano(expresion);
-   /* char* expresion_nueva = new char[tam_exp +2];
-    expresion_nueva[0] = '(';
-    strcat(expresion_nueva, exp);
-    strcat(expresion_nueva, ")");
-    tam_exp +=2;
-    expresion = expresion_nueva;
-    cout << "Expresion concatenada: " << expresion_nueva << endl;*/
-    if (tam_exp == 0){
-        cout << "Error. No has escrito nada. ";
-        return -1;
-    }
-    for (int i =0; i <tam_exp+1; i++){
+      int n1; int n2; int res;
+      SacarTamano(expresion);
+      /* char* expresion_nueva = new char[tam_exp +2];
+      expresion_nueva[0] = '(';
+      strcat(expresion_nueva, exp);
+      strcat(expresion_nueva, ")");
+      tam_exp +=2;
+      expresion = expresion_nueva;
+      cout << "Expresion concatenada: " << expresion_nueva << endl;*/
+      if (tam_exp == 0){
+            cout << "Error. No has escrito nada. ";
+            return -1;
+      }
+      for (int i =0; i <tam_exp+1; i++){
         
-        if (expresion_nueva[i] == '('){
-            pila_car.Apilar(expresion_nueva[i]);
-        }
-        else if((expresion_nueva[i] =='+') || (expresion_nueva[i] == '-') || (expresion_nueva[i] == '*') || (expresion_nueva[i] == '/')){
-            pila_car.Apilar(expresion_nueva[i]);
-        }
-        else if(es_Num(expresion_nueva[i])){
-            if (i==0){
-                int n = expresion_nueva[i] -48;
-                pila_num.Apilar(n);
+            if (expresion_nueva[i] == '('){
+                  pila_car.Apilar(expresion_nueva[i]);
             }
-            else{
-                if (es_Num(expresion_nueva[i-1])){
-                    n1 = pila_num.Cima();
-                    n2 = n1*10 + expresion_nueva[i] - 48;
-                    pila_num.Desapilar();
-                    pila_num.Apilar(n2);
-                }
-                else{
-                    int n = expresion_nueva[i] -48;
-                    pila_num.Apilar(n);
-                }
+            else if((expresion_nueva[i] =='+') || (expresion_nueva[i] == '-') || (expresion_nueva[i] == '*') || (expresion_nueva[i] == '/')){
+                  pila_car.Apilar(expresion_nueva[i]);
             }
-        }
+            else if(es_Num(expresion_nueva[i])){
+                  if (i==0){
+                        int n = expresion_nueva[i] -48;
+                        pila_num.Apilar(n);
+                  }
+                  else{
+                        if (es_Num(expresion_nueva[i-1])){
+                              n1 = pila_num.Cima();
+                              n2 = n1*10 + expresion_nueva[i] - 48;
+                              pila_num.Desapilar();
+                              pila_num.Apilar(n2);
+                        }
+                        else{
+                              int n = expresion_nueva[i] -48;
+                              pila_num.Apilar(n);
+                        }
+                  }
+            }
         
-        if(((pila_car.Cima() == '*') || (pila_car.Cima() == '/'))){
-            if ((expresion_nueva[i] == '*') || (expresion_nueva[i] == '/')){
+            if(((pila_car.Cima() == '*') || (pila_car.Cima() == '/'))){
+                  if ((expresion_nueva[i] == '*') || (expresion_nueva[i] == '/')){
                 
+                  }
+                  else{
+                        if (!es_Num(expresion_nueva[i+1])){
+                              n2 = pila_num.Cima(); pila_num.Desapilar();
+                              n1 = pila_num.Cima(); pila_num.Desapilar();
+                              switch(pila_car.Cima()){
+                                    case '*':
+                                          res = n1*n2;
+                                          break;
+                                    case '/':
+                                          res = n1/n2;
+                                          break;
+                                    default:
+                                          break;
+                              }
+                              pila_car.Desapilar();
+                              pila_num.Apilar(res);
+                        }
+                  }
             }
-            else{
-                if (!es_Num(expresion_nueva[i+1])){
-                n2 = pila_num.Cima(); pila_num.Desapilar();
-                n1 = pila_num.Cima(); pila_num.Desapilar();
-                switch(pila_car.Cima()){
-                    case '*':
-                        res = n1*n2;
-                        break;
-                    case '/':
-                        res = n1/n2;
-                        break;
-                    default:
-                        break;
-                }
-                pila_car.Desapilar();
-                pila_num.Apilar(res);
-                }
-            }
-        }
         
-        if(expresion_nueva[i] == ')'){
-            pila_car.Apilar(expresion_nueva[i]);
-        }
+            if(expresion_nueva[i] == ')'){
+                  pila_car.Apilar(expresion_nueva[i]);
+            }
 
-        if (expresion_nueva[i] == ')'){
-            pila_car.Desapilar();
-            n1 = pila_num.Cima(); pila_num.Desapilar();
-            int c; char c1;
-            pila_aux.Apilar(n1);
-            while (pila_car.Cima() != '('){
-                    c = pila_car.Cima(); pila_car.Desapilar();
-                    pila_aux.Apilar(c);
-                    n1 = pila_num.Cima(); pila_num.Desapilar();
-                    pila_aux.Apilar(n1);
+            if (expresion_nueva[i] == ')'){
+                  pila_car.Desapilar();
+                  n1 = pila_num.Cima(); pila_num.Desapilar();
+                  int c; char c1;
+                  pila_aux.Apilar(n1);
+                  
+                  while (pila_car.Cima() != '('){
+                        c = pila_car.Cima(); pila_car.Desapilar();
+                        pila_aux.Apilar(c);
+                        n1 = pila_num.Cima(); pila_num.Desapilar();
+                        pila_aux.Apilar(n1);
+                  }
+                  pila_car.Desapilar();
+                  
+                  while (!pila_aux.es_Vacia()){
+                        n1 = pila_aux.Cima(); pila_aux.Desapilar();
+                        if (pila_aux.es_Vacia()){
+                              break;
+                        }
+                        else{
+                              c1 = pila_aux.Cima(); pila_aux.Desapilar();
+                              n2 = pila_aux.Cima(); pila_aux.Desapilar();
+                              switch (c1){
+                                    case '+':
+                                          res = n1 + n2;
+                                          break;
+                                    case '-':
+                                          res = n1 - n2;
+                                          break;
+                                    default:
+                                          break;
+                                    }
+                              pila_aux.Apilar(res);
+                        }
+                  }
+                  pila_num.Apilar(n1);
+                  pila_aux.Desapilar();
             }
-            pila_car.Desapilar();
-            while (!pila_aux.es_Vacia()){
-                n1 = pila_aux.Cima(); pila_aux.Desapilar();
-                if (pila_aux.es_Vacia()){
-                    break;
-                }
-                else{
-                    c1 = pila_aux.Cima(); pila_aux.Desapilar();
-                    n2 = pila_aux.Cima(); pila_aux.Desapilar();
-                    switch (c1){
-                    case '+':
-                        res = n1 + n2;
-                        break;
-                    case '-':
-                        res = n1 - n2;
-                        break;
-                    default:
-                        break;
-                    }
-                pila_aux.Apilar(res);
-                }
-            }
-            pila_num.Apilar(n1);
-            pila_aux.Desapilar();
-        }
-        }
-        if (pila_car.es_Vacia()){
+        /*FIN DEL BUCLE FOR PARA RECORRER LA EXPRESION*/
+      }
+        
+      if (pila_car.es_Vacia()){
             return pila_num.Cima();
-        }
-        else{
+      }
+      else{
             while (!pila_num.es_Vacia()){
-                int num = pila_num.Cima();
-                pila_aux.Apilar(num);
-                pila_num.Desapilar();
+                  int num = pila_num.Cima();
+                  pila_aux.Apilar(num);
+                  pila_num.Desapilar();
             }
             while (!pila_car.es_Vacia()){
-                int c = pila_car.Cima(); pila_car.Desapilar();
-                pila_CarAux.Apilar(c);
+                  int c = pila_car.Cima(); pila_car.Desapilar();
+                  pila_CarAux.Apilar(c);
             }
             while (!pila_CarAux.es_Vacia()){
-                    n1 = pila_aux.Cima();  pila_aux.Desapilar();
-                    n2 = pila_aux.Cima();  pila_aux.Desapilar();
-                    switch (pila_CarAux.Cima()){
+                  n1 = pila_aux.Cima();  pila_aux.Desapilar();
+                  n2 = pila_aux.Cima();  pila_aux.Desapilar();
+                  switch (pila_CarAux.Cima()){
                         case '*':
-                            res = n1 * n2;
-                            break;
+                              res = n1 * n2;
+                              break;
                         case '+':
-                            res = n1 + n2;
-                            break;
+                              res = n1 + n2;
+                              break;
                         case '-':
-                            res = n1 - n2;
-                            break;
+                              res = n1 - n2;
+                              break;
                         case '/':
-                            res = n1/n2;
-                            break;
+                              res = n1/n2;
+                              break;
                         default:
-                            break;
-                    }
-                    pila_CarAux.Desapilar();
-                    pila_aux.Apilar(res);
-                }
-        }
-        return pila_aux.Cima();
+                              break;
+                  }
+                  pila_CarAux.Desapilar();
+                  pila_aux.Apilar(res);
+            }
+      }
+      return pila_aux.Cima();
 }
-
 
 
         /*TERCER EJERCICIO*/
