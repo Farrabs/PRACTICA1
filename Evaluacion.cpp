@@ -410,6 +410,68 @@ int Evaluacion :: Evaluar_ExpresionPosfija (Cola c1){
       return pila_aux.Cima();
 }
 
+
+        /*QUINTO EJERCICIO*/
+/*___________________________________________________________*/
+
+bool Evaluacion:: es_Correcta(const char* exp){
+      int parentesis_izq =0; int parentesis_der =0; int oper; int contador =0; Pila pila_num;
+      int n1; int n2;
+      SacarTamano(expresion);
+      if (tam_exp == 0){
+            cout << "Error. No has escrito nada. ";
+            return false;
+      }
+      for (int i = 0; i < tam_exp ; i++){
+            if(es_Num(exp[i])){
+                  if (es_Num(exp[i-1])){
+                        n1 = pila_num.Cima();
+                        n2 = n1*10 + exp[i] - 48;
+                        pila_num.Desapilar();
+                        pila_num.Apilar(n2);
+                  }
+                  else{
+                        n1 = exp[i] -48;
+                        pila_num.Apilar(n1);
+                  }
+            }
+            
+            if (exp[i] == '('){
+                  if (es_Num(exp[i-1])){
+                        return false;
+                  }
+                  else{
+                        parentesis_izq +=1;
+                  }
+            }
+            
+            if (exp[i] == ')'){
+                  parentesis_der +=1;
+            }
+            
+            if ((exp[i] == '+') || (exp[i] == '-') || (exp[i] == '/') || (exp[i] == '*')){
+                  if (exp[i+1] == ')'){
+                        return false;
+                  }
+                  else{
+                        oper +=1;
+                  }
+            }
+            cout << expresion << endl;
+            cout << "PDER: "<<parentesis_der << endl;
+            cout << "PIZQ: "<<parentesis_izq << endl;
+            cout << "OPER: "<<oper << endl;
+            system("pause");
+            system("cls");
+      }
+      
+      while (!pila_num.es_Vacia()){
+            contador +=1;
+            pila_num.Desapilar();
+      }
+      return (parentesis_izq == parentesis_der) && (oper == contador -1);
+}
+
 Evaluacion::~Evaluacion()
 {
 }
