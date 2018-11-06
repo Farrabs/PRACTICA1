@@ -3,5 +3,5 @@ Practica de almacenar en una pila, cola o lista un expresión Infija o Posfija
 
 CAMBIOS A REALIZAR.
 
-	=> Arreglar el aumento de tamaño (EJ 3) ((5*2)-(1*2))/((11-9)/(4/2))/2
-	=> Rehacer el 3 
+	=> Completar el 3 para hacerlo con parentesis.
+	=> Completar el 2 para hacerlo sin parentesis.
