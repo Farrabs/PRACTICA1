@@ -283,7 +283,7 @@ int Evaluacion:: Evaluar_ExpresionInfija_2(const char* expresion_nueva){
 /*___________________________________________________________*/
 
 Cola Evaluacion:: ExpresionInfija_a_ExpresionPostfija (const char* exp){
-      Pila pila_car; Pila pila_num; Pila pila_aux; Cola cola_exp;
+      Pila pila_car; Pila pila_num; Cola cola_exp;
       SacarTamano(expresion);
       if (tam_exp == 0){
             cout << "Error. No has escrito nada. ";
@@ -303,7 +303,7 @@ Cola Evaluacion:: ExpresionInfija_a_ExpresionPostfija (const char* exp){
                         pila_num.Apilar(n1);
                   }
             }
-            if (!es_Num(exp[i+1])){
+            if ((!es_Num(exp[i+1])) && (exp[i+1] != '(') && (exp[i+1] != ')')){
                   cola_exp.Encolar(pila_num.Cima());
                   if ((!pila_car.es_Vacia()) && ((pila_car.Cima() == '*') || (pila_car.Cima() == '/'))){
                         cola_exp.Encolar(pila_car.Cima());
@@ -317,6 +317,9 @@ Cola Evaluacion:: ExpresionInfija_a_ExpresionPostfija (const char* exp){
             
             if ((exp[i] == '*') || (exp[i] == '/')){
                   if (pila_car.es_Vacia()){
+                        pila_car.Apilar(exp[i]);
+                  }
+                  else if (pila_car.Cima() == '('){
                         pila_car.Apilar(exp[i]);
                   }
                   else if ((pila_car.Cima() == '+') || (pila_car.Cima() == '-')){
@@ -333,6 +336,9 @@ Cola Evaluacion:: ExpresionInfija_a_ExpresionPostfija (const char* exp){
                   if (pila_car.es_Vacia()){
                         pila_car.Apilar(exp[i]);
                   }
+                  else if (pila_car.Cima() == '('){
+                        pila_car.Apilar(exp[i]);
+                  }
                   else if ((pila_car.Cima() == '+') || (pila_car.Cima() == '-')){
                         cola_exp.Encolar(pila_car.Cima());
                         pila_car.Desapilar();
@@ -345,8 +351,17 @@ Cola Evaluacion:: ExpresionInfija_a_ExpresionPostfija (const char* exp){
                   }
             }
             
-            
-            
+            if (exp[i] == ')'){
+                  while(pila_car.Cima() != '('){
+                        cola_exp.Encolar(pila_car.Cima());
+                        pila_car.Desapilar();
+                  }
+                  pila_car.Desapilar();
+            }
+      cout << "Pila: ";
+      pila_car.Mostrar();
+      cout << "Cola: ";
+      cola_exp.Mostrar();
       }
       while (!pila_car.es_Vacia()){
           cola_exp.Encolar(pila_car.Cima());  
