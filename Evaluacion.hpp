@@ -9,7 +9,6 @@
 class Evaluacion
 {
 private:
-    //const char *expresion ;
     int tam_exp; 
     
 public:
