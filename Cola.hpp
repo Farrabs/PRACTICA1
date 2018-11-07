@@ -1,13 +1,13 @@
 #ifndef COLA_HPP
 #define COLA_HPP
-#include "Nodo.hpp" 
+#include "NodoCola.hpp" 
 
 
 class Cola
 {
 private:
-    pNodo ultimo;
-    pNodo primero;
+    pNodoCola ultimo;
+    pNodoCola primero;
     
 public:
     Cola();
