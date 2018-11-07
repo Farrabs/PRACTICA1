@@ -8,7 +8,7 @@ Cola::Cola()
 }
 
 void Cola:: Encolar(int v){
-    pNodo nuevo = new Nodo (v,NULL);
+    pNodoCola nuevo = new NodoCola (v,NULL);
     if (ultimo){
         ultimo->siguiente = nuevo;
     }
@@ -20,7 +20,7 @@ void Cola:: Encolar(int v){
 
 int Cola:: Desencolar(){
     
-    pNodo aux = primero;
+    pNodoCola aux = primero;
     int v = aux-> valor;
     if(!aux){
         return 0;
@@ -34,7 +34,7 @@ int Cola:: Desencolar(){
 }
 
 void Cola:: Mostrar(){
-    pNodo aux = primero;
+    pNodoCola aux = primero;
     while (aux){
         cout << "   " << aux->valor;
         aux = aux->siguiente;
@@ -53,6 +53,6 @@ bool Cola:: es_Vacia(){
 
 Cola::~Cola()
 {
-
 }
+
 
