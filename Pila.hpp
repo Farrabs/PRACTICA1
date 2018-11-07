@@ -1,11 +1,11 @@
 #ifndef PILA_HPP
 #define PILA_HPP
-#include "Nodo.hpp"
+#include "NodoPila.hpp"
 
 class Pila
 {
 private:
-    pNodo ultimo;
+    pNodoPila ultimo;
     
 public:
     Pila();
