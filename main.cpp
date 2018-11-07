@@ -1,5 +1,5 @@
 #include <Evaluacion.hpp>
-#include "Nodo.hpp"
+#include "Lista.hpp"
 #include "Pila.hpp"
 #include "Cola.hpp"
 
