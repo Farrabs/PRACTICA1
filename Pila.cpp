@@ -6,13 +6,13 @@ Pila::Pila()
 }
 
 void Pila:: Apilar (int v){
-    pNodo nuevo;
-    nuevo = new Nodo (v, ultimo);
+    pNodoPila nuevo;
+    nuevo = new NodoPila (v, ultimo);
     ultimo = nuevo;
 }
 
 int Pila:: Desapilar (){
-    pNodo nodo;
+    pNodoPila nodo;
     int v;
     if (!ultimo){
         return 0;
@@ -26,7 +26,7 @@ int Pila:: Desapilar (){
 }
 
 void Pila :: Mostrar(){
-    pNodo aux = ultimo;
+    pNodoPila aux = ultimo;
     while (aux){
         cout << "   " << aux->valor;
         aux = aux->siguiente;
@@ -35,7 +35,7 @@ void Pila :: Mostrar(){
 }
 
 int Pila :: Cima(){
-    pNodo aux = ultimo;
+    pNodoPila aux = ultimo;
     return aux->valor;
 }
 
@@ -44,7 +44,7 @@ bool Pila:: es_Vacia(){
 }
 Pila::~Pila()
 {
-    pNodo aux;
+    pNodoPila aux;
     while(ultimo){
         aux = ultimo;
         ultimo = ultimo->siguiente;
