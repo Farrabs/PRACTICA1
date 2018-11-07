@@ -6,9 +6,6 @@ Lista::Lista(){
       longitud = 0;
 }
 
-Lista:: ~Lista(){
-
-}
 void Lista:: InsertarIzq(int v){
       pNodoLista nuevo;
       nuevo = new NodoLista(v,primero);
@@ -81,12 +78,13 @@ int Lista:: Ver(int i){
 void Lista::Insertar(int v,int p){
       pNodoLista nuevo,aux;
       int pos;
-      if(p<0 || p>longitud);
+      if(p<0 || p>longitud){
+      }
       else{
             if(p==0) {
                   InsertarIzq(v);
             }
-            if(p==longitud-1){
+            else if(p==longitud-1){
                   InsertarDer(v);
             }
             else{
@@ -102,3 +100,9 @@ void Lista::Insertar(int v,int p){
             }
       }
 }
+
+
+Lista::~Lista()
+{
+}
+
