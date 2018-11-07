@@ -10,15 +10,19 @@
 
 Evaluacion::Evaluacion()
 {
-    expresion = "(2+2)+(3+3)-(4+4)";
+    expresion = "2+2+3*3-4+4";
 }
 
-void Evaluacion:: SacarTamano(const char* exp){
+void Evaluacion:: SacarTamano(char* exp){
     int i =0;
     while (exp[i] != '\0'){
         i +=1;
     }
     tam_exp = i;
+}
+
+int Evaluacion:: getTamano(){
+      return tam_exp;
 }
 
 bool Evaluacion:: es_Num (char c){
@@ -28,14 +32,19 @@ bool Evaluacion:: es_Num (char c){
 
             /*PRIMER EJERCICIO*/
 /*_________________________________________________________*/
-int Evaluacion:: Evaluar_ExpresionInfija(const char* exp){
+int Evaluacion:: Evaluar_ExpresionInfija(char* exp){
     Pila pila_car; Pila pila_num; Pila pila_NumAux; Pila pila_CarAux;
-      SacarTamano(expresion);
+      SacarTamano(exp);
       int n1; int n2; int res;
       if (tam_exp == 0){
             cout << "Error. No has escrito nada. ";
             return -1;
       }
+      
+      if (exp[0] != '('){
+            return -1;
+      }
+      
       for (int i =0; i <tam_exp; i++){
             if (exp[i] == '('){
                   pila_car.Apilar(exp[i]);
@@ -128,22 +137,23 @@ int Evaluacion:: Evaluar_ExpresionInfija(const char* exp){
 
         /*SEGUNDO EJERCICIO*/
 /*___________________________________________________________*/
-int Evaluacion:: Evaluar_ExpresionInfija_2(const char* expresion_nueva){
-    Pila pila_car; Pila pila_num; Pila pila_aux; Pila pila_CarAux;
+int Evaluacion:: Evaluar_ExpresionInfija_2(char* exp){
+      Pila pila_car; Pila pila_num; Pila pila_aux; Pila pila_CarAux;
       int n1; int n2; int res;
-      SacarTamano(expresion);
-      /* char* expresion_nueva = new char[tam_exp +2];
+
+      
+      char* expresion_nueva = new char;
       expresion_nueva[0] = '(';
       strcat(expresion_nueva, exp);
       strcat(expresion_nueva, ")");
-      tam_exp +=2;
-      expresion = expresion_nueva;
-      cout << "Expresion concatenada: " << expresion_nueva << endl;*/
+      SacarTamano(expresion_nueva);
+      cout << "Expresion concatenada: " << expresion_nueva << endl;
+      
       if (tam_exp == 0){
             cout << "Error. No has escrito nada. ";
             return -1;
       }
-      for (int i =0; i <tam_exp+1; i++){
+      for (int i =0; i <tam_exp; i++){
         
             if (expresion_nueva[i] == '('){
                   pila_car.Apilar(expresion_nueva[i]);
@@ -169,7 +179,7 @@ int Evaluacion:: Evaluar_ExpresionInfija_2(const char* expresion_nueva){
                         }
                   }
             }
-        
+
             if(((pila_car.Cima() == '*') || (pila_car.Cima() == '/'))){
                   if ((expresion_nueva[i] == '*') || (expresion_nueva[i] == '/')){
                 
@@ -282,7 +292,7 @@ int Evaluacion:: Evaluar_ExpresionInfija_2(const char* expresion_nueva){
         /*TERCER EJERCICIO*/
 /*___________________________________________________________*/
 
-Cola Evaluacion:: ExpresionInfija_a_ExpresionPostfija (const char* exp){
+Cola Evaluacion:: ExpresionInfija_a_ExpresionPostfija (char* exp){
       Pila pila_car; Pila pila_num; Cola cola_exp;
       SacarTamano(expresion);
       if (tam_exp == 0){
@@ -414,7 +424,7 @@ int Evaluacion :: Evaluar_ExpresionPosfija (Cola c1){
         /*QUINTO EJERCICIO*/
 /*___________________________________________________________*/
 
-bool Evaluacion:: es_Correcta(const char* exp){
+bool Evaluacion:: es_Correcta(char* exp){
       int parentesis_izq =0; int parentesis_der =0; int oper; int contador =0; Pila pila_num;
       int n1; int n2;
       SacarTamano(expresion);
@@ -461,8 +471,6 @@ bool Evaluacion:: es_Correcta(const char* exp){
             cout << "PDER: "<<parentesis_der << endl;
             cout << "PIZQ: "<<parentesis_izq << endl;
             cout << "OPER: "<<oper << endl;
-            system("pause");
-            system("cls");
       }
       
       while (!pila_num.es_Vacia()){
@@ -475,4 +483,3 @@ bool Evaluacion:: es_Correcta(const char* exp){
 Evaluacion::~Evaluacion()
 {
 }
-
