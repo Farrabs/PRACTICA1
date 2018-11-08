@@ -480,6 +480,51 @@ bool Evaluacion:: es_Correcta(char* exp){
       return (parentesis_izq == parentesis_der) && (oper == contador -1);
 }
 
+
+        /*SEXTO EJERCICIO*/
+/*___________________________________________________________*/
+
+Lista Evaluacion::completar_parentesis(char* exp){
+      Lista lista; Pila pila_num; int n1 =0; int n2 =0;
+      SacarTamano(expresion);
+      if (tam_exp == 0){
+            cout << "Error. No has escrito nada. ";
+            return lista;
+      }
+      for (int i =0; i < tam_exp; i++){
+            if (exp[i] == '('){
+                  lista.InsertarDer(exp[i]);
+            }
+            
+            else if((exp[i] =='+') || (exp[i] == '-') || (exp[i] == '*') || (exp[i] == '/')){
+                  lista.InsertarDer(exp[i]);
+            }
+            else if(es_Num(exp[i])){
+                  if (i==0){
+                        int n = exp[i] -48;
+                        pila_num.Apilar(n);
+                  }
+                  else{
+                        if (es_Num(exp[i-1])){
+                              n1 = pila_num.Cima();
+                              n2 = n1*10 + exp[i] - 48;
+                              pila_num.Desapilar();
+                              pila_num.Apilar(n2);
+                        }
+                        else{
+                              int n = exp[i] -48;
+                              pila_num.Apilar(n);
+                        }
+                  }
+            }
+            if (!es_Num(exp[i+1])){
+                  lista.InsertarDer(pila_num.Cima());
+                  pila_num.Desapilar();
+            }
+      }
+      lista.Mostrar();
+}
+
 Evaluacion::~Evaluacion()
 {
 }
