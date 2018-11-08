@@ -34,7 +34,7 @@ bool Evaluacion:: es_Num (char c){
 /*_________________________________________________________*/
 int Evaluacion:: Evaluar_ExpresionInfija(char* exp){
     Pila pila_car; Pila pila_num; Pila pila_NumAux; Pila pila_CarAux;
-      SacarTamano(exp);
+      SacarTamano(expresion);
       int n1; int n2; int res;
       if (tam_exp == 0){
             cout << "Error. No has escrito nada. ";
@@ -425,7 +425,7 @@ int Evaluacion :: Evaluar_ExpresionPosfija (Cola c1){
 /*___________________________________________________________*/
 
 bool Evaluacion:: es_Correcta(char* exp){
-      int parentesis_izq =0; int parentesis_der =0; int oper; int contador =0; Pila pila_num;
+      int parentesis_izq =0; int parentesis_der =0; int oper=0; int contador =0; Pila pila_num;
       int n1; int n2;
       SacarTamano(expresion);
       if (tam_exp == 0){
