@@ -2,6 +2,7 @@
 #define EVALUACION_HPP
 #include "Pila.hpp"
 #include "Cola.hpp"
+#include "Lista.hpp"
 #include <stdio.h>
 #include <string.h>
 #include <iostream>
@@ -22,6 +23,7 @@ public:
       Cola ExpresionInfija_a_ExpresionPostfija (char* exp);
       int Evaluar_ExpresionPosfija (Cola c);
       bool es_Correcta(char* exp);
+	  Lista completar_parentesis(char* exp);
       void SacarTamano(char* exp);
       bool es_Num(char c);
       int getTamano();
