@@ -10,7 +10,7 @@
 
 Evaluacion::Evaluacion()
 {
-    expresion = " 2*5-1*2/11-9)";
+    expresion = "2*5*1*3-4";
 }
 
 void Evaluacion:: SacarTamano(char* exp){
@@ -461,7 +461,7 @@ bool Evaluacion:: es_Correcta(char* exp){
                   }
             }
             
-            if (exp[i] == '('){
+            else if (exp[i] == '('){
                   if (es_Num(exp[i-1])){
                         return false;
                   }
@@ -469,17 +469,22 @@ bool Evaluacion:: es_Correcta(char* exp){
                         pila_car.Apilar(exp[i]);
                   }
             }
-            if (exp[i] == ')'){
+            else if (exp[i] == ')'){
                   if (exp[i-1] == '('){
                         return false;
                   }
-                  else{
-                        pila_car.Apilar(exp[i]);
-                  }     
+                  if (pila_car.es_Vacia()){
+                        return false;
+                  }
             }
             
-            if ((exp[i] == ')') && (!pila_car.es_Vacia()) && (pila_car.Cima() == '(')){
-                  pila_car.Desapilar(); pila_car.Desapilar();
+            if ((exp[i] == ')') && (!pila_car.es_Vacia())) {
+                  if(pila_car.Cima() == '('){
+                        pila_car.Desapilar();
+                  }
+                  else{
+                        return false;
+                  }
             }
             
             
@@ -503,7 +508,7 @@ bool Evaluacion:: es_Correcta(char* exp){
 		  return false;
 	  }
 	  
-      return (oper == contador -1);
+      return (oper == contador -1) ;
 }
 
 
@@ -511,7 +516,7 @@ bool Evaluacion:: es_Correcta(char* exp){
 /*___________________________________________________________*/
 
 Lista Evaluacion::completar_parentesis(char* exp){
-      Lista lista; Pila pila_num; Pila pila_car; int n1 =0; int n2 =0; int pos =0;
+      Lista lista; Pila pila_num; Pila pila_car; int n1 =0; int n2 =0; int pos =0; int contador=0;
       SacarTamano(expresion);
       if (tam_exp == 0){
             cout << "Error. No has escrito nada. ";
@@ -562,89 +567,107 @@ Lista Evaluacion::completar_parentesis(char* exp){
             
       }
       lista.Mostrar();
+      //BUCLE PARA LAS * Y /
+      
       for (int i =0;i < tam_exp; i++){
             pos =i;
             cout << "Iteracion de * y /" << i << endl;
             if ((lista.Ver(i) == '*') || (lista.Ver(i) == '/')){
-                  if ((lista.Ver(i-1) == ')') && (lista.Ver(i+1) == '(')){
-                        while (lista.Ver(pos -1) != '('){
-                                    pos -=1;
-                              }
-                              lista.Insertar('(',pos);
-                              pos=i;
-                              tam_exp +=1;
-                              
-                        while (lista.Ver(pos+1) != ')'){
-                              pos+=1;
-                              }
-                              lista.Insertar(')',pos+1);
-                              i+=1;
-                              tam_exp+=1;
-                  }
-                  else if (lista.Ver(i-1) == ')'){
-                        while (lista.Ver(pos -1) != '('){
-                                    pos -=1;
-                              }
-                              lista.Insertar('(',pos);
-                              lista.Insertar(')',i+3);
-                              i+=1;
-                              tam_exp +=2;
-                  }
-                  else if ((!es_Caracter(lista.Ver(i-1))) && (!es_Caracter(lista.Ver(i+1)))) {
+                  if ((!es_Caracter(lista.Ver(i-1))) && (!es_Caracter(lista.Ver(i+1)))) {
                         lista.Insertar('(',i-1);
                         lista.Insertar(')',i+3);
                         tam_exp +=2;
                         i+=1;
                   }
-                  
+                  else if((lista.Ver(i-1) == ')') && (lista.Ver(i+1) == '(')){
+                        contador=1;
+                        while(contador !=0){
+                              if (lista.Ver(pos-2) == ')'){
+                                    contador+=1;
+                              }
+                              else if(lista.Ver(pos-2) == '('){
+                                    contador-=1;
+                              }
+                              pos-=1;
+                        }
+                        lista.Insertar('(',pos);
+                        pos =i+2; contador =1; tam_exp+=1;
+                        while(contador !=0 && pos<tam_exp){
+                              if(lista.Ver(pos) == '('){
+                                    contador+=1;
+                              }
+                              if (lista.Ver(pos) == ')'){
+                                    contador-=1;
+                              }
+                              pos+=1;
+                        }
+                        lista.Insertar(')',pos+1);
+                        tam_exp+=1;
+                        i+=1;
+                  }
+                  else if((lista.Ver(i-1) == ')') && (!es_Caracter(lista.Ver(i+1)))){
+                        contador=1;
+                        while(contador !=0){
+                              if (lista.Ver(pos-2) == ')'){
+                                    contador+=1;
+                              }
+                              else if(lista.Ver(pos-2) == '('){
+                                    contador-=1;
+                              }
+                              pos-=1;
+                        }
+                        lista.Insertar('(',pos);
+                        lista.Insertar(')',i+3);
+                        tam_exp+=2;
+                        i+=1;
+                  }
+            }
+      }
+      lista.Mostrar();
+      //BUCLE PARA LAS + Y -
+      /*for (int i =0;i < tam_exp; i++){
+            pos =i;
+            cout << "Iteracion de + y -" << i << endl;
+            if ((lista.Ver(i) == '+') || (lista.Ver(i) == '-')){
+                  if ((!es_Caracter(lista.Ver(i-1))) && (!es_Caracter(lista.Ver(i+1)))) {
+                        lista.Insertar('(',i-1);
+                        lista.Insertar(')',i+3);
+                        tam_exp +=2;
+                        i+=1;
+                  }
+                  else if((lista.Ver(i-1) == ')') && (lista.Ver(i+1) == '(')){
+                        contador=1;
+                        while(contador !=0){
+                              if (lista.Ver(pos-2) == ')'){
+                                    contador+=1;
+                              }
+                              else if(lista.Ver(pos-2) == '('){
+                                    contador-=1;
+                              }
+                              pos-=1;
+                        }
+                        lista.Insertar('(',pos);
+                        pos =i+2; contador =1; tam_exp+=1;
+                        while(contador !=0 && pos<tam_exp){
+                              if(lista.Ver(pos) == '('){
+                                    contador+=1;
+                              }
+                              if (lista.Ver(pos) == ')'){
+                                    contador-=1;
+                              }
+                              pos+=1;
+                        }
+                        lista.Insertar(')',pos+1);
+                        tam_exp+=1;
+                        i+=1;
+                  }
             }
       cout << expresion << endl;
+      cout << tam_exp << endl;
       lista.Mostrar();
       system("read -p 'Press Enter to continue...' var");
       system("clear");
-      }
-      
-      for (int i =0; i< tam_exp; i++){
-            pos =i;
-            cout << "Iteracion de + y -: " << i << endl;
-            if ((lista.Ver(i) == '+') || (lista.Ver(i) == '-')){
-                  if ((lista.Ver(i-1) == ')') && (lista.Ver(i+1) == '(')){
-                        while (lista.Ver(pos -1) != '('){
-                                    pos -=1;
-                              }
-                              lista.Insertar('(',pos);
-                              pos=i;
-                              tam_exp +=1;
-                              
-                        while (lista.Ver(pos+1) != ')'){
-                              pos+=1;
-                              }
-                              lista.Insertar(')',pos);
-                              i+=1;
-                              tam_exp+=1;
-                  }
-                  else if((lista.Ver(i-1) == ')') && (!es_Caracter(lista.Ver(i+1)))){
-                        while (lista.Ver(pos -1) != '('){
-                                    pos -=1;
-                              }
-                              lista.Insertar('(',pos);
-                              lista.Insertar(')',i+3);
-                              i+=1;
-                              tam_exp+=2;
-                  }
-                  else if ((!es_Caracter(lista.Ver(i-1))) && (!es_Caracter(lista.Ver(i+1)))) {
-                        lista.Insertar('(',i-1);
-                        lista.Insertar(')',i+3);
-                        tam_exp +=2;
-                        i+=1;
-                  }
-            }
-       
-            cout << expresion << endl;
-            lista.Mostrar();
-            system("read -p 'Press Enter to continue...' var");
-            system("clear");
-      }
+      }*/
       
       cout << expresion << endl;
       lista.Mostrar();
