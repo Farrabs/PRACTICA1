@@ -10,7 +10,7 @@
 
 Evaluacion::Evaluacion()
 {
-    expresion = "2+2+3*3-4+4";
+    expresion = "2*2+3*3*4+4";
 }
 
 void Evaluacion:: SacarTamano(char* exp){
@@ -21,12 +21,12 @@ void Evaluacion:: SacarTamano(char* exp){
     tam_exp = i;
 }
 
-int Evaluacion:: getTamano(){
-      return tam_exp;
+bool Evaluacion:: es_Caracter(int v){
+      return ((v == '(') || (v == ')') || (v=='*') || (v == '-') || (v == '+') || (v=='/'));
 }
 
 bool Evaluacion:: es_Num (char c){
-    return ((c == '0') || (c=='1') || (c == '2') || (c == '3') || (c=='4') || (c == '5') || (c == '6') || (c=='7') || (c == '8') || (c== '9'));
+      return ((c == '0') || (c=='1') || (c == '2') || (c == '3') || (c=='4') || (c == '5') || (c == '6') || (c=='7') || (c == '8') || (c== '9'));
 }
 
 
@@ -40,6 +40,11 @@ int Evaluacion:: Evaluar_ExpresionInfija(char* exp){
             cout << "Error. No has escrito nada. ";
             return -1;
       }
+	
+	if (!es_Correcta(expresion)){
+		cout << "La expresion introducida no es correcta y no se pueden realizar las acciones correspondientes." << endl;
+		return -1;
+	}
       
       if (exp[0] != '('){
             return -1;
@@ -140,7 +145,6 @@ int Evaluacion:: Evaluar_ExpresionInfija(char* exp){
 int Evaluacion:: Evaluar_ExpresionInfija_2(char* exp){
       Pila pila_car; Pila pila_num; Pila pila_aux; Pila pila_CarAux;
       int n1; int n2; int res;
-
       
       char* expresion_nueva = new char;
       expresion_nueva[0] = '(';
@@ -153,6 +157,12 @@ int Evaluacion:: Evaluar_ExpresionInfija_2(char* exp){
             cout << "Error. No has escrito nada. ";
             return -1;
       }
+	
+	if (!es_Correcta(expresion)){
+		cout << "La expresion introducida no es correcta y no se pueden realizar las acciones correspondientes." << endl;
+		return -1;
+	}
+	
       for (int i =0; i <tam_exp; i++){
         
             if (expresion_nueva[i] == '('){
@@ -293,13 +303,17 @@ int Evaluacion:: Evaluar_ExpresionInfija_2(char* exp){
 /*___________________________________________________________*/
 
 Cola Evaluacion:: ExpresionInfija_a_ExpresionPostfija (char* exp){
-      Pila pila_car; Pila pila_num; Cola cola_exp;
+      Pila pila_car; Pila pila_num; Cola cola_exp; int n1; int n2;
       SacarTamano(expresion);
       if (tam_exp == 0){
             cout << "Error. No has escrito nada. ";
             return cola_exp;
       }
-      int n1; int n2;
+	if (!es_Correcta(expresion)){
+		cout << "La expresion introducida no es correcta y no se pueden realizar las acciones correspondientes." << endl;
+		return cola_exp;
+	}
+
       for (int i =0; i <tam_exp; i++){
             if(es_Num(exp[i])){
                   if (es_Num(exp[i-1])){
@@ -425,9 +439,10 @@ int Evaluacion :: Evaluar_ExpresionPosfija (Cola c1){
 /*___________________________________________________________*/
 
 bool Evaluacion:: es_Correcta(char* exp){
-      int parentesis_izq =0; int parentesis_der =0; int oper=0; int contador =0; Pila pila_num;
+      int oper=0; int contador =0; Pila pila_num; Pila pila_car;
       int n1; int n2;
       SacarTamano(expresion);
+      cout << expresion << endl;
       if (tam_exp == 0){
             cout << "Error. No has escrito nada. ";
             return false;
@@ -451,12 +466,12 @@ bool Evaluacion:: es_Correcta(char* exp){
                         return false;
                   }
                   else{
-                        parentesis_izq +=1;
+                        pila_car.Apilar(exp[i]);
                   }
             }
             
-            if (exp[i] == ')'){
-                  parentesis_der +=1;
+            if ((exp[i] == ')') && (!pila_car.es_Vacia())){
+                  pila_car.Desapilar();
             }
             
             if ((exp[i] == '+') || (exp[i] == '-') || (exp[i] == '/') || (exp[i] == '*')){
@@ -467,17 +482,18 @@ bool Evaluacion:: es_Correcta(char* exp){
                         oper +=1;
                   }
             }
-            cout << expresion << endl;
-            cout << "PDER: "<<parentesis_der << endl;
-            cout << "PIZQ: "<<parentesis_izq << endl;
-            cout << "OPER: "<<oper << endl;
       }
       
       while (!pila_num.es_Vacia()){
             contador +=1;
             pila_num.Desapilar();
       }
-      return (parentesis_izq == parentesis_der) && (oper == contador -1);
+	  
+	  if (!pila_car.es_Vacia()){
+		  return false;
+	  }
+	  
+      return (oper == contador -1);
 }
 
 
@@ -485,19 +501,40 @@ bool Evaluacion:: es_Correcta(char* exp){
 /*___________________________________________________________*/
 
 Lista Evaluacion::completar_parentesis(char* exp){
-      Lista lista; Pila pila_num; int n1 =0; int n2 =0;
+      Lista lista; Pila pila_num; Pila pila_car; int n1 =0; int n2 =0; int pos =0;
       SacarTamano(expresion);
       if (tam_exp == 0){
             cout << "Error. No has escrito nada. ";
             return lista;
       }
+	if (!es_Correcta(expresion)){
+		cout << "La expresion introducida no es correcta y no se pueden realizar las acciones correspondientes." << endl;
+		return lista;
+	}
       for (int i =0; i < tam_exp; i++){
+            pos = i;
             if (exp[i] == '('){
                   lista.InsertarDer(exp[i]);
             }
+		
+		else if (exp[i] == ')'){
+			lista.InsertarDer(exp[i]);
+		}
             
             else if((exp[i] =='+') || (exp[i] == '-') || (exp[i] == '*') || (exp[i] == '/')){
                   lista.InsertarDer(exp[i]);
+                  pila_car.Apilar(exp[i]);
+			/*if ((exp[i] == '*') || (exp[i] == '/')){
+                        if (es_Num(exp[i-1])){
+                              lista.Insertar('(' , i-1);
+                        }
+                        else if (exp[i-1] == ')'){
+                              while (lista.Ver(pos -1) != '('){
+                                    pos -=1;
+                              }
+                              lista.Insertar('(',pos);
+                        }
+			}*/
             }
             else if(es_Num(exp[i])){
                   if (i==0){
@@ -511,18 +548,57 @@ Lista Evaluacion::completar_parentesis(char* exp){
                               pila_num.Desapilar();
                               pila_num.Apilar(n2);
                         }
+
                         else{
                               int n = exp[i] -48;
                               pila_num.Apilar(n);
                         }
                   }
             }
-            if (!es_Num(exp[i+1])){
+            if ((!es_Num(exp[i+1])) &&(!pila_num.es_Vacia())){
                   lista.InsertarDer(pila_num.Cima());
                   pila_num.Desapilar();
+                  /*if ((!pila_car.es_Vacia()) && ((pila_car.Cima() == '*') || (pila_car.Cima() == '/'))){
+                        lista.InsertarDer(')');
+                        pila_car.Desapilar();
+                  }*/
             }
+            
+            
       }
       lista.Mostrar();
+      for (int i =0;i < tam_exp; i++){
+            Lista lista_aux = lista;
+            pos =i;
+            cout << "Iteracion " << i << endl;
+            if ((lista.Ver(i) == '*') || (lista.Ver(i) == '/')){
+                  if (lista.Ver(i-1) == ')'){
+                        while (lista.Ver(pos -1) != '('){
+                                    pos -=1;
+                              }
+                              lista.Insertar('(',pos);
+                              lista.Insertar(')',i+3);
+                              i+=1;
+                              tam_exp +=1;
+                  }
+                  else if ((!es_Caracter(lista.Ver(i-1))) && (!es_Caracter(lista.Ver(i+1)))) {
+                        lista.Insertar('(',i-1);
+                        lista.Insertar(')',i+3);
+                        tam_exp +=2;
+                        i+=1;
+                  }
+                  
+            }
+      cout << expresion << endl;
+      lista.Mostrar();
+      system("read -p 'Press Enter to continue...' var");
+      system("clear");
+      }
+      
+      cout << expresion << endl;
+      lista.Mostrar();
+      system("read -p 'Press Enter to continue...' var");
+      system("clear");
 }
 
 Evaluacion::~Evaluacion()
