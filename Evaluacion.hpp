@@ -23,10 +23,10 @@ public:
       Cola ExpresionInfija_a_ExpresionPostfija (char* exp);
       int Evaluar_ExpresionPosfija (Cola c);
       bool es_Correcta(char* exp);
-	  Lista completar_parentesis(char* exp);
+      Lista completar_parentesis(char* exp);
       void SacarTamano(char* exp);
       bool es_Num(char c);
-      int getTamano();
+      bool es_Caracter(int v);
     
 };
 
