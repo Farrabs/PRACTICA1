@@ -553,7 +553,6 @@ Lista Evaluacion::completar_parentesis(char* exp){
       }
       lista.Mostrar();
       for (int i =0;i < tam_exp; i++){
-            Lista lista_aux = lista;
             pos =i;
             cout << "Iteracion " << i << endl;
             if ((lista.Ver(i) == '*') || (lista.Ver(i) == '/')){
