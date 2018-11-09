@@ -524,17 +524,6 @@ Lista Evaluacion::completar_parentesis(char* exp){
             else if((exp[i] =='+') || (exp[i] == '-') || (exp[i] == '*') || (exp[i] == '/')){
                   lista.InsertarDer(exp[i]);
                   pila_car.Apilar(exp[i]);
-			/*if ((exp[i] == '*') || (exp[i] == '/')){
-                        if (es_Num(exp[i-1])){
-                              lista.Insertar('(' , i-1);
-                        }
-                        else if (exp[i-1] == ')'){
-                              while (lista.Ver(pos -1) != '('){
-                                    pos -=1;
-                              }
-                              lista.Insertar('(',pos);
-                        }
-			}*/
             }
             else if(es_Num(exp[i])){
                   if (i==0){
@@ -558,10 +547,6 @@ Lista Evaluacion::completar_parentesis(char* exp){
             if ((!es_Num(exp[i+1])) &&(!pila_num.es_Vacia())){
                   lista.InsertarDer(pila_num.Cima());
                   pila_num.Desapilar();
-                  /*if ((!pila_car.es_Vacia()) && ((pila_car.Cima() == '*') || (pila_car.Cima() == '/'))){
-                        lista.InsertarDer(')');
-                        pila_car.Desapilar();
-                  }*/
             }
             
             
