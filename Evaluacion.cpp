@@ -10,7 +10,7 @@
 
 Evaluacion::Evaluacion()
 {
-    expresion = "((2*5)*(4*2))/(11-9)";
+    expresion = "(2*5-4*2)/(11-9)";
 }
 
 void Evaluacion:: SacarTamano(char* exp){
@@ -587,14 +587,16 @@ Lista Evaluacion::completar_parentesis(char* exp){
                   }
                   else if((lista.Ver(i-1) == ')') && (lista.Ver(i+1) == '(')){
                         contador =0;
+                        lista.Mostrar();
                         while ((!((lista.Ver(pos) == '(') && (es_Oper(lista.Ver(pos-1))))) && (!((lista.Ver(pos) == '(') && (pos ==0)))){
-                              if (lista.Ver(pos-2) == ')'){
+                              if (lista.Ver(pos-1) == ')'){
                                     contador+=1;
                               }
-                              else if(lista.Ver(pos-2) == '('){
+                              else if(lista.Ver(pos-1) == '('){
                                     contador-=1;
                               }
                               pos-=1;
+                              cout << "contador" << contador << endl;
                         }
                         
                         if(contador < 0){
@@ -611,7 +613,7 @@ Lista Evaluacion::completar_parentesis(char* exp){
                                     }
                                     pos-=1;
                               }
-                              lista.Insertar('(',pos);
+                              lista.Insertar('(',pos+1);
                               pos =i+2; contador =1; 
                               while((contador !=0)){
                                     if(lista.Ver(pos+1) == '('){
@@ -683,10 +685,10 @@ Lista Evaluacion::completar_parentesis(char* exp){
                   }
                   else if((lista.Ver(i-1) == ')') && (lista.Ver(i+1) == '(')){
                         while ((!((lista.Ver(pos) == '(') && (es_Oper(lista.Ver(pos-1))))) && (!((lista.Ver(pos) == '(') && (pos ==0)))){
-                              if (lista.Ver(pos-2) == ')'){
+                              if (lista.Ver(pos-1) == ')'){
                                           contador+=1;
                                     }
-                              else if(lista.Ver(pos-2) == '('){
+                              else if(lista.Ver(pos-1) == '('){
                                     contador-=1;
                               }
                               pos-=1;
@@ -705,7 +707,7 @@ Lista Evaluacion::completar_parentesis(char* exp){
                                     }
                                     pos-=1;
                               }
-                              lista.Insertar('(',pos);
+                              lista.Insertar('(',pos+1);
                               pos =i+2; contador =1;
                               while(contador !=0 && pos<tam_exp){
                                     if(lista.Ver(pos) == '('){
@@ -716,7 +718,7 @@ Lista Evaluacion::completar_parentesis(char* exp){
                                     }
                                     pos+=1;
                               }
-                              lista.Insertar(')',pos);
+                              lista.Insertar(')',pos+1);
                               i+=1;
                         }
                   }
