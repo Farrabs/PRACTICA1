@@ -41,12 +41,12 @@ int Evaluacion:: Evaluar_ExpresionInfija(char* exp){
       SacarTamano(expresion);
       int n1; int n2; int res;
       if (tam_exp == 0){
-            cout << "Error. No has escrito nada. ";
+            cout << "\n\tError. No has escrito nada. ";
             return -1;
       }
 	
 	if (!es_Correcta(expresion)){
-		cout << "La expresion introducida no es correcta y no se pueden realizar las acciones correspondientes." << endl;
+		cout << "\n\tLa expresion introducida no es correcta y no se pueden realizar las acciones correspondientes." << endl;
 		return -1;
 	}
       
@@ -155,15 +155,15 @@ int Evaluacion:: Evaluar_ExpresionInfija_2(char* exp){
       strcat(expresion_nueva, exp);
       strcat(expresion_nueva, ")");
       SacarTamano(expresion_nueva);
-      cout << "Expresion concatenada: " << expresion_nueva << endl;
+      cout << "\n\tExpresion concatenada: " << expresion_nueva << endl;
       
       if (tam_exp == 0){
-            cout << "Error. No has escrito nada. ";
+            cout << "\n\tError. No has escrito nada. ";
             return -1;
       }
 	
 	if (!es_Correcta(expresion)){
-		cout << "La expresion introducida no es correcta y no se pueden realizar las acciones correspondientes." << endl;
+		cout << "\n\tLa expresion introducida no es correcta y no se pueden realizar las acciones correspondientes." << endl;
 		return -1;
 	}
 	
@@ -310,11 +310,11 @@ Cola Evaluacion:: ExpresionInfija_a_ExpresionPostfija (char* exp){
       Pila pila_car; Pila pila_num; Cola cola_exp; int n1; int n2;
       SacarTamano(expresion);
       if (tam_exp == 0){
-            cout << "Error. No has escrito nada. ";
+            cout << "\n\tError. No has escrito nada. ";
             return cola_exp;
       }
 	if (!es_Correcta(expresion)){
-		cout << "La expresion introducida no es correcta y no se pueden realizar las acciones correspondientes." << endl;
+		cout << "\n\tLa expresion introducida no es correcta y no se pueden realizar las acciones correspondientes." << endl;
 		return cola_exp;
 	}
 
@@ -386,10 +386,6 @@ Cola Evaluacion:: ExpresionInfija_a_ExpresionPostfija (char* exp){
                   }
                   pila_car.Desapilar();
             }
-      cout << "Pila: ";
-      pila_car.Mostrar();
-      cout << "Cola: ";
-      cola_exp.Mostrar();
       }
       while (!pila_car.es_Vacia()){
           cola_exp.Encolar(pila_car.Cima());  
@@ -446,9 +442,8 @@ bool Evaluacion:: es_Correcta(char* exp){
       int oper=0; int contador =0; Pila pila_num; Pila pila_car;
       int n1; int n2;
       SacarTamano(expresion);
-      cout << expresion << endl;
       if (tam_exp == 0){
-            cout << "Error. No has escrito nada. ";
+            cout << "\n\tError. No has escrito nada. ";
             return false;
       }
       for (int i = 0; i < tam_exp ; i++){
@@ -523,11 +518,11 @@ Lista Evaluacion::Completar_Parentesis(char* exp){
       Lista lista; Pila pila_num; Pila pila_car; int n1 =0; int n2 =0; int pos =0; int contador=0;
       SacarTamano(expresion);
       if (tam_exp == 0){
-            cout << "Error. No has escrito nada. ";
+            cout << "\n\tError. No has escrito nada. ";
             return lista;
       }
 	if (!es_Correcta(expresion)){
-		cout << "La expresion introducida no es correcta y no se pueden realizar las acciones correspondientes." << endl;
+		cout << "\n\tLa expresion introducida no es correcta y no se pueden realizar las acciones correspondientes." << endl;
 		return lista;
 	}
       for (int i =0; i < tam_exp; i++){
@@ -570,7 +565,6 @@ Lista Evaluacion::Completar_Parentesis(char* exp){
             
             
       }
-      lista.Mostrar();
       if ((!es_Caracter(lista.Ver(0))) && (lista.Ver(2) == '(') && ((lista.Ver(1) == '*') || (lista.Ver(1) == '/'))){
             pos=3; contador =1;
             while(contador !=0){
@@ -593,12 +587,10 @@ Lista Evaluacion::Completar_Parentesis(char* exp){
       //BUCLE PARA LAS * Y /
       for (int i =0;i < lista.Longitud(); i++){
             pos =i;
-            lista.Mostrar();
-            cout << "Ite " << i << endl;
             if ((lista.Ver(i) == '*') || (lista.Ver(i) == '/')){
                   if ((!es_Caracter(lista.Ver(i-1))) && (!es_Caracter(lista.Ver(i+1)))) {
                         if ((lista.Ver(i-2) == '(') && (lista.Ver(i+2) == ')')){
-                              cout <<"NO hago nada" << endl;
+                              
                         }
                         else{
                               lista.Insertar('(',i-1);
@@ -609,7 +601,6 @@ Lista Evaluacion::Completar_Parentesis(char* exp){
                   
                   else if((lista.Ver(i-1) == ')') && (lista.Ver(i+1) == '(')){
                         contador =0;
-                        lista.Mostrar();
                         while ((!((lista.Ver(pos) == '(') && (es_Oper(lista.Ver(pos-1))))) && (!((lista.Ver(pos) == '(') && (pos ==0)))){
                               if (lista.Ver(pos-1) == ')'){
                                     contador+=1;
@@ -621,7 +612,7 @@ Lista Evaluacion::Completar_Parentesis(char* exp){
                         }
                         
                         if(contador < 0){
-                              cout <<"NO hago nada" << endl;
+                              
                         }
                         else{
                               contador=1;
@@ -651,11 +642,10 @@ Lista Evaluacion::Completar_Parentesis(char* exp){
                   }
                   else if((lista.Ver(i-1) == ')') && (!es_Caracter(lista.Ver(i+1)))){
                         if (lista.Ver(i+2) == ')'){
-                              cout <<"NO hago nada" << endl;
+                              
                         }
                         else{ 
                               contador=1;
-                              cout << "Estoy aqui"<< endl;
                               while(contador !=0 && pos >0){
                                     if (lista.Ver(pos-2) == ')'){
                                           contador+=1;
@@ -671,12 +661,7 @@ Lista Evaluacion::Completar_Parentesis(char* exp){
                         }
                   }
             }
-            cout << expresion << endl;
-            lista.Mostrar();
-            system("read -p 'Press Enter to continue...' var");
-            system("clear");
       }
-      lista.Mostrar();
       
       
       
@@ -695,14 +680,12 @@ Lista Evaluacion::Completar_Parentesis(char* exp){
             lista.Insertar(')',pos);
             lista.Insertar('(',0);
       }
-      lista.Mostrar();
       for (int i =0;i < lista.Longitud(); i++){
             pos =i;
-            cout << "+ y -" << endl;
             if ((lista.Ver(i) == '+') || (lista.Ver(i) == '-')){
                   if ((!es_Caracter(lista.Ver(i-1))) && (!es_Caracter(lista.Ver(i+1)))) {
                         if ((lista.Ver(i-2) == '(') && (lista.Ver(i+2) == ')')){
-                              cout <<"NO hago nada" << endl;
+                              
                         }
                         else{
                               lista.Insertar('(',i-1);
@@ -721,7 +704,7 @@ Lista Evaluacion::Completar_Parentesis(char* exp){
                               pos-=1;
                         }
                         if(contador < 0){
-                              cout <<"NO hago nada" << endl;
+                              
                         }
                         else{
                               contador=1;
@@ -751,7 +734,7 @@ Lista Evaluacion::Completar_Parentesis(char* exp){
                   }
                   else if((lista.Ver(i-1) == ')') && (!es_Caracter(lista.Ver(i+1)))){
                         if (lista.Ver(i+2) == ')'){
-                              cout <<"NO hago nada" << endl;
+                              
                         }
                         else{
                               contador=1;
@@ -771,8 +754,7 @@ Lista Evaluacion::Completar_Parentesis(char* exp){
                   }
             }
       }
-      cout << expresion << endl;
-      cout << "FIN" << endl;
+
       lista.Mostrar();
       system("read -p 'Press Enter to continue...' var");
       system("clear");
