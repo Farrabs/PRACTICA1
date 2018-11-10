@@ -10,7 +10,7 @@
 
 Evaluacion::Evaluacion()
 {
-    expresion = "(2*5-4*2)/(11-9)";
+    expresion = "2*(2*5-4*2)/2";
 }
 
 void Evaluacion:: SacarTamano(char* exp){
@@ -519,7 +519,7 @@ bool Evaluacion:: es_Correcta(char* exp){
         /*SEXTO EJERCICIO*/
 /*___________________________________________________________*/
 
-Lista Evaluacion::completar_parentesis(char* exp){
+Lista Evaluacion::Completar_Parentesis(char* exp){
       Lista lista; Pila pila_num; Pila pila_car; int n1 =0; int n2 =0; int pos =0; int contador=0;
       SacarTamano(expresion);
       if (tam_exp == 0){
@@ -571,9 +571,30 @@ Lista Evaluacion::completar_parentesis(char* exp){
             
       }
       lista.Mostrar();
+      if ((!es_Caracter(lista.Ver(0))) && (lista.Ver(2) == '(') && ((lista.Ver(1) == '*') || (lista.Ver(1) == '/'))){
+            pos=3; contador =1;
+            while(contador !=0){
+                  if (lista.Ver(pos) == ')'){
+                        contador-=1;
+                  }
+                  else if(lista.Ver(pos) == '('){
+                        contador+=1;
+                  }
+                  pos+=1;
+            }
+            lista.Insertar(')',pos);
+            lista.Insertar('(',0);
+      }
+      
+      if((!es_Caracter(lista.Ver(lista.Longitud()-1))) && (es_Oper(lista.Ver(lista.Longitud()-2))) && (lista.Ver(lista.Longitud()-3) == ')')){
+            lista.InsertarDer(')');
+            lista.InsertarIzq('(');
+      }
       //BUCLE PARA LAS * Y /
       for (int i =0;i < lista.Longitud(); i++){
             pos =i;
+            lista.Mostrar();
+            cout << "Ite " << i << endl;
             if ((lista.Ver(i) == '*') || (lista.Ver(i) == '/')){
                   if ((!es_Caracter(lista.Ver(i-1))) && (!es_Caracter(lista.Ver(i+1)))) {
                         if ((lista.Ver(i-2) == '(') && (lista.Ver(i+2) == ')')){
@@ -585,6 +606,7 @@ Lista Evaluacion::completar_parentesis(char* exp){
                               i+=1;
                         }
                   }
+                  
                   else if((lista.Ver(i-1) == ')') && (lista.Ver(i+1) == '(')){
                         contador =0;
                         lista.Mostrar();
@@ -596,7 +618,6 @@ Lista Evaluacion::completar_parentesis(char* exp){
                                     contador-=1;
                               }
                               pos-=1;
-                              cout << "contador" << contador << endl;
                         }
                         
                         if(contador < 0){
@@ -634,7 +655,8 @@ Lista Evaluacion::completar_parentesis(char* exp){
                         }
                         else{ 
                               contador=1;
-                              while(contador !=0){
+                              cout << "Estoy aqui"<< endl;
+                              while(contador !=0 && pos >0){
                                     if (lista.Ver(pos-2) == ')'){
                                           contador+=1;
                                     }
@@ -644,11 +666,15 @@ Lista Evaluacion::completar_parentesis(char* exp){
                                     pos-=1;
                               }
                               lista.Insertar('(',pos);
-                              lista.Insertar(')',i+3);
+                              lista.Insertar(')',i+2);
                               i+=1;
                         }
                   }
             }
+            cout << expresion << endl;
+            lista.Mostrar();
+            system("read -p 'Press Enter to continue...' var");
+            system("clear");
       }
       lista.Mostrar();
       
@@ -672,6 +698,7 @@ Lista Evaluacion::completar_parentesis(char* exp){
       lista.Mostrar();
       for (int i =0;i < lista.Longitud(); i++){
             pos =i;
+            cout << "+ y -" << endl;
             if ((lista.Ver(i) == '+') || (lista.Ver(i) == '-')){
                   if ((!es_Caracter(lista.Ver(i-1))) && (!es_Caracter(lista.Ver(i+1)))) {
                         if ((lista.Ver(i-2) == '(') && (lista.Ver(i+2) == ')')){
@@ -709,7 +736,7 @@ Lista Evaluacion::completar_parentesis(char* exp){
                               }
                               lista.Insertar('(',pos+1);
                               pos =i+2; contador =1;
-                              while(contador !=0 && pos<tam_exp){
+                              while(contador !=0 && pos<lista.Longitud()-1){
                                     if(lista.Ver(pos) == '('){
                                           contador+=1;
                                     }
@@ -718,7 +745,7 @@ Lista Evaluacion::completar_parentesis(char* exp){
                                     }
                                     pos+=1;
                               }
-                              lista.Insertar(')',pos+1);
+                              lista.Insertar(')',pos);
                               i+=1;
                         }
                   }
