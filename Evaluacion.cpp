@@ -599,10 +599,6 @@ Lista Evaluacion::completar_parentesis(char* exp){
                                     contador-=1;
                               }
                               pos+=1;
-                              cout << "POSICO " << pos << endl;
-                              cout << "CONTADOR" << contador << endl;
-                              system("read -p 'Press Enter to continue...' var");
-      system("clear");
                         }
                         lista.Insertar(')',pos+1);
                         i+=1;
