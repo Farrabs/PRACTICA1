@@ -572,14 +572,12 @@ Lista Evaluacion::completar_parentesis(char* exp){
       }
       lista.Mostrar();
       //BUCLE PARA LAS * Y /
-      cout << "TAMAÑO " << tam_exp << endl;
       for (int i =0;i < lista.Longitud(); i++){
             pos =i;
-            cout << "Iteracion de * y /" << i << endl;
             if ((lista.Ver(i) == '*') || (lista.Ver(i) == '/')){
                   if ((!es_Caracter(lista.Ver(i-1))) && (!es_Caracter(lista.Ver(i+1)))) {
                         if ((lista.Ver(i-2) == '(') && (lista.Ver(i+2) == ')')){
-                              
+                              cout <<"NO hago nada" << endl;
                         }
                         else{
                               lista.Insertar('(',i-1);
@@ -597,9 +595,8 @@ Lista Evaluacion::completar_parentesis(char* exp){
                                     contador-=1;
                               }
                               pos-=1;
-                              cout << "POSicion" << pos << endl;
-                              cout << "Contador " << contador << endl;
                         }
+                        
                         if(contador < 0){
                               cout <<"NO hago nada" << endl;
                         }
@@ -631,7 +628,7 @@ Lista Evaluacion::completar_parentesis(char* exp){
                   }
                   else if((lista.Ver(i-1) == ')') && (!es_Caracter(lista.Ver(i+1)))){
                         if (lista.Ver(i+2) == ')'){
-                              
+                              cout <<"NO hago nada" << endl;
                         }
                         else{ 
                               contador=1;
@@ -650,10 +647,6 @@ Lista Evaluacion::completar_parentesis(char* exp){
                         }
                   }
             }
-      cout << expresion << endl;
-      lista.Mostrar();
-      system("read -p 'Press Enter to continue...' var");
-      system("clear");
       }
       lista.Mostrar();
       
@@ -677,11 +670,10 @@ Lista Evaluacion::completar_parentesis(char* exp){
       lista.Mostrar();
       for (int i =0;i < lista.Longitud(); i++){
             pos =i;
-            cout << "Iteracion de + y -" << i << endl;
             if ((lista.Ver(i) == '+') || (lista.Ver(i) == '-')){
                   if ((!es_Caracter(lista.Ver(i-1))) && (!es_Caracter(lista.Ver(i+1)))) {
                         if ((lista.Ver(i-2) == '(') && (lista.Ver(i+2) == ')')){
-                              
+                              cout <<"NO hago nada" << endl;
                         }
                         else{
                               lista.Insertar('(',i-1);
@@ -698,8 +690,6 @@ Lista Evaluacion::completar_parentesis(char* exp){
                                     contador-=1;
                               }
                               pos-=1;
-                              cout << "POSicion" << pos << endl;
-                              cout << "Contador " << contador << endl;
                         }
                         if(contador < 0){
                               cout <<"NO hago nada" << endl;
@@ -732,7 +722,7 @@ Lista Evaluacion::completar_parentesis(char* exp){
                   }
                   else if((lista.Ver(i-1) == ')') && (!es_Caracter(lista.Ver(i+1)))){
                         if (lista.Ver(i+2) == ')'){
-                              
+                              cout <<"NO hago nada" << endl;
                         }
                         else{
                               contador=1;
@@ -751,17 +741,13 @@ Lista Evaluacion::completar_parentesis(char* exp){
                         }
                   }
             }
-      cout << expresion << endl;
-      lista.Mostrar();
-      system("read -p 'Press Enter to continue...' var");
-      system("clear");
       }
-      
       cout << expresion << endl;
       cout << "FIN" << endl;
       lista.Mostrar();
       system("read -p 'Press Enter to continue...' var");
       system("clear");
+      return lista;
 }
 
 Evaluacion::~Evaluacion()
