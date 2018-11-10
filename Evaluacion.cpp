@@ -10,7 +10,7 @@
 
 Evaluacion::Evaluacion()
 {
-    expresion = "(2*5-4*2)/(11-9)";
+    expresion = "(2*5-(4*2))/(11-9)";
 }
 
 void Evaluacion:: SacarTamano(char* exp){
@@ -574,9 +574,14 @@ Lista Evaluacion::completar_parentesis(char* exp){
             cout << "Iteracion de * y /" << i << endl;
             if ((lista.Ver(i) == '*') || (lista.Ver(i) == '/')){
                   if ((!es_Caracter(lista.Ver(i-1))) && (!es_Caracter(lista.Ver(i+1)))) {
-                        lista.Insertar('(',i-1);
-                        lista.Insertar(')',i+3);
-                        i+=1;
+                        if ((lista.Ver(i-2) == '(') && (lista.Ver(i+2) == ')')){
+                              
+                        }
+                        else{
+                              lista.Insertar('(',i-1);
+                              lista.Insertar(')',i+3);
+                              i+=1;
+                        }
                   }
                   else if((lista.Ver(i-1) == ')') && (lista.Ver(i+1) == '(')){
                         contador=1;
@@ -604,19 +609,24 @@ Lista Evaluacion::completar_parentesis(char* exp){
                         i+=1;
                   }
                   else if((lista.Ver(i-1) == ')') && (!es_Caracter(lista.Ver(i+1)))){
-                        contador=1;
-                        while(contador !=0){
-                              if (lista.Ver(pos-2) == ')'){
-                                    contador+=1;
-                              }
-                              else if(lista.Ver(pos-2) == '('){
-                                    contador-=1;
-                              }
-                              pos-=1;
+                        if (lista.Ver(i+2) == ')'){
+                              
                         }
-                        lista.Insertar('(',pos);
-                        lista.Insertar(')',i+3);
-                        i+=1;
+                        else{ 
+                              contador=1;
+                              while(contador !=0){
+                                    if (lista.Ver(pos-2) == ')'){
+                                          contador+=1;
+                                    }
+                                    else if(lista.Ver(pos-2) == '('){
+                                          contador-=1;
+                                    }
+                                    pos-=1;
+                              }
+                              lista.Insertar('(',pos);
+                              lista.Insertar(')',i+3);
+                              i+=1;
+                        }
                   }
             }
       cout << expresion << endl;
@@ -648,9 +658,14 @@ Lista Evaluacion::completar_parentesis(char* exp){
             cout << "Iteracion de + y -" << i << endl;
             if ((lista.Ver(i) == '+') || (lista.Ver(i) == '-')){
                   if ((!es_Caracter(lista.Ver(i-1))) && (!es_Caracter(lista.Ver(i+1)))) {
-                        lista.Insertar('(',i-1);
-                        lista.Insertar(')',i+3);
-                        i+=1;
+                        if ((lista.Ver(i-2) == '(') && (lista.Ver(i+2) == ')')){
+                              
+                        }
+                        else{
+                              lista.Insertar('(',i-1);
+                              lista.Insertar(')',i+3);
+                              i+=1;
+                        }
                   }
                   else if((lista.Ver(i-1) == ')') && (lista.Ver(i+1) == '(')){
                         contador=1;
@@ -678,19 +693,24 @@ Lista Evaluacion::completar_parentesis(char* exp){
                         i+=1;
                   }
                   else if((lista.Ver(i-1) == ')') && (!es_Caracter(lista.Ver(i+1)))){
-                        contador=1;
-                        while(contador !=0){
-                              if (lista.Ver(pos-2) == ')'){
-                                    contador+=1;
-                              }
-                              else if(lista.Ver(pos-2) == '('){
-                                    contador-=1;
-                              }
-                              pos-=1;
+                        if (lista.Ver(i+2) == ')'){
+                              
                         }
-                        lista.Insertar('(',pos);
-                        lista.Insertar(')',i+3);
-                        i+=1;
+                        else{
+                              contador=1;
+                              while(contador !=0){
+                                    if (lista.Ver(pos-2) == ')'){
+                                          contador+=1;
+                                    }
+                                    else if(lista.Ver(pos-2) == '('){
+                                          contador-=1;
+                                    }
+                                    pos-=1;
+                              }
+                              lista.Insertar('(',pos);
+                              lista.Insertar(')',i+3);
+                              i+=1;
+                        }
                   }
             }
       cout << expresion << endl;
