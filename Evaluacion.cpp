@@ -10,7 +10,7 @@
 
 Evaluacion::Evaluacion()
 {
-    expresion = "2*5*1*3-4";
+    expresion = "(2*5-4*2)/(11-9)";
 }
 
 void Evaluacion:: SacarTamano(char* exp){
@@ -568,15 +568,14 @@ Lista Evaluacion::completar_parentesis(char* exp){
       }
       lista.Mostrar();
       //BUCLE PARA LAS * Y /
-      
-      for (int i =0;i < tam_exp; i++){
+      cout << "TAMAÑO " << tam_exp << endl;
+      for (int i =0;i < lista.Longitud(); i++){
             pos =i;
             cout << "Iteracion de * y /" << i << endl;
             if ((lista.Ver(i) == '*') || (lista.Ver(i) == '/')){
                   if ((!es_Caracter(lista.Ver(i-1))) && (!es_Caracter(lista.Ver(i+1)))) {
                         lista.Insertar('(',i-1);
                         lista.Insertar(')',i+3);
-                        tam_exp +=2;
                         i+=1;
                   }
                   else if((lista.Ver(i-1) == ')') && (lista.Ver(i+1) == '(')){
@@ -591,18 +590,21 @@ Lista Evaluacion::completar_parentesis(char* exp){
                               pos-=1;
                         }
                         lista.Insertar('(',pos);
-                        pos =i+2; contador =1; tam_exp+=1;
-                        while(contador !=0 && pos<tam_exp){
-                              if(lista.Ver(pos) == '('){
+                        pos =i+2; contador =1; 
+                        while((contador !=0)){
+                              if(lista.Ver(pos+1) == '('){
                                     contador+=1;
                               }
-                              if (lista.Ver(pos) == ')'){
+                              if (lista.Ver(pos+1) == ')'){
                                     contador-=1;
                               }
                               pos+=1;
+                              cout << "POSICO " << pos << endl;
+                              cout << "CONTADOR" << contador << endl;
+                              system("read -p 'Press Enter to continue...' var");
+      system("clear");
                         }
                         lista.Insertar(')',pos+1);
-                        tam_exp+=1;
                         i+=1;
                   }
                   else if((lista.Ver(i-1) == ')') && (!es_Caracter(lista.Ver(i+1)))){
@@ -618,21 +620,40 @@ Lista Evaluacion::completar_parentesis(char* exp){
                         }
                         lista.Insertar('(',pos);
                         lista.Insertar(')',i+3);
-                        tam_exp+=2;
                         i+=1;
                   }
             }
+      cout << expresion << endl;
+      lista.Mostrar();
+      system("read -p 'Press Enter to continue...' var");
+      system("clear");
       }
       lista.Mostrar();
+      
+      
       //BUCLE PARA LAS + Y -
-      /*for (int i =0;i < tam_exp; i++){
+      if ((!es_Caracter(lista.Ver(0))) && (lista.Ver(2) == '(') && ((lista.Ver(1) == '+') || (lista.Ver(1) == '-'))){
+            pos=3; contador =1;
+            while(contador !=0){
+                  if (lista.Ver(pos) == ')'){
+                        contador-=1;
+                  }
+                  else if(lista.Ver(pos) == '('){
+                        contador+=1;
+                  }
+                  pos+=1;
+            }
+            lista.Insertar(')',pos);
+            lista.Insertar('(',0);
+      }
+      lista.Mostrar();
+      for (int i =0;i < lista.Longitud(); i++){
             pos =i;
             cout << "Iteracion de + y -" << i << endl;
             if ((lista.Ver(i) == '+') || (lista.Ver(i) == '-')){
                   if ((!es_Caracter(lista.Ver(i-1))) && (!es_Caracter(lista.Ver(i+1)))) {
                         lista.Insertar('(',i-1);
                         lista.Insertar(')',i+3);
-                        tam_exp +=2;
                         i+=1;
                   }
                   else if((lista.Ver(i-1) == ')') && (lista.Ver(i+1) == '(')){
@@ -647,7 +668,7 @@ Lista Evaluacion::completar_parentesis(char* exp){
                               pos-=1;
                         }
                         lista.Insertar('(',pos);
-                        pos =i+2; contador =1; tam_exp+=1;
+                        pos =i+2; contador =1;
                         while(contador !=0 && pos<tam_exp){
                               if(lista.Ver(pos) == '('){
                                     contador+=1;
@@ -657,19 +678,33 @@ Lista Evaluacion::completar_parentesis(char* exp){
                               }
                               pos+=1;
                         }
-                        lista.Insertar(')',pos+1);
-                        tam_exp+=1;
+                        lista.Insertar(')',pos);
+                        i+=1;
+                  }
+                  else if((lista.Ver(i-1) == ')') && (!es_Caracter(lista.Ver(i+1)))){
+                        contador=1;
+                        while(contador !=0){
+                              if (lista.Ver(pos-2) == ')'){
+                                    contador+=1;
+                              }
+                              else if(lista.Ver(pos-2) == '('){
+                                    contador-=1;
+                              }
+                              pos-=1;
+                        }
+                        lista.Insertar('(',pos);
+                        lista.Insertar(')',i+3);
                         i+=1;
                   }
             }
       cout << expresion << endl;
-      cout << tam_exp << endl;
       lista.Mostrar();
       system("read -p 'Press Enter to continue...' var");
       system("clear");
-      }*/
+      }
       
       cout << expresion << endl;
+      cout << "FIN" << endl;
       lista.Mostrar();
       system("read -p 'Press Enter to continue...' var");
       system("clear");
