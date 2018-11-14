@@ -10,7 +10,7 @@
 
 Evaluacion::Evaluacion()
 {
-    expresion = "2*(2*5-4*2)/2";
+    expresion = "";
 }
 
 void Evaluacion:: SacarTamano(char* exp){
@@ -146,16 +146,16 @@ int Evaluacion:: Evaluar_ExpresionInfija(char* exp){
 
         /*SEGUNDO EJERCICIO*/
 /*___________________________________________________________*/
-int Evaluacion:: Evaluar_ExpresionInfija_2(char* exp){
+int Evaluacion:: Evaluar_ExpresionInfija_2(char* expresion_nueva){
       Pila pila_car; Pila pila_num; Pila pila_aux; Pila pila_CarAux;
-      int n1; int n2; int res; char* expresion_nueva = new char;
+      int n1; int n2; int res; 
       
-            expresion_nueva[0] = '(';
+            /*expresion_nueva[0] = '(';
             strcat(expresion_nueva, exp);
             strcat(expresion_nueva, ")");
             SacarTamano(expresion_nueva);
             cout << "\n\tExpresion concatenada: " << expresion_nueva << endl;
-            tam_exp+=2;
+            tam_exp+=2;*/
       
       
       if (tam_exp == 0){
@@ -168,7 +168,7 @@ int Evaluacion:: Evaluar_ExpresionInfija_2(char* exp){
 		return -1;
 	}
 	
-      for (int i =0; i<tam_exp+2; i++){
+      for (int i =0; i<tam_exp; i++){
         
             if (expresion_nueva[i] == '('){
                   pila_car.Apilar(expresion_nueva[i]);
@@ -225,47 +225,43 @@ int Evaluacion:: Evaluar_ExpresionInfija_2(char* exp){
 
             if (expresion_nueva[i] == ')'){
                   pila_car.Desapilar();
-                  if(pila_car.Cima() == '('){
-                        return pila_num.Cima();
-                  }
-                  else{
+                  n1 = pila_num.Cima(); pila_num.Desapilar();
+                  int c; char c1;
+                  pila_aux.Apilar(n1);
+                  
+                  
+                  while (pila_car.Cima() != '('){
+                        c = pila_car.Cima(); pila_car.Desapilar();
+                        pila_aux.Apilar(c);
                         n1 = pila_num.Cima(); pila_num.Desapilar();
-                        int c; char c1;
                         pila_aux.Apilar(n1);
-                        
-                        
-                        while (pila_car.Cima() != '('){
-                              c = pila_car.Cima(); pila_car.Desapilar();
-                              pila_aux.Apilar(c);
-                              n1 = pila_num.Cima(); pila_num.Desapilar();
-                              pila_aux.Apilar(n1);
-                        }
-                        pila_car.Desapilar();
-                        
-                        while (!pila_aux.es_Vacia()){
-                              n1 = pila_aux.Cima(); pila_aux.Desapilar();
-                              if (pila_aux.es_Vacia()){
-                                    break;
-                              }
-                              else{
-                                    c1 = pila_aux.Cima(); pila_aux.Desapilar();
-                                    n2 = pila_aux.Cima(); pila_aux.Desapilar();
-                                    switch (c1){
-                                          case '+':
-                                                res = n1 + n2;
-                                                break;
-                                          case '-':
-                                                res = n1 - n2;
-                                                break;
-                                          default:
-                                                break;
-                                          }
-                                    pila_aux.Apilar(res);
-                              }
-                        }
-                        pila_num.Apilar(n1);
-                        pila_aux.Desapilar();
                   }
+                  pila_car.Desapilar();
+                  
+                  while (!pila_aux.es_Vacia()){
+                        n1 = pila_aux.Cima(); pila_aux.Desapilar();
+                        if (pila_aux.es_Vacia()){
+                              break;
+                        }
+                        else{
+                              c1 = pila_aux.Cima(); pila_aux.Desapilar();
+                              n2 = pila_aux.Cima(); pila_aux.Desapilar();
+                              switch (c1){
+                                    case '+':
+                                          res = n1 + n2;
+                                          break;
+                                    case '-':
+                                          res = n1 - n2;
+                                          break;
+                                    default:
+                                          break;
+                                    }
+                              pila_aux.Apilar(res);
+                        }
+                  }
+                  pila_num.Apilar(n1);
+                  pila_aux.Desapilar();
+                  
             }
             cout << "\n\t" << expresion;
             cout << "\nPilaNum: " ;
@@ -274,12 +270,12 @@ int Evaluacion:: Evaluar_ExpresionInfija_2(char* exp){
             pila_car.Mostrar();
             cout << "\nPilaAux:" ;
             pila_aux.Mostrar();
-            system("read -p 'Press Enter to continue...' var");
-            system("clear");
+            system("pause");
+            system("cls");
         /*FIN DEL BUCLE FOR PARA RECORRER LA EXPRESION*/
       }
         
-      if (pila_car.es_Vacia() &&pila_aux.es_Vacia()){
+      if (pila_car.es_Vacia()){
             return pila_num.Cima();
       }
       else{
@@ -376,7 +372,7 @@ Cola Evaluacion:: ExpresionInfija_a_ExpresionPostfija (char* exp){
                   }
             }
             
-            if ((exp[i] == '+') || (exp[i] == '-')){
+            else if ((exp[i] == '+') || (exp[i] == '-')){
                   if (pila_car.es_Vacia()){
                         pila_car.Apilar(exp[i]);
                   }
@@ -395,13 +391,23 @@ Cola Evaluacion:: ExpresionInfija_a_ExpresionPostfija (char* exp){
                   }
             }
             
-            if (exp[i] == ')'){
+            else if (exp[i] == ')'){
                   while(pila_car.Cima() != '('){
                         cola_exp.Encolar(pila_car.Cima());
                         pila_car.Desapilar();
                   }
                   pila_car.Desapilar();
             }
+            cout << "ite " << i << endl;
+            cout << "EXPRESION" << endl;
+            cola_exp.Mostrar();
+            cout << "PILA CAR " << endl;
+            pila_car.Mostrar();
+            
+            system("read -p 'Press Enter to continue...' var");
+            system("clear");
+            
+            
       }
       while (!pila_car.es_Vacia()){
           cola_exp.Encolar(pila_car.Cima());  
@@ -772,8 +778,8 @@ Lista Evaluacion::Completar_Parentesis(char* exp){
       }
 
       lista.Mostrar();
-      system("read -p 'Press Enter to continue...' var");
-      system("clear");
+      system("pause");
+      system("cls");
       return lista;
 }
 
