@@ -181,6 +181,7 @@ int Evaluacion:: Evaluar_ExpresionInfija_2(char* expresion_nueva){
                         int n = expresion_nueva[i] -48;
                         pila_num.Apilar(n);
                   }
+                  
                   else{
                         if (es_Num(expresion_nueva[i-1])){
                               n1 = pila_num.Cima();
@@ -338,13 +339,18 @@ Cola Evaluacion:: ExpresionInfija_a_ExpresionPostfija (char* exp){
                         pila_num.Desapilar();
                         pila_num.Apilar(n2);
                   }
+
                   else{
                         n1 = exp[i] -48;
                         pila_num.Apilar(n1);
                   }
             }
-            if ((!es_Num(exp[i+1])) && (exp[i+1] != '(') && (exp[i+1] != ')')){
+            if ((!es_Num(exp[i+1])) && (es_Num(exp[i]))){
                   cola_exp.Encolar(pila_num.Cima());
+            }
+            
+            if ((!es_Num(exp[i+1])) && (exp[i+1] != '(') && (exp[i+1] != ')')){
+                  //cola_exp.Encolar(pila_num.Cima());
                   if ((!pila_car.es_Vacia()) && ((pila_car.Cima() == '*') || (pila_car.Cima() == '/'))){
                         cola_exp.Encolar(pila_car.Cima());
                         pila_car.Desapilar();
