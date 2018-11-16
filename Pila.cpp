@@ -26,10 +26,20 @@ int Pila:: Desapilar (){
 }
 
 void Pila :: Mostrar(){
-    pNodoPila aux = ultimo;
-    while (aux){
-        cout << "   " << aux->valor;
-        aux = aux->siguiente;
+      pNodoPila aux = ultimo;
+      cout << "\n\t" ;
+      while (aux){
+            int n = aux->valor;
+            if (n == '('){cout << "( ";}
+            else if (n == ')'){cout << ") ";}
+            else if (n == '*'){cout << "* ";}
+            else if (n == '+'){cout << "+ ";}
+            else if (n == '-'){cout << "- ";}
+            else if (n == '/'){cout << "/ ";}
+            else{
+                  cout << n << " ";
+            }
+            aux = aux->siguiente;
     }
     cout << endl;
 }
