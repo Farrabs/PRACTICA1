@@ -34,26 +34,24 @@ void Lista:: InsertarDer(int v){
       longitud++;
 }
 
-int Lista:: verPrimero(){
-    pNodoLista aux = primero;
-    return aux->valor;
-}
-
-int Lista:: verUltimo(){
-      pNodoLista aux = ultimo;
-      return aux->valor;
-}
-
 void Lista:: Mostrar(){
       pNodoLista aux = primero;
-      cout<< "Mi Lista:[";
+      cout<< "\n\tMi Lista:";
       while(aux){
-            cout<<aux->valor<<",";
+            int n = aux->valor;
+            if (n == '('){cout << "( ";}
+            else if (n == ')'){cout << ") ";}
+            else if (n == '*'){cout << "* ";}
+            else if (n == '+'){cout << "+ ";}
+            else if (n == '-'){cout << "- ";}
+            else if (n == '/'){cout << "/ ";}
+            else{
+                  cout << n << " ";
+            }
             aux = aux->siguiente;
       }
-      cout<<"]";
       cout<<endl; 
-      cout<<"Longitud: "<<longitud<<"\n";
+      cout<<"\n\tLongitud: "<<longitud<<"\n";
 }
 
 bool Lista:: esVacia(){
@@ -105,4 +103,3 @@ void Lista::Insertar(int v,int p){
 Lista::~Lista()
 {
 }
-
