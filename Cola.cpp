@@ -34,9 +34,19 @@ int Cola:: Desencolar(){
 }
 
 void Cola:: Mostrar(){
-    pNodoCola aux = primero;
-    while (aux){
-        cout << "   " << aux->valor;
+      pNodoCola aux = primero;
+      cout << "\n\t";
+      while (aux){
+            int n = aux->valor;
+            if (n == '('){cout << "( ";}
+            else if (n == ')'){cout << ") ";}
+            else if (n == '*'){cout << "* ";}
+            else if (n == '+'){cout << "+ ";}
+            else if (n == '-'){cout << "- ";}
+            else if (n == '/'){cout << "/ ";}
+            else{
+                  cout << n << " ";
+            }
         aux = aux->siguiente;
     }
     cout << endl;
@@ -54,5 +64,3 @@ bool Cola:: es_Vacia(){
 Cola::~Cola()
 {
 }
-
-
