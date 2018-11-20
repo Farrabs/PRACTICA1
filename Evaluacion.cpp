@@ -146,18 +146,12 @@ int Evaluacion:: Evaluar_ExpresionInfija(char* exp){
 
         /*SEGUNDO EJERCICIO*/
 /*___________________________________________________________*/
-int Evaluacion:: Evaluar_ExpresionInfija_2(char* expresion_nueva){
+int Evaluacion:: Evaluar_ExpresionInfija_2(char* exp){
       Pila pila_car; Pila pila_num; Pila pila_aux; Pila pila_CarAux;
       int n1; int n2; int res; 
-      
-            /*expresion_nueva[0] = '(';
-            strcat(expresion_nueva, exp);
-            strcat(expresion_nueva, ")");
-            SacarTamano(expresion_nueva);
-            cout << "\n\tExpresion concatenada: " << expresion_nueva << endl;
-            tam_exp+=2;*/
-      
-      
+            
+      expresion = exp;
+      SacarTamano(expresion);
       if (tam_exp == 0){
             cout << "\n\tError. No has escrito nada. ";
             return -1;
@@ -168,40 +162,40 @@ int Evaluacion:: Evaluar_ExpresionInfija_2(char* expresion_nueva){
 		return -1;
 	}
 	
-      for (int i =0; i<tam_exp; i++){
+      for (int i =0; i< tam_exp; i++){
         
-            if (expresion_nueva[i] == '('){
-                  pila_car.Apilar(expresion_nueva[i]);
+            if (exp[i] == '('){
+                  pila_car.Apilar(exp[i]);
             }
-            else if((expresion_nueva[i] =='+') || (expresion_nueva[i] == '-') || (expresion_nueva[i] == '*') || (expresion_nueva[i] == '/')){
-                  pila_car.Apilar(expresion_nueva[i]);
+            else if((exp[i] =='+') || (exp[i] == '-') || (exp[i] == '*') || (exp[i] == '/')){
+                  pila_car.Apilar(exp[i]);
             }
-            else if(es_Num(expresion_nueva[i])){
+            else if(es_Num(exp[i])){
                   if (i==0){
-                        int n = expresion_nueva[i] -48;
+                        int n = exp[i] -48;
                         pila_num.Apilar(n);
                   }
                   
                   else{
-                        if (es_Num(expresion_nueva[i-1])){
+                        if (es_Num(exp[i-1])){
                               n1 = pila_num.Cima();
-                              n2 = n1*10 + expresion_nueva[i] - 48;
+                              n2 = n1*10 + exp[i] - 48;
                               pila_num.Desapilar();
                               pila_num.Apilar(n2);
                         }
                         else{
-                              int n = expresion_nueva[i] -48;
+                              int n = exp[i] -48;
                               pila_num.Apilar(n);
                         }
                   }
             }
 
             if(((pila_car.Cima() == '*') || (pila_car.Cima() == '/'))){
-                  if ((expresion_nueva[i] == '*') || (expresion_nueva[i] == '/')){
+                  if ((exp[i] == '*') || (exp[i] == '/')){
                 
                   }
                   else{
-                        if (!es_Num(expresion_nueva[i+1])){
+                        if (!es_Num(exp[i+1])){
                               n2 = pila_num.Cima(); pila_num.Desapilar();
                               n1 = pila_num.Cima(); pila_num.Desapilar();
                               switch(pila_car.Cima()){
@@ -220,11 +214,11 @@ int Evaluacion:: Evaluar_ExpresionInfija_2(char* expresion_nueva){
                   }
             }
         
-            if(expresion_nueva[i] == ')'){
-                  pila_car.Apilar(expresion_nueva[i]);
+            if(exp[i] == ')'){
+                  pila_car.Apilar(exp[i]);
             }
 
-            if (expresion_nueva[i] == ')'){
+            if (exp[i] == ')'){
                   pila_car.Desapilar();
                   n1 = pila_num.Cima(); pila_num.Desapilar();
                   int c; char c1;
@@ -350,7 +344,6 @@ Cola Evaluacion:: ExpresionInfija_a_ExpresionPostfija (char* exp){
             }
             
             if ((!es_Num(exp[i+1])) && (exp[i+1] != '(') && (exp[i+1] != ')')){
-                  //cola_exp.Encolar(pila_num.Cima());
                   if ((!pila_car.es_Vacia()) && ((pila_car.Cima() == '*') || (pila_car.Cima() == '/'))){
                         cola_exp.Encolar(pila_car.Cima());
                         pila_car.Desapilar();
@@ -467,73 +460,102 @@ int Evaluacion :: Evaluar_ExpresionPosfija (Cola c1){
 /*___________________________________________________________*/
 
 bool Evaluacion:: es_Correcta(char* exp){
-      int oper=0; int contador =0; Pila pila_num; Pila pila_car;
+      int oper=0; int contador =0; Pila pila_num; Pila pila_car; Lista lista;
       int n1; int n2;
       SacarTamano(expresion);
       if (tam_exp == 0){
             cout << "\n\tError. No has escrito nada. ";
             return false;
       }
-      for (int i = 0; i < tam_exp ; i++){
-            if(es_Num(exp[i])){
-                  if (es_Num(exp[i-1])){
-                        n1 = pila_num.Cima();
-                        n2 = n1*10 + exp[i] - 48;
-                        pila_num.Desapilar();
-                        pila_num.Apilar(n2);
+      
+      for (int i =0; i < tam_exp; i++){
+            int pos = i;
+            if (exp[i] == '('){
+                  lista.InsertarDer(exp[i]);
+            }
+		
+		else if (exp[i] == ')'){
+			lista.InsertarDer(exp[i]);
+		}
+            
+            else if((exp[i] =='+') || (exp[i] == '-') || (exp[i] == '*') || (exp[i] == '/')){
+                  lista.InsertarDer(exp[i]);
+            }
+            
+            else if(es_Num(exp[i])){
+                  if (i==0){
+                        int n = exp[i] -48;
+                        pila_num.Apilar(n);
                   }
                   else{
-                        n1 = exp[i] -48;
-                        pila_num.Apilar(n1);
+                        if (es_Num(exp[i-1])){
+                              n1 = pila_num.Cima();
+                              n2 = n1*10 + exp[i] - 48;
+                              pila_num.Desapilar();
+                              pila_num.Apilar(n2);
+                        }
+
+                        else{
+                              int n = exp[i] -48;
+                              pila_num.Apilar(n);
+                        }
+                  }
+            }
+            if ((es_Num(exp[i])) && (!es_Num(exp[i+1]))){
+                  lista.InsertarDer(pila_num.Cima());
+            }   
+      }
+      
+      lista.Mostrar();
+      if (lista.Ver(0)== '('){
+            if (lista.Ver(lista.Longitud()-1) != ')'){ return false;} 
+      }
+      if (es_Oper(lista.Ver(0))){ return false; }
+      
+      if (es_Oper(lista.Ver(lista.Longitud()-1))){ return false;}
+ 
+      for (int i = 0;   i < lista.Longitud() ; i++){
+            cout << "BUCLE " << endl;
+            if (lista.Ver(i) == '('){
+                  if (es_Oper(lista.Ver(i+1))){
+                        return false;                  }
+                  else if(lista.Ver(i+1) == ')'){
+                        return false;
+                  }
+                  
+                  else{
+                        pila_car.Apilar(lista.Ver(i));
                   }
             }
             
-            else if (exp[i] == '('){
-                  if (es_Num(exp[i-1])){
-                        return false;
+            else if ((lista.Ver(i) == ')')) {
+                  if(!pila_car.es_Vacia()){
+                        if(pila_car.Cima() == '('){ pila_car.Desapilar();}
                   }
                   else{
-                        pila_car.Apilar(exp[i]);
-                  }
-            }
-            else if (exp[i] == ')'){
-                  if (exp[i-1] == '('){
-                        return false;
-                  }
-                  if (pila_car.es_Vacia()){
-                        return false;
-                  }
-            }
-            
-            if ((exp[i] == ')') && (!pila_car.es_Vacia())) {
-                  if(pila_car.Cima() == '('){
-                        pila_car.Desapilar();
-                  }
-                  else{
                         return false;
                   }
             }
             
             
-            if ((exp[i] == '+') || (exp[i] == '-') || (exp[i] == '/') || (exp[i] == '*')){
-                  if (exp[i+1] == ')'){
+            else if ((lista.Ver(i) == '+') || (lista.Ver(i) == '-') || (lista.Ver(i) == '/') || (lista.Ver(i) == '*')){
+                  if (lista.Ver(i+1) == ')'){
                         return false;
                   }
                   else{
                         oper +=1;
                   }
             }
-            
       }
       
       while (!pila_num.es_Vacia()){
             contador +=1;
             pila_num.Desapilar();
       }
-	  
-	  if (!pila_car.es_Vacia()){
-		  return false;
-	  }
+      
+      if (!pila_car.es_Vacia()){
+            return false;
+      }
 	  
       return (oper == contador -1) ;
 }
