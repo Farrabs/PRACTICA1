@@ -126,7 +126,7 @@ void Arbol:: borrarNodo (int v){
                               nodo = actual->derecha;
                               while(nodo->izquierda) {
                                     padre = nodo;
-                                    nodo = nodo->izquierda->izquierda;
+                                    nodo = nodo->izquierda;
                               }
                         }
                         else{
