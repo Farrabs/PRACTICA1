@@ -37,7 +37,17 @@ int Arbol::getValorRaiz(){
       return raiz->valor;
 }
 
-int Arbol::getAlturaArbol(){
+int Arbol::getAlturaArbol(NodoArbol * nodo){
+      
+      if (esNodoVacio(nodo->izquierda)){
+            if(esNodoVacio(nodo->derecha)){ altura =0; }
+            else{ altura = 1 + getAlturaArbol(nodo->derecha); }
+      }
+      
+      else{
+            if (esNodoVacio(nodo->derecha)){ altura = 1 + getAlturaArbol(nodo->izquierda); }
+            else{ altura = 1 + max(getAlturaArbol(nodo->izquierda), getAlturaArbol(nodo->derecha)); }
+      }
       return altura;
 }
 
