@@ -29,6 +29,8 @@ public:
       void inOrden(NodoArbol *nodo); 
       void preOrden(NodoArbol *nodo);
       void postOrden(NodoArbol *nodo);
+      void printTree(NodoArbol* p, int indent);
+      void printValor(NodoArbol *p);
 
 };
 
