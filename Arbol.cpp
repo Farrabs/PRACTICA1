@@ -75,6 +75,7 @@ bool Arbol::buscarNodo (int dato)
       return false;
 }
 
+
 void Arbol::insertarNodo (int v){
       NodoArbol *padre = NULL;
       actual = raiz;
@@ -87,6 +88,20 @@ void Arbol::insertarNodo (int v){
       if(esNodoVacio(padre)) raiz = new NodoArbol(v);
             else if(v < padre->valor) padre->izquierda = new NodoArbol(v);
             else if(v > padre->valor) padre->derecha = new NodoArbol(v);
+}
+
+void Arbol::insertarNodoDerecha(int v, NodoArbol *nodo){
+      if (nodo->derecha) { cout <<"Error, el nodo ya está lleno";}
+      else{
+            nodo->derecha =new NodoArbol(v, NULL, NULL);
+      }
+}
+
+void Arbol::insertarNodoIzquierda(int v, NodoArbol *nodo){
+      if (nodo->izquierda) { cout <<"Error, el nodo ya está lleno";}
+      else{
+            nodo->izquierda =new NodoArbol(v, NULL, NULL);
+      }
 }
 
 void Arbol:: borrarNodo (int v){
@@ -137,7 +152,8 @@ void Arbol:: borrarNodo (int v){
 
 void Arbol::preOrden (pNodoArbol nodo){
       if (nodo!= NULL){
-            cout << nodo->valor <<" ";
+            printValor(nodo);
+            cout << "," ;
             preOrden (nodo->izquierda);
             preOrden (nodo->derecha);
       }
@@ -147,14 +163,16 @@ void Arbol::postOrden (pNodoArbol nodo){
       if (nodo!= NULL){
             postOrden (nodo->izquierda);
             postOrden (nodo->derecha);
-            cout << nodo->valor <<" ";
+            printValor(nodo);
+            cout << "," ;
       }
 }
 
 void Arbol::inOrden(pNodoArbol nodo){
       if (nodo!= NULL){
             inOrden(nodo->izquierda);
-            cout << nodo -> valor <<" ";
+            printValor(nodo);
+            cout << "," ;
             inOrden(nodo->derecha);
       }
 }
