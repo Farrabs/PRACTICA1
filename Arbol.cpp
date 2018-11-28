@@ -36,6 +36,10 @@ int Arbol::getValorRaiz(){
       return raiz->valor;
 }
 
+int Arbol::getAlturaArbol(){
+      return altura;
+}
+
 void Arbol::Podar(pNodoArbol &nodo)
 {
       if(nodo){
@@ -145,6 +149,39 @@ void Arbol::inOrden(pNodoArbol nodo){
 }
 
 
+void Arbol::printTree(NodoArbol* p, int indent)
+{
+    if(p != NULL) {
+        if(p->derecha) {
+            printTree(p->derecha, indent+4);
+        }
+        if (indent) {
+            cout << setw(indent) << ' ';
+        }
+        if (p->derecha) cout<<" /\n" << setw(indent) << ' ';
+            printValor(p);
+            cout<< "\n ";
+        if(p->izquierda) {
+            cout << setw(indent) << ' ' <<" \\\n";
+            printTree(p->izquierda, indent+4);
+        }
+    }
+}
+
+void Arbol:: printValor(NodoArbol *nodo){
+      int n = nodo->valor;
+      if (n == '('){cout << "( ";}
+      else if (n == ')'){cout << ")";}
+      else if (n == '*'){cout << "*";}
+      else if (n == '+'){cout << "+";}
+      else if (n == '-'){cout << "-";}
+      else if (n == '/'){cout << "/";}
+      else{
+            cout << n;
+      }
+}
+
 Arbol::~Arbol()
 {
 }
+
