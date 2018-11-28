@@ -4,7 +4,27 @@
 
 int main(int argc, char** argv)
 {
-      Evaluacion e1; Cola c; Lista list; char opcion;  bool res; char expresion[40] = "";
+      Arbol a;
+      a.insertarNodo(18);
+      a.insertarNodo(9);
+      a.insertarNodo(6);
+      a.insertarNodo(20);
+      a.insertarNodo(1);
+      a.insertarNodo(10);
+      a.insertarNodo(81);
+      a.insertarNodo(7);
+      a.insertarNodo(16);
+      a.insertarNodo('*');
+      
+      a.insertarNodo('(');
+      
+      
+      a.inOrden(a.getRaiz());
+      cout << "Raiz " << a.getValorRaiz() << endl;
+      cout << "¿Es raiz? ==> " << a.esRaiz(a.getRaiz()) << endl;
+      cout << "¿Es vacio? ==> " << a.esArbolVacio() << endl;;
+      a.printTree(a.getRaiz(), a.getAlturaArbol());
+      /*Evaluacion e1; Cola c; Lista list; char opcion;  bool res; char expresion[40] = "";
       do{
             cout << "\n\t------------------------------------------------\n";
             cout << "\t                       MENU                       \n";
@@ -30,7 +50,7 @@ int main(int argc, char** argv)
                         cout << "\n\tEl resultado es: " << e1.Evaluar_ExpresionInfija(e1.expresion)<< endl;
                         break;
                   case 'B':
-                        cout << "\n\tIntroduzca una expresion (sin espacios): ";  // EXPRESION (2*5-6*1)/(11-9)
+                        cout << "\n\tIntroduzca una expresion (sin espacios y con parentesis al principio y al final) : ";  // EXPRESION (2*5-6*1)/(11-9)
                         cin >> expresion;
                         e1.expresion = expresion;
                         cout << "\n\tExpresion: " << e1.expresion << endl;
@@ -65,7 +85,7 @@ int main(int argc, char** argv)
                         }
                         break;
                   case 'F':                                                         // EXPRESION (2*5-6*1)/(11-9)
-                        cout << "\n\tIntroduzca una expresion (sin espacios): ";
+                        cout << "\n\tIntroduzca una expresion (sin espacios): ";    
                         cin >> expresion;
                         e1.expresion = expresion;
                         cout << "\n\tExpresion: " << e1.expresion << endl;
@@ -81,7 +101,7 @@ int main(int argc, char** argv)
             }while(opcion != 'S');
             
             system("pause");
-            system("cls");
+            system("cls");*/
             
 return 0;
 }
