@@ -21,7 +21,7 @@ public:
       bool esNodoVacio(pNodoArbol nodo);
       bool esHoja(pNodoArbol nodo);
       int numeroNodos();
-      int getAlturaArbol();
+      int getAlturaArbol(NodoArbol *nodo);
       int getValorActual();
       pNodoArbol getRaiz();
       int getValorRaiz();
