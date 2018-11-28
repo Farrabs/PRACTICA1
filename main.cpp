@@ -16,14 +16,15 @@ int main(int argc, char** argv)
       a.insertarNodo(16);
       a.insertarNodo('*');
       
-      a.insertarNodo('(');
+
       
       
       a.inOrden(a.getRaiz());
       cout << "Raiz " << a.getValorRaiz() << endl;
       cout << "¿Es raiz? ==> " << a.esRaiz(a.getRaiz()) << endl;
       cout << "¿Es vacio? ==> " << a.esArbolVacio() << endl;;
-      a.printTree(a.getRaiz(), a.getAlturaArbol());
+      cout << "Altura ==> " << a.getAlturaArbol(a.getRaiz()) << endl;
+      a.printTree(a.getRaiz(), a.getAlturaArbol(a.getRaiz()));
       /*Evaluacion e1; Cola c; Lista list; char opcion;  bool res; char expresion[40] = "";
       do{
             cout << "\n\t------------------------------------------------\n";
