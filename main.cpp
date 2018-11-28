@@ -15,12 +15,13 @@ int main(int argc, char** argv)
       a.insertarNodo(7);
       a.insertarNodo(16);
       a.insertarNodo('*');
-      
+      a.borrarNodo(6);
+      a.insertarNodoDerecha(5,a.getRaiz()->derecha->derecha);
 
       
       
       a.inOrden(a.getRaiz());
-      cout << "Raiz " << a.getValorRaiz() << endl;
+      cout << "\nRaiz " << a.getValorRaiz() << endl;
       cout << "¿Es raiz? ==> " << a.esRaiz(a.getRaiz()) << endl;
       cout << "¿Es vacio? ==> " << a.esArbolVacio() << endl;;
       cout << "Altura ==> " << a.getAlturaArbol(a.getRaiz()) << endl;
