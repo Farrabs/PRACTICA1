@@ -16,6 +16,8 @@ public:
       void Mostrar(int &d);
       bool buscarNodo (int v);
       void insertarNodo (int v);
+      void insertarNodoIzquierda(int v, NodoArbol *nodo);
+      void insertarNodoDerecha(int v, NodoArbol *nodo);
       void borrarNodo (int v);
       bool esArbolVacio();
       bool esNodoVacio(pNodoArbol nodo);
@@ -35,3 +37,4 @@ public:
 };
 
 #endif // ARBOL_HPP
+
