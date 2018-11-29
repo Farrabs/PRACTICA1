@@ -2,6 +2,7 @@
 #include "Lista.hpp"
 #include "Pila.hpp"
 #include "Cola.hpp"
+#include "Arbol.hpp"
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -315,6 +316,7 @@ int Evaluacion:: Evaluar_ExpresionInfija_2(char* exp){
 
 Cola Evaluacion:: ExpresionInfija_a_ExpresionPostfija (char* exp){
       Pila pila_car; Pila pila_num; Cola cola_exp; int n1; int n2;
+      expresion = exp;
       SacarTamano(expresion);
       if (tam_exp == 0){
             cout << "\n\tError. No has escrito nada. ";
@@ -397,14 +399,14 @@ Cola Evaluacion:: ExpresionInfija_a_ExpresionPostfija (char* exp){
                   }
                   pila_car.Desapilar();
             }
-            cout << "ite " << i << endl;
+ /*           cout << "ite " << i << endl;
             cout << "EXPRESION" << endl;
             cola_exp.Mostrar();
             cout << "PILA CAR " << endl;
             pila_car.Mostrar();
             
             system("read -p 'Press Enter to continue...' var");
-            system("clear");
+            system("clear");*/
             
             
       }
@@ -515,7 +517,6 @@ bool Evaluacion:: es_Correcta(char* exp){
       if (es_Oper(lista.Ver(lista.Longitud()-1))){ return false;}
  
       for (int i = 0;   i < lista.Longitud() ; i++){
-            cout << "BUCLE " << endl;
             if (lista.Ver(i) == '('){
                   if (es_Oper(lista.Ver(i+1))){
                         return false;                  }
@@ -809,6 +810,51 @@ Lista Evaluacion::Completar_Parentesis(char* exp){
       system("pause");
       system("cls");
       return lista;
+}
+
+Arbol Evaluacion:: arbolDesdePosfija(char * exp){
+      Cola cola; Pila pila; Lista lista; int n; Arbol tree;
+      cola = ExpresionInfija_a_ExpresionPostfija(exp);
+      cola.Mostrar();
+      system("read -p 'Press Enter to continue...' var");
+      system("clear");
+      while (!cola.es_Vacia()){
+            n = cola.Desencolar();
+            lista.InsertarIzq(n);
+      }
+      lista.Mostrar();
+      for (int i =0; i < lista.Longitud(); i++){
+            if (tree.esArbolVacio()){
+                  n = lista.Ver(i);
+                  tree.insertarNodo(n);
+                  tree.actual = tree.getRaiz();
+            }
+            else if (es_Oper(lista.Ver(i-1)) && es_Oper(lista.Ver(i))){
+                  n =lista.Ver(i);
+                  tree.insertarNodoDerecha(n,tree.actual);
+                  tree.actual = tree.actual->derecha;
+                  
+            }
+            else if (es_Oper(lista.Ver(i))){
+                  tree.actual = tree.getRaiz();
+                  n =lista.Ver(i);
+                  if (tree.actual->izquierda == NULL){
+                        tree.insertarNodoIzquierda(n,tree.actual);
+                        tree.actual = tree.actual->izquierda; 
+                  }
+                  else{
+                        while(tree.actual->izquierda != NULL){
+                              tree.actual = tree.actual->izquierda;
+                        }
+                        tree.insertarNodoIzquierda(n,tree.actual);
+                        tree.actual = tree.actual->izquierda; 
+                  }
+                  
+            }
+      }
+      tree.printTree(tree.getRaiz(),tree.getAlturaArbol(tree.getRaiz()));
+      return tree;
+      
 }
 
 Evaluacion::~Evaluacion()
