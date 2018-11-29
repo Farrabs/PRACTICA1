@@ -1,8 +1,9 @@
 #include "NodoPilaArbol.hpp"
 
-NodoPilaArbol::NodoPilaArbol(Arbol v, NodoPilaArbol *sig)
+
+NodoPilaArbol::NodoPilaArbol(NodoArbol *a, NodoPilaArbol *sig)
 {
-      arbol = v;
+      arbol = a;
       siguiente = sig;
 }
 
