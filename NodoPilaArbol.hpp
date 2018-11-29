@@ -1,25 +1,20 @@
 #ifndef NODOPILAARBOL_HPP
 #define NODOPILAARBOL_HPP
-#include "NodoArbol.hpp"
 #include "Arbol.hpp"
-
-#include <iostream>
-using namespace std;
+#include "NodoArbol.hpp"
 
 class NodoPilaArbol
 {
 public:
-    NodoPilaArbol (Arbol v(), NodoPilaArbol *sig =NULL);
-    ~NodoPilaArbol();
-    
-    Arbol arbol;
-    NodoPilaArbol* siguiente;
-
+      NodoPilaArbol(NodoArbol *a, NodoPilaArbol * sig=NULL);
+      ~NodoPilaArbol();
+      
 private:
-    
-    
-    friend class Pila;
-    friend class Arbol;
+      NodoArbol *arbol;
+      NodoPilaArbol* siguiente;
+      
+      friend class PilaArbol;
+      friend class Evaluacion;
 
 };
 
