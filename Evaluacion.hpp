@@ -3,8 +3,8 @@
 #include "Pila.hpp"
 #include "Cola.hpp"
 #include "Lista.hpp"
+#include "Arbol.hpp"
 #include <stdio.h>
-#include <string.h>
 #include <iostream>
 
 class Evaluacion
@@ -23,10 +23,12 @@ public:
       Cola ExpresionInfija_a_ExpresionPostfija (char* exp);
       int Evaluar_ExpresionPosfija (Cola c);
       bool es_Correcta(char* exp);
-      Lista completar_parentesis(char* exp);
+	  Lista Completar_Parentesis(char* exp);
+      Arbol arbolDesdePosfija(char * exp);
       void SacarTamano(char* exp);
       bool es_Num(char c);
       bool es_Caracter(int v);
+      bool es_Oper(int v);
     
 };
 
