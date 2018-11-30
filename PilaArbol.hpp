@@ -14,6 +14,7 @@ public:
       pNodoArbol DesapilarArbol();
       pNodoArbol Cima();
       bool es_Vacia();
+      void Mostrar();
 
 };
 
