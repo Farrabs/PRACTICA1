@@ -1,15 +1,18 @@
 #ifndef ARBOL_HPP
 #define ARBOL_HPP
 #include "NodoArbol.hpp"
+
+
 class Arbol
 {
 private:
-      pNodoArbol raiz, actual;
+      pNodoArbol raiz;
       int contador, altura;
       
 public:
       Arbol();
       ~Arbol();
+      pNodoArbol actual;
       void Podar(pNodoArbol &nodo);
       void auxContador(pNodoArbol nodo);
       void auxAltura(pNodoArbol nodo, int a);
@@ -18,6 +21,8 @@ public:
       void insertarNodo (int v);
       void insertarNodoIzquierda(int v, NodoArbol *nodo);
       void insertarNodoDerecha(int v, NodoArbol *nodo);
+      void insertarArbolIzquierda(pNodoArbol a, pNodoArbol nodo);
+      void insertarArbolDerecha(pNodoArbol a, pNodoArbol nodo);
       void borrarNodo (int v);
       bool esArbolVacio();
       bool esNodoVacio(pNodoArbol nodo);
@@ -26,6 +31,7 @@ public:
       int getAlturaArbol(NodoArbol *nodo);
       int getValorActual();
       pNodoArbol getRaiz();
+      void setRaiz(int v, pNodoArbol izq, pNodoArbol der);
       int getValorRaiz();
       bool esRaiz(pNodoArbol nodo);
       void inOrden(NodoArbol *nodo); 
@@ -37,4 +43,3 @@ public:
 };
 
 #endif // ARBOL_HPP
-
