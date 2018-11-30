@@ -3,6 +3,7 @@
 #include "Pila.hpp"
 #include "Cola.hpp"
 #include "Arbol.hpp"
+#include "PilaArbol.hpp"
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -471,7 +472,6 @@ bool Evaluacion:: es_Correcta(char* exp){
       }
       
       for (int i =0; i < tam_exp; i++){
-            int pos = i;
             if (exp[i] == '('){
                   lista.InsertarDer(exp[i]);
             }
@@ -813,46 +813,63 @@ Lista Evaluacion::Completar_Parentesis(char* exp){
 }
 
 Arbol Evaluacion:: arbolDesdePosfija(char * exp){
-      Cola cola; Pila pila; Lista lista; int n; Arbol tree;
+      Cola cola; Pila pila; PilaArbol pilaArbol; Lista lista; int n; int n1;int n2; Arbol tree; 
+      expresion = exp;
+      if (!es_Correcta(exp)){
+            cout << "Error. Expresion mal introducida." << endl;
+            return tree;
+      }
       cola = ExpresionInfija_a_ExpresionPostfija(exp);
-      cola.Mostrar();
-      system("read -p 'Press Enter to continue...' var");
-      system("clear");
       while (!cola.es_Vacia()){
             n = cola.Desencolar();
-            lista.InsertarIzq(n);
+            lista.InsertarDer(n);
       }
       lista.Mostrar();
+      
+      system("read -p 'Press Enter to continue...' var");
+      system("clear");
       for (int i =0; i < lista.Longitud(); i++){
-            if (tree.esArbolVacio()){
-                  n = lista.Ver(i);
-                  tree.insertarNodo(n);
-                  tree.actual = tree.getRaiz();
+            n = lista.Ver(i);
+            if (!es_Oper(n)){
+                  pila.Apilar(n);
             }
-            else if (es_Oper(lista.Ver(i-1)) && es_Oper(lista.Ver(i))){
-                  n =lista.Ver(i);
-                  tree.insertarNodoDerecha(n,tree.actual);
-                  tree.actual = tree.actual->derecha;
+            else if(es_Oper(n) && pila.es_Vacia()){
+                  Arbol treeAux;
+                  treeAux.insertarNodo(n);
+                  pNodoArbol ar_der = pilaArbol.DesapilarArbol();
+                  pNodoArbol ar_izq = pilaArbol.DesapilarArbol();
+                  treeAux.insertarArbolDerecha(ar_der,treeAux.getRaiz());
+                  treeAux.insertarArbolIzquierda(ar_izq,treeAux.getRaiz());
+                  pilaArbol.ApilarArbol(treeAux.getRaiz());
                   
             }
-            else if (es_Oper(lista.Ver(i))){
-                  tree.actual = tree.getRaiz();
-                  n =lista.Ver(i);
-                  if (tree.actual->izquierda == NULL){
-                        tree.insertarNodoIzquierda(n,tree.actual);
-                        tree.actual = tree.actual->izquierda; 
-                  }
-                  else{
-                        while(tree.actual->izquierda != NULL){
-                              tree.actual = tree.actual->izquierda;
-                        }
-                        tree.insertarNodoIzquierda(n,tree.actual);
-                        tree.actual = tree.actual->izquierda; 
-                  }
+            else if(es_Oper(n)){
+                  Arbol treeAux;
+                  treeAux.insertarNodo(n);
+                  n1 = pila.Desapilar();
+                  n2 = pila.Desapilar();
+                  treeAux.insertarNodoDerecha(n1,treeAux.getRaiz());
+                  treeAux.insertarNodoIzquierda(n2,treeAux.getRaiz());
+                  treeAux.printTree(treeAux.getRaiz(),treeAux.getAlturaArbol(treeAux.getRaiz()));
+                  pilaArbol.ApilarArbol(treeAux.getRaiz());
+                  
                   
             }
+            if (!pilaArbol.es_Vacia()){
+                  tree.printTree(pilaArbol.Cima(),tree.getAlturaArbol(pilaArbol.Cima()));
+            }
+            cout << "pila arbol" ; pilaArbol.Mostrar();
+            
+            cout << "\n\n\n";
+            
+            system("read -p 'Press Enter to continue...' var");
+            system("clear");
       }
-      tree.printTree(tree.getRaiz(),tree.getAlturaArbol(tree.getRaiz()));
+
+      tree.printTree(pilaArbol.Cima(),tree.getAlturaArbol(pilaArbol.Cima()));
+      tree.getRaiz()->derecha = pilaArbol.Cima()->derecha;
+      tree.getRaiz()->izquierda = pilaArbol.Cima()->izquierda;
+      tree.getRaiz()->valor = pilaArbol.Cima()->valor;
       return tree;
       
 }
