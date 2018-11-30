@@ -15,8 +15,10 @@ int main(int argc, char** argv)
       a.insertarNodo(7);
       a.insertarNodo(16);
       a.insertarNodo('*');
-      a.borrarNodo(6);
-      a.insertarNodoDerecha(5,a.getRaiz()->derecha->derecha);
+      a.borrarNodo(18);
+      a.borrarNodo(20);
+      
+      //a.insertarNodoDerecha(5,a.getRaiz()->derecha->derecha);
 
       
       
@@ -26,7 +28,7 @@ int main(int argc, char** argv)
       cout << "¿Es vacio? ==> " << a.esArbolVacio() << endl;;
       cout << "Altura ==> " << a.getAlturaArbol(a.getRaiz()) << endl;
       a.printTree(a.getRaiz(), a.getAlturaArbol(a.getRaiz()));
-      /*Evaluacion e1; Cola c; Lista list; char opcion;  bool res; char expresion[40] = "";
+      Evaluacion e1;/*char expresion[40] = ""; Cola c; Lista list; char opcion;  bool res; char expresion[40] = "";
       do{
             cout << "\n\t------------------------------------------------\n";
             cout << "\t                       MENU                       \n";
@@ -63,7 +65,7 @@ int main(int argc, char** argv)
                         cin >> expresion;
                         e1.expresion = expresion;
                         cout << "\n\tExpresion: " << e1.expresion << endl;
-                        c = e1.ExpresionInfija_a_ExpresionPostfija(e1.expresion);
+                        Cola c = e1.ExpresionInfija_a_ExpresionPostfija(e1.expresion);
                         break;
                   case 'D':
                         cout << "\n\tIntroduzca una expresion (sin espacios): ";
@@ -105,5 +107,7 @@ int main(int argc, char** argv)
             system("pause");
             system("cls");*/
             
+            
+            e1.arbolDesdePosfija("((((2*5)-(1*2))/((11-9)-(6-5))");
 return 0;
 }
