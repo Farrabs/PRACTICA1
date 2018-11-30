@@ -35,8 +35,27 @@ bool PilaArbol:: es_Vacia(){
     return (ultimo== NULL);
 }
 
+void PilaArbol :: Mostrar(){
+      pNodoPilaArbol aux = ultimo;
+      cout << "\n\t" ;
+      while (aux){
+            pNodoArbol n = aux->arbol;
+            /*if (n == '('){cout << "( ";}
+            else if (n == ')'){cout << ") ";}
+            else if (n == '*'){cout << "* ";}
+            else if (n == '+'){cout << "+ ";}
+            else if (n == '-'){cout << "- ";}
+            else if (n == '/'){cout << "/ ";}
+            else{*/
+                  cout << n << " ";
+            //}
+            aux = aux->siguiente;
+    }
+    cout << endl;
+}
 
 
 PilaArbol::~PilaArbol()
 {
 }
+
