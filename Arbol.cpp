@@ -37,6 +37,11 @@ int Arbol::getValorRaiz(){
       return raiz->valor;
 }
 
+/*void Arbol:: setRaiz(int v,Arbol izq, Arbol der){
+      Arbol nuevo = new NodoArbol(v,izq,der);
+      raiz = nuevo;
+}*/
+
 int Arbol::getAlturaArbol(NodoArbol * nodo){
       
       if (esNodoVacio(nodo->izquierda)){
@@ -91,16 +96,30 @@ void Arbol::insertarNodo (int v){
 }
 
 void Arbol::insertarNodoDerecha(int v, NodoArbol *nodo){
-      if (nodo->derecha) { cout <<"Error, el nodo ya está lleno";}
+      if (nodo->derecha) { cout <<"Error, el nodo derecho ya está lleno\n";}
       else{
             nodo->derecha =new NodoArbol(v, NULL, NULL);
       }
 }
 
 void Arbol::insertarNodoIzquierda(int v, NodoArbol *nodo){
-      if (nodo->izquierda) { cout <<"Error, el nodo ya está lleno";}
+      if (nodo->izquierda) { cout <<"Error, el nodo izquierdo ya está lleno\n";}
       else{
             nodo->izquierda =new NodoArbol(v, NULL, NULL);
+      }
+}
+
+void Arbol:: insertarArbolDerecha(pNodoArbol a, pNodoArbol nodo){
+      if (nodo->derecha) { cout <<"Error, el nodo ya está lleno\n";}
+      else{
+            nodo->derecha =new NodoArbol(a->valor, a->derecha, a->izquierda);
+      }
+}
+
+void Arbol:: insertarArbolIzquierda(pNodoArbol a, pNodoArbol nodo){
+      if (nodo->izquierda) { cout <<"Error, el nodo ya está lleno\n";}
+      else{
+            nodo->izquierda =new NodoArbol(a->valor, a->derecha, a->izquierda);
       }
 }
 
@@ -109,13 +128,13 @@ void Arbol:: borrarNodo (int v){
       NodoArbol *nodo;
       char aux;
       actual = raiz;
-      while(!esNodoVacio(actual))
-      {
-            if(v == actual->valor) {// Si el valor está en el nodo actual ua
+      while(!esNodoVacio(actual)){
+            if(v == actual->valor) {// Si el valor está en el nodo actual
                   if(esHoja(actual)){
-                        if(padre) // Si tiene padre (no es el nodo raiz)
+                        if(padre){ // Si tiene padre (no es el nodo raiz)
                               if(padre->derecha == actual){ padre->derecha = NULL;}
                               else if(padre->izquierda == actual){ padre->izquierda = NULL;}
+                        }
                         delete actual; // Borrar el nodo
                         actual = NULL;
                         return;
@@ -140,6 +159,7 @@ void Arbol:: borrarNodo (int v){
                         actual->valor = nodo->valor;
                         nodo->valor = aux;
                         actual = nodo;
+                        
                   }
             }
             else{
@@ -200,13 +220,13 @@ void Arbol::printTree(NodoArbol* p, int indent)
 void Arbol:: printValor(NodoArbol *nodo){
       int n = nodo->valor;
       if (n == '('){cout << "( ";}
-      else if (n == ')'){cout << ")";}
-      else if (n == '*'){cout << "*";}
-      else if (n == '+'){cout << "+";}
-      else if (n == '-'){cout << "-";}
-      else if (n == '/'){cout << "/";}
+      else if (n == ')'){cout << "[)]";}
+      else if (n == '*'){cout << "[*]";}
+      else if (n == '+'){cout << "[+]";}
+      else if (n == '-'){cout << "[-]";}
+      else if (n == '/'){cout << "[/]";}
       else{
-            cout << n;
+            cout <<"[" <<n<<"]";
       }
 }
 
