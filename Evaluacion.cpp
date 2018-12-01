@@ -45,13 +45,25 @@ bool Evaluacion:: es_Oper(int v){
       return ((v=='*') || (v == '-') || (v == '+') || (v=='/'));
 }
 
-Lista Evaluacion:: expresionDesdeArbol(pNodoArbol nodo, Lista lista){
+Lista Evaluacion:: expresionDesdeArbol(pNodoArbol nodo,pNodoArbol nodoB, Lista lista){
       if (nodo!= NULL){
-            lista = expresionDesdeArbol(nodo->izquierda, lista);
+            lista = expresionDesdeArbol(nodo->izquierda,nodoB ,lista);
+            if (nodo==nodoB){
+                  lista.InsertarDer(')');
+                  lista.InsertarIzq('(');
+            }
             lista.InsertarDer(nodo->valor);
-            lista = expresionDesdeArbol(nodo->derecha ,lista);
-            
+            if (nodo==nodoB){
+                  lista.InsertarDer('(');
+            }
+            lista = expresionDesdeArbol(nodo->derecha ,nodoB,lista);
+            if (nodo==nodoB){
+                  lista.InsertarDer(')');
+            }
       }
+      
+           
+      
       return lista;
 }
 
@@ -887,9 +899,211 @@ Arbol Evaluacion:: arbolDesdePosfija(char * exp){
 
 int Evaluacion:: ResolverArbol(Arbol a){
       Lista lista;  int i,j,k,cont; Pila pilaNum;
-      lista = expresionDesdeArbol(a.getRaiz(), lista);
-    
+      lista = expresionDesdeArbol(a.getRaiz(),a.getRaiz(), lista);
+
+      i=0;
+      if(lista.Ver(0)!=40){
+        lista.InsertarDer(41);
+        lista.InsertarIzq(40);
+      }
+      while(!lista.esUltimo(i)){ 
+	cout<<"--Completar Parentesis--\n";
+	cout<<"----Iteracion "<<i+1<<" ----\n";
+        if((lista.Ver(i)==42 || lista.Ver(i)==47)){
+            if(esNumero(lista.Ver(i+1)) && esNumero(lista.Ver(i-1))){
+                if(lista.Ver(i+2)!=41 || lista.Ver(i-2)!=40){
+                    cout<<"1"<<"\n";
+                    if((i-2)<=0){lista.Insertar(40,0);i++;}
+                    else{lista.Insertar(40,i-1);i++;}
+                    if((i+2)>=lista.Longitud()-1){lista.InsertarDer(41);}
+                    else{lista.Insertar(41,i+2);}
+                }
+            }
+            else if(esNumero(lista.Ver(i-1)) && lista.Ver(i+1)==40){
+                if(lista.Ver(i-2)!=40){
+                    j=i;
+                    cont=0;
+                    while(j!=lista.Longitud()){
+                        if(lista.Ver(j)==40)cont++;
+                        if(lista.Ver(j)==41){
+                            if(cont==0) break;
+                            else cont--;
+                        }
+                        j++;
+                    }
+                    j++;
+                    if((i-2)<=0){lista.Insertar(40,0);i++;}
+                    else{lista.Insertar(40,i-1);i++;}
+                    if(j>=lista.Longitud()-1){lista.InsertarDer(41);}
+                    else{lista.Insertar(41,j);}
+                }
+            }
+            else if(esNumero(lista.Ver(i+1)) && lista.Ver(i-1)==41){   
+                int pos;
+                if((i+2)>=lista.Longitud()-1)pos=lista.Longitud()-1;
+                else pos = i+2;
+                if(lista.Ver(pos)!=41){
+                    j=i;
+                    cont=0;
+                    while(j!=0){
+                        if(lista.Ver(j)==41)cont++;
+                        if(lista.Ver(j)==40){
+                            if(cont==0) break;
+                            else cont--;
+                        }
+                        j--;
+                    }
+                    if((i+2)>=lista.Longitud()-1){lista.InsertarDer(41);}
+                    else{lista.Insertar(41,i+2);}
+                    if(j<=0){lista.Insertar(40,0);i++;}
+                    else{lista.Insertar(40,j);i++;}
+                }
+            }
+            else if(lista.Ver(i+1)==40 && lista.Ver(i-1)==41){
+                  
+                j=i;
+                cont=0;
+                while(j!=lista.Longitud()){
+                    if(lista.Ver(j)==40)cont++;
+                    if(lista.Ver(j)==41){
+                          if(cont==0) break;
+                          else cont--;
+                    }
+                    j++;
+                }
+                j++;
+
+                k=i;
+                cont=0;
+                while(k!=0){
+                    if(lista.Ver(k)==41)cont++;
+                    if(lista.Ver(k)==40){
+                        if(cont==0) break;
+                        else cont--;
+                    }
+                    k--;
+                }
+                if(j>=lista.Longitud() && k<=0){
+                    lista.InsertarDer(41);
+                    lista.InsertarIzq(40);
+                    i++;
+                }
+                else{
+                    if(j>=lista.Longitud())j=lista.Longitud();
+                    if(k<=0)k=0;
+                    if(lista.Ver(k)!=40 || lista.Ver(j-1)!=41){
+                        lista.Insertar(41,j);
+                        lista.Insertar(40,k);
+                        i++;
+                    }
+                }
+            }
+        }
+        i++;
+	lista.Mostrar();
+	cout<<"Pulse una tecla para siguiente iteracion\n";
+    	cin.get();
+    	system("clear");
+    }
     lista.Mostrar();
+    i=0;
+    while(!lista.esUltimo(i)){ 
+	cout<<"--Completar Parentesis--\n";
+	cout<<"----Iteracion "<<i+1<<" ----\n";
+        if((lista.Ver(i)==43 || lista.Ver(i)==45)){
+            if(esNumero(lista.Ver(i+1)) && esNumero(lista.Ver(i-1))){
+                if(lista.Ver(i+2)!=41 || lista.Ver(i-2)!=40){
+                    if((i-2)<=0){lista.Insertar(40,0);i++;}
+                    else{lista.Insertar(40,i-1);i++;}
+                    if((i+2)>=lista.Longitud()-1){lista.InsertarDer(41);}
+                    else{lista.Insertar(41,i+2);}
+                }
+            }
+            else if(esNumero(lista.Ver(i-1)) && lista.Ver(i+1)==40){
+                if(lista.Ver(i-2)!=40){
+                    j=i;
+                    cont=0;
+                    while(j!=lista.Longitud()){
+                        if(lista.Ver(j)==40)cont++;
+                        if(lista.Ver(j)==41){
+                            if(cont==0) break;
+                            else cont--;
+                        }
+                        j++;
+                    }
+                    j++;
+                    if((i-2)<=0){lista.Insertar(40,0);i++;}
+                    else{lista.Insertar(40,i-1);i++;}
+                    if(j>=lista.Longitud()-1){lista.InsertarDer(41);}
+                    else{lista.Insertar(41,j);}
+                }
+            }
+            else if(esNumero(lista.Ver(i+1)) && lista.Ver(i-1)==41){
+                if((i+2)>=lista.Longitud() || lista.Ver(i+2)!=41){
+                    j=i;
+                    cont=0;
+                    while(j!=0){
+                        if(lista.Ver(j)==41)cont++;
+                        if(lista.Ver(j)==40){
+                            if(cont==0) break;
+                            else cont--;
+                        }
+                        j--;
+                    }
+                    if((i+2)>=lista.Longitud()-1){lista.InsertarDer(41);}
+                    else{lista.Insertar(41,i+2);}
+                    if(j<=0){lista.Insertar(40,0);i++;}
+                    else{lista.Insertar(40,j);i++;}
+                }
+            }
+            else if(lista.Ver(i+1)==40 && lista.Ver(i-1)==41){
+                  
+                j=i;
+                cont=0;
+                while(j!=lista.Longitud()){
+                    if(lista.Ver(j)==40)cont++;
+                    if(lista.Ver(j)==41){
+                          if(cont==0) break;
+                          else cont--;
+                    }
+                    j++;
+                }
+                j++;
+
+                k=i;
+                cont=0;
+                while(k!=0){
+                    if(lista.Ver(k)==41)cont++;
+                    if(lista.Ver(k)==40){
+                        if(cont==0) break;
+                        else cont--;
+                    }
+                    k--;
+                }
+      
+                if(j>=lista.Longitud() && k<=0){
+                    lista.InsertarDer(41);
+                    lista.InsertarIzq(40);
+                    i++;
+                }
+                else{
+                    if(j>=lista.Longitud())j=lista.Longitud();
+                    if(k<=0)k=0;
+                    if(lista.Ver(k)!=40 || lista.Ver(j-1)!=41){
+                        lista.Insertar(41,j);
+                        lista.Insertar(40,k);
+                        i++;
+                    }
+                }
+            }
+        }
+        i++;
+	lista.Mostrar();
+	cout<<"Pulse una tecla para siguiente iteracion\n";
+    	cin.get();
+    	system("clear");
+    }
+      lista.Mostrar();
 }
 
 Evaluacion::~Evaluacion()
