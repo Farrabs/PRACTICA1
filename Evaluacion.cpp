@@ -67,7 +67,7 @@ Lista Evaluacion:: expresionDesdeArbol(pNodoArbol nodo,pNodoArbol nodoB, Lista l
 Cola Evaluacion:: colaDesdeArbol(pNodoArbol nodo, Cola cola){
       if (nodo!= NULL){
             cola = colaDesdeArbol (nodo->izquierda, cola);
-            cola =colaDesdeArbol (nodo->derecha, cola);
+            cola = colaDesdeArbol (nodo->derecha, cola);
             cola.Encolar(nodo->valor);
       }
       return cola;
@@ -840,6 +840,9 @@ char* Evaluacion::completar_parentesis(char* expresion){
 }
 
 
+        /*SEPTIMO EJERCICIO*/
+/*___________________________________________________________*/
+
 Arbol Evaluacion:: arbolDesdePosfija(char * exp){
       Cola cola; Pila pila; PilaArbol pilaArbol; Lista lista; int n; int n1;int n2; Arbol tree; 
       expresion = exp;
@@ -864,20 +867,36 @@ Arbol Evaluacion:: arbolDesdePosfija(char * exp){
             else if(es_Oper(n) && pila.es_Vacia()){
                   Arbol treeAux;
                   treeAux.insertarNodo(n);
-                  pNodoArbol ar_der = pilaArbol.DesapilarArbol();
+                  pNodoArbol ar_der = pilaArbol.DesapilarArbol(); //(((9*2)-(2*3))-6) ===== (((2*5)-(1*2))/(11-9))
                   pNodoArbol ar_izq = pilaArbol.DesapilarArbol();
                   treeAux.insertarArbolDerecha(ar_der,treeAux.getRaiz());
                   treeAux.insertarArbolIzquierda(ar_izq,treeAux.getRaiz());
                   pilaArbol.ApilarArbol(treeAux.getRaiz());
                   
             }
+            else if ((es_Oper(n)) && (es_Oper(lista.Ver(i-2))) && (!pila.es_Vacia())){
+                        Arbol treeAux;
+                        treeAux.insertarNodo(n);
+                        n1 = pila.Desapilar();
+                        treeAux.insertarNodoDerecha(n1,treeAux.getRaiz());
+                        pNodoArbol ar_izq = pilaArbol.DesapilarArbol(); //((((9*2)-(2*3))-6)-2) ===== (((2*5)-(1*2))/(11-9))
+                        
+                        //treeAux.insertarArbolDerecha(ar_der,treeAux.getRaiz());
+                        treeAux.insertarArbolIzquierda(ar_izq,treeAux.getRaiz());
+                        pilaArbol.ApilarArbol(treeAux.getRaiz());
+                  }
+            
             else if(es_Oper(n)){
                   Arbol treeAux;
                   treeAux.insertarNodo(n);
                   n1 = pila.Desapilar();
-                  n2 = pila.Desapilar();
+                  
+                  if (!pila.es_Vacia()){
+                        n2 = pila.Desapilar();
+                        treeAux.insertarNodoIzquierda(n2,treeAux.getRaiz());
+                  }
                   treeAux.insertarNodoDerecha(n1,treeAux.getRaiz());
-                  treeAux.insertarNodoIzquierda(n2,treeAux.getRaiz());
+                  
                   treeAux.printTree(treeAux.getRaiz(),treeAux.getAlturaArbol(treeAux.getRaiz()));
                   pilaArbol.ApilarArbol(treeAux.getRaiz());
                   
@@ -898,10 +917,13 @@ Arbol Evaluacion:: arbolDesdePosfija(char * exp){
       tree.insertarNodo(aux->valor);
       tree.getRaiz()->derecha = aux->derecha;
       tree.getRaiz()->izquierda = aux->izquierda;
-      system("read -p 'Press Enter to continue...' var");
-      system("clear");
+      tree.printTree(tree.getRaiz(),tree.getAlturaArbol(tree.getRaiz()));
       return tree;     
 }
+
+
+        /*OCTAVO EJERCICIO*/
+/*___________________________________________________________*/
 
 int Evaluacion:: ResolverArbol(Arbol a){
       Lista lista;  int i,j,k,cont; Pila pilaNum; Cola cola;
@@ -1104,12 +1126,12 @@ int Evaluacion:: ResolverArbol(Arbol a){
             }
         }
         i++;
-	lista.Mostrar();
-	cout<<"\tPulse una tecla para siguiente iteracion\n";
+        system("clear");
+      }
+      lista.Mostrar();
+      cout<<"\tMOSTRAR COLA\n";
     	cin.get();
     	system("clear");
-      }
-      
       
       cola = colaDesdeArbol(a.getRaiz(),cola);
       int resultado = Evaluar_ExpresionPosfija(cola);
