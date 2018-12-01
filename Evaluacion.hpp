@@ -23,12 +23,16 @@ public:
       Cola ExpresionInfija_a_ExpresionPostfija (char* exp);
       int Evaluar_ExpresionPosfija (Cola c);
       bool es_Correcta(char* exp);
-	Lista Completar_Parentesis(char* exp);
+	char* completar_parentesis(char* expresion);
       Arbol arbolDesdePosfija(char * exp);
+      int ResolverArbol(Arbol a);
+      
       void SacarTamano(char* exp);
       bool es_Num(char c);
       bool es_Caracter(int v);
       bool es_Oper(int v);
+      bool esNumero(int n);
+      Lista expresionDesdeArbol(pNodoArbol a,Lista lista);
     
 };
 
