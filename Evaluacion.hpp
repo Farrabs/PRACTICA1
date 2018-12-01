@@ -32,7 +32,7 @@ public:
       bool es_Caracter(int v);
       bool es_Oper(int v);
       bool esNumero(int n);
-      Lista expresionDesdeArbol(pNodoArbol a,Lista lista);
+      Lista expresionDesdeArbol(pNodoArbol a,pNodoArbol b,Lista lista);
     
 };
 
