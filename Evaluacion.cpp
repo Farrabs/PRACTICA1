@@ -23,6 +23,16 @@ void Evaluacion:: SacarTamano(char* exp){
     tam_exp = i;
 }
 
+bool Evaluacion::esNumero(int n){
+    if(n==40)return false;
+    if(n==41)return false;
+    if(n==42)return false;
+    if(n==43)return false;
+    if(n==45)return false;
+    if(n==47)return false;
+    else return true;
+}
+
 bool Evaluacion:: es_Caracter(int v){
       return ((v == '(') || (v == ')') || (v=='*') || (v == '-') || (v == '+') || (v=='/'));
 }
@@ -34,6 +44,17 @@ bool Evaluacion:: es_Num (char c){
 bool Evaluacion:: es_Oper(int v){
       return ((v=='*') || (v == '-') || (v == '+') || (v=='/'));
 }
+
+Lista Evaluacion:: expresionDesdeArbol(pNodoArbol nodo, Lista lista){
+      if (nodo!= NULL){
+            lista = expresionDesdeArbol(nodo->izquierda, lista);
+            lista.InsertarDer(nodo->valor);
+            lista = expresionDesdeArbol(nodo->derecha ,lista);
+            
+      }
+      return lista;
+}
+
 
 
             /*PRIMER EJERCICIO*/
@@ -560,254 +581,247 @@ bool Evaluacion:: es_Correcta(char* exp){
 
 
         /*SEXTO EJERCICIO*/
-/*___________________________________________________________*/
+/*___________________________________________________________*/  //(2*5-1*2)/(11-9)
 
-Lista Evaluacion::Completar_Parentesis(char* exp){
-      Lista lista; Pila pila_num; Pila pila_car; int n1 =0; int n2 =0; int pos =0; int contador=0;
-      SacarTamano(expresion);
-      if (tam_exp == 0){
-            cout << "\n\tError. No has escrito nada. ";
-            return lista;
-      }
-	if (!es_Correcta(expresion)){
-		cout << "\n\tLa expresion introducida no es correcta y no se pueden realizar las acciones correspondientes." << endl;
-		return lista;
-	}
-      for (int i =0; i < tam_exp; i++){
-            pos = i;
-            if (exp[i] == '('){
-                  lista.InsertarDer(exp[i]);
+char* Evaluacion::completar_parentesis(char* expresion){
+    Lista lista; int i,j,k,cont; int a,b; size_t size; Pila pilaNum; bool anteriorNum;
+    
+    size = strlen(expresion);
+    for(i=0;i<size;i++){
+	cout<<"--Completar Parentesis--\n";
+	cout<<"----Iteracion "<<i+1<<" ----\n";
+        if(isdigit(expresion[i])){
+            if(anteriorNum){
+                a = pilaNum.Cima();
+                pilaNum.Desapilar();
+                b = a*10 + expresion[i]-48;
+                pilaNum.Apilar(b);
             }
-		
-		else if (exp[i] == ')'){
-			lista.InsertarDer(exp[i]);
-		}
-            
-            else if((exp[i] =='+') || (exp[i] == '-') || (exp[i] == '*') || (exp[i] == '/')){
-                  lista.InsertarDer(exp[i]);
-                  pila_car.Apilar(exp[i]);
+            else{
+            pilaNum.Apilar(expresion[i]-48);
             }
-            else if(es_Num(exp[i])){
-                  if (i==0){
-                        int n = exp[i] -48;
-                        pila_num.Apilar(n);
-                  }
-                  else{
-                        if (es_Num(exp[i-1])){
-                              n1 = pila_num.Cima();
-                              n2 = n1*10 + exp[i] - 48;
-                              pila_num.Desapilar();
-                              pila_num.Apilar(n2);
+            anteriorNum = true;
+        }
+        else{
+            if(!pilaNum.es_Vacia()){
+                lista.InsertarDer(pilaNum.Cima());  
+                pilaNum.Desapilar();
+            }
+            lista.InsertarDer(expresion[i]);
+            anteriorNum = false;
+        }
+    }
+    i=0;
+    if(lista.Ver(0)!=40){
+        lista.InsertarDer(41);
+        lista.InsertarIzq(40);
+    }
+    while(!lista.esUltimo(i)){ 
+	cout<<"--Completar Parentesis--\n";
+	cout<<"----Iteracion "<<i+1<<" ----\n";
+        if((lista.Ver(i)==42 || lista.Ver(i)==47)){
+            if(esNumero(lista.Ver(i+1)) && esNumero(lista.Ver(i-1))){
+                if(lista.Ver(i+2)!=41 || lista.Ver(i-2)!=40){
+                    cout<<"1"<<"\n";
+                    if((i-2)<=0){lista.Insertar(40,0);i++;}
+                    else{lista.Insertar(40,i-1);i++;}
+                    if((i+2)>=lista.Longitud()-1){lista.InsertarDer(41);}
+                    else{lista.Insertar(41,i+2);}
+                }
+            }
+            else if(esNumero(lista.Ver(i-1)) && lista.Ver(i+1)==40){
+                if(lista.Ver(i-2)!=40){
+                    j=i;
+                    cont=0;
+                    while(j!=lista.Longitud()){
+                        if(lista.Ver(j)==40)cont++;
+                        if(lista.Ver(j)==41){
+                            if(cont==0) break;
+                            else cont--;
                         }
-
-                        else{
-                              int n = exp[i] -48;
-                              pila_num.Apilar(n);
-                        }
-                  }
+                        j++;
+                    }
+                    j++;
+                    if((i-2)<=0){lista.Insertar(40,0);i++;}
+                    else{lista.Insertar(40,i-1);i++;}
+                    if(j>=lista.Longitud()-1){lista.InsertarDer(41);}
+                    else{lista.Insertar(41,j);}
+                }
             }
-            if ((!es_Num(exp[i+1])) &&(!pila_num.es_Vacia())){
-                  lista.InsertarDer(pila_num.Cima());
-                  pila_num.Desapilar();
-            }
-            
-            
-      }
-      if ((!es_Caracter(lista.Ver(0))) && (lista.Ver(2) == '(') && ((lista.Ver(1) == '*') || (lista.Ver(1) == '/'))){
-            pos=3; contador =1;
-            while(contador !=0){
-                  if (lista.Ver(pos) == ')'){
-                        contador-=1;
-                  }
-                  else if(lista.Ver(pos) == '('){
-                        contador+=1;
-                  }
-                  pos+=1;
-            }
-            lista.Insertar(')',pos);
-            lista.Insertar('(',0);
-      }
-      
-      if((!es_Caracter(lista.Ver(lista.Longitud()-1))) && (es_Oper(lista.Ver(lista.Longitud()-2))) && (lista.Ver(lista.Longitud()-3) == ')')){
-            lista.InsertarDer(')');
-            lista.InsertarIzq('(');
-      }
-      //BUCLE PARA LAS * Y /
-      for (int i =0;i < lista.Longitud(); i++){
-            pos =i;
-            if ((lista.Ver(i) == '*') || (lista.Ver(i) == '/')){
-                  if ((!es_Caracter(lista.Ver(i-1))) && (!es_Caracter(lista.Ver(i+1)))) {
-                        if ((lista.Ver(i-2) == '(') && (lista.Ver(i+2) == ')')){
-                              
+            else if(esNumero(lista.Ver(i+1)) && lista.Ver(i-1)==41){   
+                int pos;
+                if((i+2)>=lista.Longitud()-1)pos=lista.Longitud()-1;
+                else pos = i+2;
+                if(lista.Ver(pos)!=41){
+                    j=i;
+                    cont=0;
+                    while(j!=0){
+                        if(lista.Ver(j)==41)cont++;
+                        if(lista.Ver(j)==40){
+                            if(cont==0) break;
+                            else cont--;
                         }
-                        else{
-                              lista.Insertar('(',i-1);
-                              lista.Insertar(')',i+3);
-                              i+=1;
-                        }
-                  }
+                        j--;
+                    }
+                    if((i+2)>=lista.Longitud()-1){lista.InsertarDer(41);}
+                    else{lista.Insertar(41,i+2);}
+                    if(j<=0){lista.Insertar(40,0);i++;}
+                    else{lista.Insertar(40,j);i++;}
+                }
+            }
+            else if(lista.Ver(i+1)==40 && lista.Ver(i-1)==41){
                   
-                  else if((lista.Ver(i-1) == ')') && (lista.Ver(i+1) == '(')){
-                        contador =0;
-                        while ((!((lista.Ver(pos) == '(') && (es_Oper(lista.Ver(pos-1))))) && (!((lista.Ver(pos) == '(') && (pos ==0)))){
-                              if (lista.Ver(pos-1) == ')'){
-                                    contador+=1;
-                              }
-                              else if(lista.Ver(pos-1) == '('){
-                                    contador-=1;
-                              }
-                              pos-=1;
-                        }
-                        
-                        if(contador < 0){
-                              
-                        }
-                        else{
-                              contador=1;
-                              while(contador !=0){
-                                    if (lista.Ver(pos-2) == ')'){
-                                          contador+=1;
-                                    }
-                                    else if(lista.Ver(pos-2) == '('){
-                                          contador-=1;
-                                    }
-                                    pos-=1;
-                              }
-                              lista.Insertar('(',pos+1);
-                              pos =i+2; contador =1; 
-                              while((contador !=0)){
-                                    if(lista.Ver(pos+1) == '('){
-                                          contador+=1;
-                                    }
-                                    if (lista.Ver(pos+1) == ')'){
-                                          contador-=1;
-                                    }
-                                    pos+=1;
-                              }
-                              lista.Insertar(')',pos+1);
-                              i+=1;
-                        }
-                  }
-                  else if((lista.Ver(i-1) == ')') && (!es_Caracter(lista.Ver(i+1)))){
-                        if (lista.Ver(i+2) == ')'){
-                              
-                        }
-                        else{ 
-                              contador=1;
-                              while(contador !=0 && pos >0){
-                                    if (lista.Ver(pos-2) == ')'){
-                                          contador+=1;
-                                    }
-                                    else if(lista.Ver(pos-2) == '('){
-                                          contador-=1;
-                                    }
-                                    pos-=1;
-                              }
-                              lista.Insertar('(',pos);
-                              lista.Insertar(')',i+2);
-                              i+=1;
-                        }
-                  }
-            }
-      }
-      
-      
-      
-      //BUCLE PARA LAS + Y -
-      if ((!es_Caracter(lista.Ver(0))) && (lista.Ver(2) == '(') && ((lista.Ver(1) == '+') || (lista.Ver(1) == '-'))){
-            pos=3; contador =1;
-            while(contador !=0){
-                  if (lista.Ver(pos) == ')'){
-                        contador-=1;
-                  }
-                  else if(lista.Ver(pos) == '('){
-                        contador+=1;
-                  }
-                  pos+=1;
-            }
-            lista.Insertar(')',pos);
-            lista.Insertar('(',0);
-      }
-      for (int i =0;i < lista.Longitud(); i++){
-            pos =i;
-            if ((lista.Ver(i) == '+') || (lista.Ver(i) == '-')){
-                  if ((!es_Caracter(lista.Ver(i-1))) && (!es_Caracter(lista.Ver(i+1)))) {
-                        if ((lista.Ver(i-2) == '(') && (lista.Ver(i+2) == ')')){
-                              
-                        }
-                        else{
-                              lista.Insertar('(',i-1);
-                              lista.Insertar(')',i+3);
-                              i+=1;
-                        }
-                  }
-                  else if((lista.Ver(i-1) == ')') && (lista.Ver(i+1) == '(')){
-                        while ((!((lista.Ver(pos) == '(') && (es_Oper(lista.Ver(pos-1))))) && (!((lista.Ver(pos) == '(') && (pos ==0)))){
-                              if (lista.Ver(pos-1) == ')'){
-                                          contador+=1;
-                                    }
-                              else if(lista.Ver(pos-1) == '('){
-                                    contador-=1;
-                              }
-                              pos-=1;
-                        }
-                        if(contador < 0){
-                              
-                        }
-                        else{
-                              contador=1;
-                              while(contador !=0){
-                                    if (lista.Ver(pos-2) == ')'){
-                                          contador+=1;
-                                    }
-                                    else if(lista.Ver(pos-2) == '('){
-                                          contador-=1;
-                                    }
-                                    pos-=1;
-                              }
-                              lista.Insertar('(',pos+1);
-                              pos =i+2; contador =1;
-                              while(contador !=0 && pos<lista.Longitud()-1){
-                                    if(lista.Ver(pos) == '('){
-                                          contador+=1;
-                                    }
-                                    if (lista.Ver(pos) == ')'){
-                                          contador-=1;
-                                    }
-                                    pos+=1;
-                              }
-                              lista.Insertar(')',pos);
-                              i+=1;
-                        }
-                  }
-                  else if((lista.Ver(i-1) == ')') && (!es_Caracter(lista.Ver(i+1)))){
-                        if (lista.Ver(i+2) == ')'){
-                              
-                        }
-                        else{
-                              contador=1;
-                              while(contador !=0){
-                                    if (lista.Ver(pos-2) == ')'){
-                                          contador+=1;
-                                    }
-                                    else if(lista.Ver(pos-2) == '('){
-                                          contador-=1;
-                                    }
-                                    pos-=1;
-                              }
-                              lista.Insertar('(',pos);
-                              lista.Insertar(')',i+3);
-                              i+=1;
-                        }
-                  }
-            }
-      }
+                j=i;
+                cont=0;
+                while(j!=lista.Longitud()){
+                    if(lista.Ver(j)==40)cont++;
+                    if(lista.Ver(j)==41){
+                          if(cont==0) break;
+                          else cont--;
+                    }
+                    j++;
+                }
+                j++;
 
-      lista.Mostrar();
-      system("pause");
-      system("cls");
-      return lista;
+                k=i;
+                cont=0;
+                while(k!=0){
+                    if(lista.Ver(k)==41)cont++;
+                    if(lista.Ver(k)==40){
+                        if(cont==0) break;
+                        else cont--;
+                    }
+                    k--;
+                }
+                if(j>=lista.Longitud() && k<=0){
+                    lista.InsertarDer(41);
+                    lista.InsertarIzq(40);
+                    i++;
+                }
+                else{
+                    if(j>=lista.Longitud())j=lista.Longitud();
+                    if(k<=0)k=0;
+                    if(lista.Ver(k)!=40 || lista.Ver(j-1)!=41){
+                        lista.Insertar(41,j);
+                        lista.Insertar(40,k);
+                        i++;
+                    }
+                }
+            }
+        }
+        i++;
+	lista.Mostrar();
+	cout<<"Pulse una tecla para siguiente iteracion\n";
+    	cin.get();
+    	system("clear");
+    }
+    lista.Mostrar();
+    i=0;
+    while(!lista.esUltimo(i)){ 
+	cout<<"--Completar Parentesis--\n";
+	cout<<"----Iteracion "<<i+1<<" ----\n";
+        if((lista.Ver(i)==43 || lista.Ver(i)==45)){
+            if(esNumero(lista.Ver(i+1)) && esNumero(lista.Ver(i-1))){
+                if(lista.Ver(i+2)!=41 || lista.Ver(i-2)!=40){
+                    if((i-2)<=0){lista.Insertar(40,0);i++;}
+                    else{lista.Insertar(40,i-1);i++;}
+                    if((i+2)>=lista.Longitud()-1){lista.InsertarDer(41);}
+                    else{lista.Insertar(41,i+2);}
+                }
+            }
+            else if(esNumero(lista.Ver(i-1)) && lista.Ver(i+1)==40){
+                if(lista.Ver(i-2)!=40){
+                    j=i;
+                    cont=0;
+                    while(j!=lista.Longitud()){
+                        if(lista.Ver(j)==40)cont++;
+                        if(lista.Ver(j)==41){
+                            if(cont==0) break;
+                            else cont--;
+                        }
+                        j++;
+                    }
+                    j++;
+                    if((i-2)<=0){lista.Insertar(40,0);i++;}
+                    else{lista.Insertar(40,i-1);i++;}
+                    if(j>=lista.Longitud()-1){lista.InsertarDer(41);}
+                    else{lista.Insertar(41,j);}
+                }
+            }
+            else if(esNumero(lista.Ver(i+1)) && lista.Ver(i-1)==41){
+                if((i+2)>=lista.Longitud() || lista.Ver(i+2)!=41){
+                    j=i;
+                    cont=0;
+                    while(j!=0){
+                        if(lista.Ver(j)==41)cont++;
+                        if(lista.Ver(j)==40){
+                            if(cont==0) break;
+                            else cont--;
+                        }
+                        j--;
+                    }
+                    if((i+2)>=lista.Longitud()-1){lista.InsertarDer(41);}
+                    else{lista.Insertar(41,i+2);}
+                    if(j<=0){lista.Insertar(40,0);i++;}
+                    else{lista.Insertar(40,j);i++;}
+                }
+            }
+            else if(lista.Ver(i+1)==40 && lista.Ver(i-1)==41){
+                  
+                j=i;
+                cont=0;
+                while(j!=lista.Longitud()){
+                    if(lista.Ver(j)==40)cont++;
+                    if(lista.Ver(j)==41){
+                          if(cont==0) break;
+                          else cont--;
+                    }
+                    j++;
+                }
+                j++;
+
+                k=i;
+                cont=0;
+                while(k!=0){
+                    if(lista.Ver(k)==41)cont++;
+                    if(lista.Ver(k)==40){
+                        if(cont==0) break;
+                        else cont--;
+                    }
+                    k--;
+                }
+      
+                if(j>=lista.Longitud() && k<=0){
+                    lista.InsertarDer(41);
+                    lista.InsertarIzq(40);
+                    i++;
+                }
+                else{
+                    if(j>=lista.Longitud())j=lista.Longitud();
+                    if(k<=0)k=0;
+                    if(lista.Ver(k)!=40 || lista.Ver(j-1)!=41){
+                        lista.Insertar(41,j);
+                        lista.Insertar(40,k);
+                        i++;
+                    }
+                }
+            }
+        }
+        i++;
+	lista.Mostrar();
+	cout<<"Pulse una tecla para siguiente iteracion\n";
+    	cin.get();
+    	system("clear");
+    }
+    char expresionCompleta[lista.Longitud()];
+    for(i=0;i<lista.Longitud();i++){ 
+            expresionCompleta[i] = lista.Ver(i);
+    }
+    cout<<expresionCompleta;
+    lista.Mostrar();
+    return expresionCompleta;
 }
+
 
 Arbol Evaluacion:: arbolDesdePosfija(char * exp){
       Cola cola; Pila pila; PilaArbol pilaArbol; Lista lista; int n; int n1;int n2; Arbol tree; 
@@ -866,13 +880,16 @@ Arbol Evaluacion:: arbolDesdePosfija(char * exp){
       tree.insertarNodo(aux->valor);
       tree.getRaiz()->derecha = aux->derecha;
       tree.getRaiz()->izquierda = aux->izquierda;
-      //tree.getRaiz() = pilaArbol.Cima();
-      /*tree.getRaiz()->izquierda = pilaArbol.Cima()->izquierda;
-      tree.getRaiz()->valor = pilaArbol.Cima()->valor;*/
       system("read -p 'Press Enter to continue... locooooo' var");
       system("clear");
-      return tree;
-      
+      return tree;     
+}
+
+int Evaluacion:: ResolverArbol(Arbol a){
+      Lista lista;  int i,j,k,cont; Pila pilaNum;
+      lista = expresionDesdeArbol(a.getRaiz(), lista);
+    
+    lista.Mostrar();
 }
 
 Evaluacion::~Evaluacion()
