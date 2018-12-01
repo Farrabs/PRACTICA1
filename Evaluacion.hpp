@@ -33,6 +33,7 @@ public:
       bool es_Oper(int v);
       bool esNumero(int n);
       Lista expresionDesdeArbol(pNodoArbol a,pNodoArbol b,Lista lista);
+      Cola colaDesdeArbol(pNodoArbol nodo, Cola cola);
     
 };
 
