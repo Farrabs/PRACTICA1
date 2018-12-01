@@ -151,8 +151,6 @@ int Evaluacion:: Evaluar_ExpresionInfija(char* exp){
 int Evaluacion:: Evaluar_ExpresionInfija_2(char* exp){
       Pila pila_car; Pila pila_num; Pila pila_aux; Pila pila_CarAux;
       int n1; int n2; int res; 
-            
-      expresion = exp;
       SacarTamano(expresion);
       if (tam_exp == 0){
             cout << "\n\tError. No has escrito nada. ";
@@ -317,7 +315,6 @@ int Evaluacion:: Evaluar_ExpresionInfija_2(char* exp){
 
 Cola Evaluacion:: ExpresionInfija_a_ExpresionPostfija (char* exp){
       Pila pila_car; Pila pila_num; Cola cola_exp; int n1; int n2;
-      expresion = exp;
       SacarTamano(expresion);
       if (tam_exp == 0){
             cout << "\n\tError. No has escrito nada. ";
@@ -865,11 +862,15 @@ Arbol Evaluacion:: arbolDesdePosfija(char * exp){
             system("read -p 'Press Enter to continue...' var");
             system("clear");
       }
-
-      tree.printTree(pilaArbol.Cima(),tree.getAlturaArbol(pilaArbol.Cima()));
-      tree.getRaiz()->derecha = pilaArbol.Cima()->derecha;
-      tree.getRaiz()->izquierda = pilaArbol.Cima()->izquierda;
-      tree.getRaiz()->valor = pilaArbol.Cima()->valor;
+      pNodoArbol aux = pilaArbol.Cima();
+      tree.insertarNodo(aux->valor);
+      tree.getRaiz()->derecha = aux->derecha;
+      tree.getRaiz()->izquierda = aux->izquierda;
+      //tree.getRaiz() = pilaArbol.Cima();
+      /*tree.getRaiz()->izquierda = pilaArbol.Cima()->izquierda;
+      tree.getRaiz()->valor = pilaArbol.Cima()->valor;*/
+      system("read -p 'Press Enter to continue... locooooo' var");
+      system("clear");
       return tree;
       
 }
