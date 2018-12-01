@@ -61,10 +61,16 @@ Lista Evaluacion:: expresionDesdeArbol(pNodoArbol nodo,pNodoArbol nodoB, Lista l
                   lista.InsertarDer(')');
             }
       }
-      
-           
-      
       return lista;
+}
+
+Cola Evaluacion:: colaDesdeArbol(pNodoArbol nodo, Cola cola){
+      if (nodo!= NULL){
+            cola = colaDesdeArbol (nodo->izquierda, cola);
+            cola =colaDesdeArbol (nodo->derecha, cola);
+            cola.Encolar(nodo->valor);
+      }
+      return cola;
 }
 
 
@@ -597,7 +603,6 @@ bool Evaluacion:: es_Correcta(char* exp){
 
 char* Evaluacion::completar_parentesis(char* expresion){
     Lista lista; int i,j,k,cont; int a,b; size_t size; Pila pilaNum; bool anteriorNum;
-    
     size = strlen(expresion);
     for(i=0;i<size;i++){
 	cout<<"--Completar Parentesis--\n";
@@ -885,6 +890,7 @@ Arbol Evaluacion:: arbolDesdePosfija(char * exp){
             
             cout << "\n\n\n";
             
+            
             system("read -p 'Press Enter to continue...' var");
             system("clear");
       }
@@ -892,13 +898,13 @@ Arbol Evaluacion:: arbolDesdePosfija(char * exp){
       tree.insertarNodo(aux->valor);
       tree.getRaiz()->derecha = aux->derecha;
       tree.getRaiz()->izquierda = aux->izquierda;
-      system("read -p 'Press Enter to continue... locooooo' var");
+      system("read -p 'Press Enter to continue...' var");
       system("clear");
       return tree;     
 }
 
 int Evaluacion:: ResolverArbol(Arbol a){
-      Lista lista;  int i,j,k,cont; Pila pilaNum;
+      Lista lista;  int i,j,k,cont; Pila pilaNum; Cola cola;
       lista = expresionDesdeArbol(a.getRaiz(),a.getRaiz(), lista);
 
       i=0;
@@ -907,8 +913,8 @@ int Evaluacion:: ResolverArbol(Arbol a){
         lista.InsertarIzq(40);
       }
       while(!lista.esUltimo(i)){ 
-	cout<<"--Completar Parentesis--\n";
-	cout<<"----Iteracion "<<i+1<<" ----\n";
+	cout<<"\t--Completar Parentesis--\n";
+	cout<<"\t----Iteracion "<<i+1<<" ----\n";
         if((lista.Ver(i)==42 || lista.Ver(i)==47)){
             if(esNumero(lista.Ver(i+1)) && esNumero(lista.Ver(i-1))){
                 if(lista.Ver(i+2)!=41 || lista.Ver(i-2)!=40){
@@ -1001,15 +1007,15 @@ int Evaluacion:: ResolverArbol(Arbol a){
         }
         i++;
 	lista.Mostrar();
-	cout<<"Pulse una tecla para siguiente iteracion\n";
+	cout<<"\tPulse una tecla para siguiente iteracion\n";
     	cin.get();
     	system("clear");
     }
     lista.Mostrar();
     i=0;
     while(!lista.esUltimo(i)){ 
-	cout<<"--Completar Parentesis--\n";
-	cout<<"----Iteracion "<<i+1<<" ----\n";
+	cout<<"\t--Completar Parentesis--\n";
+	cout<<"\t----Iteracion "<<i+1<<" ----\n";
         if((lista.Ver(i)==43 || lista.Ver(i)==45)){
             if(esNumero(lista.Ver(i+1)) && esNumero(lista.Ver(i-1))){
                 if(lista.Ver(i+2)!=41 || lista.Ver(i-2)!=40){
@@ -1099,11 +1105,19 @@ int Evaluacion:: ResolverArbol(Arbol a){
         }
         i++;
 	lista.Mostrar();
-	cout<<"Pulse una tecla para siguiente iteracion\n";
+	cout<<"\tPulse una tecla para siguiente iteracion\n";
     	cin.get();
     	system("clear");
-    }
+      }
+      
+      
+      cola = colaDesdeArbol(a.getRaiz(),cola);
+      int resultado = Evaluar_ExpresionPosfija(cola);
+      cout << "\tLa expresion final es ==> " ;
       lista.Mostrar();
+      cout << "\t\nResultado: " << resultado << endl;
+      return resultado;
+      
 }
 
 Evaluacion::~Evaluacion()
