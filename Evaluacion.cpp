@@ -874,18 +874,6 @@ Arbol Evaluacion:: arbolDesdePosfija(char * exp){
                   pilaArbol.ApilarArbol(treeAux.getRaiz());
                   
             }
-            else if ((es_Oper(n)) && (es_Oper(lista.Ver(i-2))) && (!pila.es_Vacia())){
-                        Arbol treeAux;
-                        treeAux.insertarNodo(n);
-                        n1 = pila.Desapilar();
-                        treeAux.insertarNodoDerecha(n1,treeAux.getRaiz());
-                        pNodoArbol ar_izq = pilaArbol.DesapilarArbol(); //((((9*2)-(2*3))-6)-2) ===== (((2*5)-(1*2))/(11-9))
-                        
-                        //treeAux.insertarArbolDerecha(ar_der,treeAux.getRaiz());
-                        treeAux.insertarArbolIzquierda(ar_izq,treeAux.getRaiz());
-                        pilaArbol.ApilarArbol(treeAux.getRaiz());
-                  }
-            
             else if(es_Oper(n)){
                   Arbol treeAux;
                   treeAux.insertarNodo(n);
@@ -900,7 +888,6 @@ Arbol Evaluacion:: arbolDesdePosfija(char * exp){
                   treeAux.printTree(treeAux.getRaiz(),treeAux.getAlturaArbol(treeAux.getRaiz()));
                   pilaArbol.ApilarArbol(treeAux.getRaiz());
                   
-                  
             }
             if (!pilaArbol.es_Vacia()){
                   tree.printTree(pilaArbol.Cima(),tree.getAlturaArbol(pilaArbol.Cima()));
@@ -913,7 +900,12 @@ Arbol Evaluacion:: arbolDesdePosfija(char * exp){
             system("read -p 'Press Enter to continue...' var");
             system("clear");
       }
-      pNodoArbol aux = pilaArbol.Cima();
+      
+      pNodoArbol aux = pilaArbol.DesapilarArbol();
+      if (!pilaArbol.es_Vacia()){
+            pNodoArbol aux2 = pilaArbol.DesapilarArbol();
+            aux->izquierda = aux2;
+      }
       tree.insertarNodo(aux->valor);
       tree.getRaiz()->derecha = aux->derecha;
       tree.getRaiz()->izquierda = aux->izquierda;
