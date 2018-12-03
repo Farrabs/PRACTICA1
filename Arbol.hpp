@@ -19,6 +19,7 @@ public:
       void Mostrar(int &d);
       bool buscarNodo (int v);
       void insertarNodo (int v);
+      void insertarNodoExpresion(int v, char*exp);
       void insertarNodoIzquierda(int v, NodoArbol *nodo);
       void insertarNodoDerecha(int v, NodoArbol *nodo);
       void insertarArbolIzquierda(pNodoArbol a, pNodoArbol nodo);
@@ -35,10 +36,12 @@ public:
       int getValorRaiz();
       bool esRaiz(pNodoArbol nodo);
       void inOrden(NodoArbol *nodo); 
+      void inOrdenExp(pNodoArbol nodo);
       void preOrden(NodoArbol *nodo);
       void postOrden(NodoArbol *nodo);
       void printTree(NodoArbol* p, int indent);
       void printValor(NodoArbol *p);
+      void printExpresion(NodoArbol *nodo);
 
 };
 
