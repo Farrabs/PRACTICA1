@@ -28,7 +28,6 @@ public:
       bool esArbolVacio();
       bool esNodoVacio(pNodoArbol nodo);
       bool esHoja(pNodoArbol nodo);
-      int numeroNodos();
       int getAlturaArbol(NodoArbol *nodo);
       int getValorActual();
       pNodoArbol getRaiz();
@@ -41,7 +40,8 @@ public:
       void postOrden(NodoArbol *nodo);
       void printTree(NodoArbol* p, int indent);
       void printValor(NodoArbol *p);
-      void printExpresion(NodoArbol *nodo);
+      int NumeroHojas(pNodoArbol nodo);
+      int NumeroNodos(pNodoArbol nodo);
 
 };
 
