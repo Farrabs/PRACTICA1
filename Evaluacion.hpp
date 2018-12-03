@@ -26,6 +26,9 @@ public:
 	char* completar_parentesis(char* expresion);
       Arbol arbolDesdePosfija(char * exp);
       int ResolverArbol(Arbol a);
+      Arbol arbolDeExpresiones();
+      void MostrarExpresionesArbol(Arbol tree);
+
       
       void SacarTamano(char* exp);
       bool es_Num(char c);
