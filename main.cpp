@@ -4,31 +4,8 @@
 
 int main(int argc, char** argv)
 {
-      Arbol a;
-      a.insertarNodo(18);
-      a.insertarNodo(9);
-      a.insertarNodo(6);
-      a.insertarNodo(20);
-      a.insertarNodo(1);
-      a.insertarNodo(10);
-      a.insertarNodo(81);
-      a.insertarNodo(7);
-      a.insertarNodo(16);
-      a.insertarNodo('*');
-      a.borrarNodo(18);
-      a.borrarNodo(20);
-      
-      //a.insertarNodoDerecha(5,a.getRaiz()->derecha->derecha);
 
-      
-      
-      a.inOrden(a.getRaiz());
-      cout << "\nRaiz " << a.getValorRaiz() << endl;
-      cout << "¿Es raiz? ==> " << a.esRaiz(a.getRaiz()) << endl;
-      cout << "¿Es vacio? ==> " << a.esArbolVacio() << endl;;
-      cout << "Altura ==> " << a.getAlturaArbol(a.getRaiz()) << endl;
-      a.printTree(a.getRaiz(), a.getAlturaArbol(a.getRaiz()));
-      Evaluacion e1;/*char expresion[40] = ""; Cola c; Lista list; char opcion;  bool res; char expresion[40] = "";
+      Arbol a ;Evaluacion e1;char expresion[40] = ""; Cola c; char opcion;  bool res; char* exp_fin;
       do{
             cout << "\n\t------------------------------------------------\n";
             cout << "\t                       MENU                       \n";
@@ -39,22 +16,25 @@ int main(int argc, char** argv)
             cout << "\tC. Expresion infija a expresion postfija.\n";
             cout << "\tD. Evaluar una expresion posfija.\n";
             cout << "\tE. Evaluar si una expresion infija es correcta.\n";
-            cout << "\tF. Completar parentesis de una expresion infija.\n\n";
-
+            cout << "\tF. Completar parentesis de una expresion infija.\n";
+            cout << "\tG. Crear un arbol a partir de una expresion postfija.\n";
+            cout << "\tH. Completar la expresion del arbol con parentesis y mostrar su resultado. \n";
+            cout << "\tI. Crear un arbol de expresiones ordenado segun su resultado.\n";
+            cout << "\tJ. Mostrar el arbol del apartado anterior en inorden. \n\n";
             cout << "\tS.Salir del programa.\n\n";
             cout << "\tIndique la opcion deseada: ";
             cin >> opcion;
             system("cls");
             switch(opcion){  
                   case 'A':
-                        cout << "\n\tIntroduzca una expresion (sin espacios): ";  //EXPRESION ((2*5)-(6*1))/(11-9)
+                        cout << "\n\tIntroduzca una expresion (sin espacios): ";  //EXPRESION (((2*5)-(6*1))/(11-9))
                         cin >> expresion;
                         e1.expresion = expresion;
                         cout << "\n\tExpresion: " << e1.expresion << endl;
                         cout << "\n\tEl resultado es: " << e1.Evaluar_ExpresionInfija(e1.expresion)<< endl;
                         break;
                   case 'B':
-                        cout << "\n\tIntroduzca una expresion (sin espacios y con parentesis al principio y al final) : ";  // EXPRESION (2*5-6*1)/(11-9)
+                        cout << "\n\tIntroduzca una expresion (sin espacios y con parentesis al principio y al final) : ";  // (2*5-6*1)/(11-9)
                         cin >> expresion;
                         e1.expresion = expresion;
                         cout << "\n\tExpresion: " << e1.expresion << endl;
@@ -65,7 +45,7 @@ int main(int argc, char** argv)
                         cin >> expresion;
                         e1.expresion = expresion;
                         cout << "\n\tExpresion: " << e1.expresion << endl;
-                        Cola c = e1.ExpresionInfija_a_ExpresionPostfija(e1.expresion);
+                        c = e1.ExpresionInfija_a_ExpresionPostfija(e1.expresion);
                         break;
                   case 'D':
                         cout << "\n\tIntroduzca una expresion (sin espacios): ";
@@ -93,21 +73,41 @@ int main(int argc, char** argv)
                         cin >> expresion;
                         e1.expresion = expresion;
                         cout << "\n\tExpresion: " << e1.expresion << endl;
-                        list = e1.Completar_Parentesis(e1.expresion);
-                        list.Mostrar();
+                        exp_fin = e1.completar_parentesis(e1.expresion);
+                        break;
+                  case 'G':                                                         //(((9*2)-(2*3))-6) == (((2*5)-(1*2))/(11-9)) == (6-((9*2)-(2*3)))
+                        cout << "\n\tIntroduzca una expresion (sin espacios): ";    
+                        cin >> expresion;
+                        e1.expresion = expresion;
+                        cout << "\n\tExpresion: " << e1.expresion << endl;
+                        a = e1.arbolDesdePosfija(e1.expresion);
+                        a.printTree(a.getRaiz(),a.getAlturaArbol(a.getRaiz()));
+                        break;
+                  case 'H':
+                        cout << "\n\tIntroduzca una expresion (sin espacios): ";    
+                        cin >> expresion;
+                        e1.expresion = expresion;
+                        cout << "\n\tExpresion: " << e1.expresion << endl;
+                        a = e1.arbolDesdePosfija(e1.expresion);
+                        e1.ResolverArbol(a);
+                        break;
+                  case 'I':
+                        a = e1.arbolDeExpresiones();
+                        a.printTree(a.getRaiz(),a.getAlturaArbol(a.getRaiz()));
+                        break;
+                  case 'J':
+                        e1.MostrarExpresionesArbol(a);
                         break;
                   case 'S':
                         cout << "\n\tSaliendo del programa..." << endl;
                         break;
                   default:
                         cout << "\n\tOpcion incorrecta!" << endl;
+                        break;
                   }
             }while(opcion != 'S');
             
             system("pause");
-            system("cls");*/
-            
-            
-            e1.arbolDesdePosfija("((((2*5)-(1*2))/((11-9)-(6-5))");
+            system("cls");
 return 0;
 }
