@@ -28,7 +28,7 @@ public:
       int ResolverArbol(Arbol a);
       Arbol arbolDeExpresiones();
       void MostrarExpresionesArbol(Arbol tree);
-
+      void MostrarInformacionArbol(char* exp);;
       
       void SacarTamano(char* exp);
       bool es_Num(char c);
