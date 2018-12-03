@@ -544,7 +544,6 @@ bool Evaluacion:: es_Correcta(char* exp){
             }   
       }
       
-      lista.Mostrar();
       if (lista.Ver(0)== '('){
             if (lista.Ver(lista.Longitud()-1) != ')'){ return false;} 
       }
@@ -864,13 +863,19 @@ Arbol Evaluacion:: arbolDesdePosfija(char * exp){
             if (!es_Oper(n)){
                   pila.Apilar(n);
             }
-            else if(es_Oper(n) && pila.es_Vacia()){
+            else if(es_Oper(n) && (es_Oper(lista.Ver(i-1)))){
                   Arbol treeAux;
                   treeAux.insertarNodo(n);
-                  pNodoArbol ar_der = pilaArbol.DesapilarArbol(); //(((9*2)-(2*3))-6) ===== (((2*5)-(1*2))/(11-9))
-                  pNodoArbol ar_izq = pilaArbol.DesapilarArbol();
+                  pNodoArbol ar_der = pilaArbol.DesapilarArbol(); //(((9*2)-(2*3))-6) ===== (((2*5)-(1*2))/(11-9)) == (6-((9*2)-(2*3)))
                   treeAux.insertarArbolDerecha(ar_der,treeAux.getRaiz());
-                  treeAux.insertarArbolIzquierda(ar_izq,treeAux.getRaiz());
+                  if (!pilaArbol.es_Vacia()){
+                        pNodoArbol ar_izq = pilaArbol.DesapilarArbol();
+                        treeAux.insertarArbolIzquierda(ar_izq,treeAux.getRaiz());
+                  }
+                  else{
+                        n1 = pila.Desapilar();
+                        treeAux.insertarNodoIzquierda(n1,treeAux.getRaiz());
+                  }
                   pilaArbol.ApilarArbol(treeAux.getRaiz());
                   
             }
@@ -926,6 +931,7 @@ int Evaluacion:: ResolverArbol(Arbol a){
         lista.InsertarDer(41);
         lista.InsertarIzq(40);
       }
+      
       while(!lista.esUltimo(i)){ 
 	cout<<"\t--Completar Parentesis--\n";
 	cout<<"\t----Iteracion "<<i+1<<" ----\n";
@@ -1133,6 +1139,28 @@ int Evaluacion:: ResolverArbol(Arbol a){
       return resultado;
       
 }
+
+Arbol Evaluacion:: arbolDeExpresiones(){
+      Arbol tree;
+      char Nombres[7][30] = {{"((2*5)-(1*2))"},{"((2*5)+1)"},{"((2*5)-(1*4))"},{"(((2*5)-(1*2))/(11-9))"},{"(8*4)"},{"((6*4)-(7*3))"},{"((5*4)/2)"}};
+      for (int i =0; i< 7; i++){
+            expresion = Nombres[i];
+            int n = Evaluar_ExpresionInfija(Nombres[i]);
+            tree.insertarNodoExpresion(n,Nombres[i]);
+      }
+      return tree;
+}
+
+void Evaluacion:: MostrarExpresionesArbol(Arbol tree){
+      tree = arbolDeExpresiones();
+      cout << "\tInorden con resultados\n";
+      tree.inOrden(tree.getRaiz());
+      cout << "\n\tInorden con expresiones\n";
+      tree.inOrdenExp(tree.getRaiz());
+      return;
+}
+
+
 
 Evaluacion::~Evaluacion()
 {
