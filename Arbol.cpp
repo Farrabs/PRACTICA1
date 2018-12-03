@@ -80,6 +80,20 @@ bool Arbol::buscarNodo (int dato)
       return false;
 }
 
+void Arbol:: insertarNodoExpresion(int v, char*exp){
+      NodoArbol *padre = NULL;
+      actual = raiz;
+      while(!esNodoVacio(actual) && v != actual->valor){
+            padre = actual;
+            if(v > actual->valor) actual = actual->derecha;
+            else if(v < actual->valor) actual = actual->izquierda;
+      }
+      if(!esNodoVacio(actual))return;
+      if(esNodoVacio(padre)) raiz = new NodoArbol(v,NULL,NULL,exp);
+            else if(v < padre->valor) padre->izquierda = new NodoArbol(v,NULL,NULL,exp);
+            else if(v > padre->valor) padre->derecha = new NodoArbol(v,NULL,NULL,exp);
+}
+
 
 void Arbol::insertarNodo (int v){
       NodoArbol *padre = NULL;
@@ -197,6 +211,15 @@ void Arbol::inOrden(pNodoArbol nodo){
       }
 }
 
+void Arbol::inOrdenExp(pNodoArbol nodo){
+      if (nodo!= NULL){
+            inOrdenExp(nodo->izquierda);
+            printExpresion(nodo);
+            cout << "," ;
+            inOrdenExp(nodo->derecha);
+      }
+}
+
 
 void Arbol::printTree(NodoArbol* p, int indent)
 {
@@ -228,6 +251,14 @@ void Arbol:: printValor(NodoArbol *nodo){
       else{
             cout <<"[" <<n<<"]";
       }
+}
+void Arbol:: printExpresion(NodoArbol *nodo){
+      char* n = nodo->expresion;
+      cout << "[";
+      for (int i=0; n[i] !='\0';i++){
+            cout <<n[i];
+      }
+      cout << "]";
 }
 
 Arbol::~Arbol()
