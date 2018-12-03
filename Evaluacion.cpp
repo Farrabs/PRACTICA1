@@ -9,6 +9,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <iostream>
+#include <math.h>
 
 Evaluacion::Evaluacion()
 {
@@ -1140,24 +1141,52 @@ int Evaluacion:: ResolverArbol(Arbol a){
       
 }
 
+
+        /*NOVENO EJERCICIO*/
+/*___________________________________________________________*/
+
 Arbol Evaluacion:: arbolDeExpresiones(){
       Arbol tree;
       char Nombres[7][30] = {{"((2*5)-(1*2))"},{"((2*5)+1)"},{"((2*5)-(1*4))"},{"(((2*5)-(1*2))/(11-9))"},{"(8*4)"},{"((6*4)-(7*3))"},{"((5*4)/2)"}};
       for (int i =0; i< 7; i++){
             expresion = Nombres[i];
             int n = Evaluar_ExpresionInfija(Nombres[i]);
-            tree.insertarNodoExpresion(n,Nombres[i]);
+            tree.insertarNodoExpresion(n,expresion);
       }
+      tree.inOrdenExp(tree.getRaiz());
       return tree;
 }
 
+
+        /*DECIMO EJERCICIO*/
+/*___________________________________________________________*/
 void Evaluacion:: MostrarExpresionesArbol(Arbol tree){
       tree = arbolDeExpresiones();
-      cout << "\tInorden con resultados\n";
+      tree.printTree(tree.getRaiz(),tree.getAlturaArbol(tree.getRaiz()));
+      cout << "\n\tInorden con resultados\n\t";
       tree.inOrden(tree.getRaiz());
-      cout << "\n\tInorden con expresiones\n";
+      cout << "\n\tInorden con expresiones\n\t";
       tree.inOrdenExp(tree.getRaiz());
       return;
+}
+
+
+        /*UNDECIMO EJERCICIO*/
+/*___________________________________________________________*/
+void Evaluacion:: MostrarInformacionArbol(char *exp){
+      Arbol tree = arbolDesdePosfija(exp);
+      cout << "\tALTURA:\n\t=>" << tree.getAlturaArbol(tree.getRaiz());
+      cout << "\n\tNUMERO DE HOJAS:\n\t=>" << tree.NumeroHojas(tree.getRaiz());
+      cout << "\n\tNUMERO DE NODOS:\n\t=>" << tree.NumeroNodos(tree.getRaiz());
+      cout << "\n\tNUMERO DE NODOS INTERNOS:\n\t=>" << tree.NumeroNodos(tree.getRaiz()) - tree.NumeroHojas(tree.getRaiz());
+      int resultado = pow(2,tree.getAlturaArbol(tree.getRaiz())+1);
+      cout << "\n\t¿Esta el arbol lleno?\n\t=>";
+      if (resultado -1 == tree.NumeroNodos(tree.getRaiz())){
+            cout << "El arbol si esta lleno.\n";
+      }
+      else{
+            cout << "El arbol no esta lleno.\n";
+      }
 }
 
 
