@@ -20,7 +20,8 @@ int main(int argc, char** argv)
             cout << "\tG. Crear un arbol a partir de una expresion postfija.\n";
             cout << "\tH. Completar la expresion del arbol con parentesis y mostrar su resultado. \n";
             cout << "\tI. Crear un arbol de expresiones ordenado segun su resultado.\n";
-            cout << "\tJ. Mostrar el arbol del apartado anterior en inorden. \n\n";
+            cout << "\tJ. Mostrar el arbol del apartado anterior en inorden. \n";
+            cout << "\tK. Mostrar informacion de un arbol. \n\n";
             cout << "\tS.Salir del programa.\n\n";
             cout << "\tIndique la opcion deseada: ";
             cin >> opcion;
@@ -75,7 +76,7 @@ int main(int argc, char** argv)
                         cout << "\n\tExpresion: " << e1.expresion << endl;
                         exp_fin = e1.completar_parentesis(e1.expresion);
                         break;
-                  case 'G':                                                         //(((9*2)-(2*3))-6) == (((2*5)-(1*2))/(11-9)) == (6-((9*2)-(2*3)))
+                  case 'G':                                                         //(((9*2)-(2*3))-6) == (((2*5)-(1*2))/((11-9)/(2-1))) == (6-((9*2)-(2*3)))
                         cout << "\n\tIntroduzca una expresion (sin espacios): ";    
                         cin >> expresion;
                         e1.expresion = expresion;
@@ -97,6 +98,13 @@ int main(int argc, char** argv)
                         break;
                   case 'J':
                         e1.MostrarExpresionesArbol(a);
+                        break;
+                  case 'K':
+                        cout << "\n\tIntroduzca una expresion (sin espacios): ";    
+                        cin >> expresion;
+                        e1.expresion = expresion;
+                        cout << "\n\tExpresion: " << e1.expresion << endl;
+                        e1.MostrarInformacionArbol(e1.expresion);
                         break;
                   case 'S':
                         cout << "\n\tSaliendo del programa..." << endl;
