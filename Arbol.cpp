@@ -1,6 +1,7 @@
 #include "Arbol.hpp"
 #include <iomanip>
 
+class izquierda;
 Arbol::Arbol()
 {
       contador =0;
@@ -214,14 +215,13 @@ void Arbol::inOrden(pNodoArbol nodo){
 void Arbol::inOrdenExp(pNodoArbol nodo){
       if (nodo!= NULL){
             inOrdenExp(nodo->izquierda);
-            printExpresion(nodo);
-            cout << "," ;
+            cout << "[ "<< nodo->expresion <<"] ," ;
             inOrdenExp(nodo->derecha);
       }
 }
 
 
-void Arbol::printTree(NodoArbol* p, int indent)
+void Arbol::printTree(pNodoArbol p, int indent)
 {
     if(p != NULL) {
         if(p->derecha) {
@@ -252,14 +252,31 @@ void Arbol:: printValor(NodoArbol *nodo){
             cout <<"[" <<n<<"]";
       }
 }
-void Arbol:: printExpresion(NodoArbol *nodo){
-      char* n = nodo->expresion;
-      cout << "[";
-      for (int i=0; n[i] !='\0';i++){
-            cout <<n[i];
+
+int Arbol:: NumeroHojas(pNodoArbol nodo){
+      if (nodo == NULL){
+            return 0;
       }
-      cout << "]";
+      else{
+            if ((nodo->izquierda == NULL) && (nodo->derecha ==NULL)){
+                  return 1 + NumeroHojas(nodo->izquierda) + NumeroHojas(nodo->derecha);
+            }
+            else{
+                  return NumeroHojas(nodo->izquierda) + NumeroHojas(nodo->derecha);
+            }
+      }
 }
+
+int Arbol:: NumeroNodos(pNodoArbol nodo){
+      if (nodo == NULL){
+            return 0;
+      }
+      else {
+            return 1 + NumeroNodos(nodo->izquierda) + NumeroNodos(nodo->derecha);
+      }
+}
+
+
 
 Arbol::~Arbol()
 {
