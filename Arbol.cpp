@@ -5,6 +5,7 @@ class izquierda;
 Arbol::Arbol()
 {
       contador =0;
+      contador_parentesis=-1;
       altura =0;
       raiz = NULL;
       actual =NULL;
@@ -84,14 +85,16 @@ bool Arbol::buscarNodo (int dato)
 void Arbol:: insertarNodoExpresion(int v, char*exp){
       NodoArbol *padre = NULL;
       actual = raiz;
-      while(!esNodoVacio(actual) && v != actual->valor){
+      while(!esNodoVacio(actual)){
             padre = actual;
             if(v > actual->valor) actual = actual->derecha;
+            else if(v== actual->valor) actual = actual->izquierda;
             else if(v < actual->valor) actual = actual->izquierda;
       }
       if(!esNodoVacio(actual))return;
       if(esNodoVacio(padre)) raiz = new NodoArbol(v,NULL,NULL,exp);
             else if(v < padre->valor) padre->izquierda = new NodoArbol(v,NULL,NULL,exp);
+            else if(v== padre->valor) padre->izquierda = new NodoArbol(v,NULL,NULL,exp);
             else if(v > padre->valor) padre->derecha = new NodoArbol(v,NULL,NULL,exp);
 }
 
@@ -99,14 +102,16 @@ void Arbol:: insertarNodoExpresion(int v, char*exp){
 void Arbol::insertarNodo (int v){
       NodoArbol *padre = NULL;
       actual = raiz;
-      while(!esNodoVacio(actual) && v != actual->valor){
+      while(!esNodoVacio(actual)){
             padre = actual;
             if(v > actual->valor) actual = actual->derecha;
+            else if(v==actual->valor) actual = actual->izquierda;
             else if(v < actual->valor) actual = actual->izquierda;
       }
       if(!esNodoVacio(actual))return;
       if(esNodoVacio(padre)) raiz = new NodoArbol(v);
             else if(v < padre->valor) padre->izquierda = new NodoArbol(v);
+            else if(v== padre->valor) padre->izquierda = new NodoArbol(v);
             else if(v > padre->valor) padre->derecha = new NodoArbol(v);
 }
 
