@@ -880,6 +880,17 @@ Arbol Evaluacion:: arbolDesdePosfija(char * exp){
                   pilaArbol.ApilarArbol(treeAux.getRaiz());
                   
             }
+            
+            else if(es_Oper(n) && esNumero(lista.Ver(i-1)) && es_Oper(lista.Ver(i-2))){
+                  Arbol treeAux;
+                  treeAux.insertarNodo(n);
+                  treeAux.insertarNodoDerecha(lista.Ver(i-1),treeAux.getRaiz());
+                  pila.Desapilar();
+                  pNodoArbol ar_izq = pilaArbol.DesapilarArbol();
+                  treeAux.insertarArbolIzquierda(ar_izq,treeAux.getRaiz());
+                  pilaArbol.ApilarArbol(treeAux.getRaiz());
+            }
+            
             else if(es_Oper(n)){
                   Arbol treeAux;
                   treeAux.insertarNodo(n);
