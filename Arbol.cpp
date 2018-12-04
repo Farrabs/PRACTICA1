@@ -39,11 +39,6 @@ int Arbol::getValorRaiz(){
       return raiz->valor;
 }
 
-/*void Arbol:: setRaiz(int v,Arbol izq, Arbol der){
-      Arbol nuevo = new NodoArbol(v,izq,der);
-      raiz = nuevo;
-}*/
-
 int Arbol::getAlturaArbol(NodoArbol * nodo){
       
       if (esNodoVacio(nodo->izquierda)){
@@ -56,16 +51,6 @@ int Arbol::getAlturaArbol(NodoArbol * nodo){
             else{ altura = 1 + max(getAlturaArbol(nodo->izquierda), getAlturaArbol(nodo->derecha)); }
       }
       return altura;
-}
-
-void Arbol::Podar(pNodoArbol &nodo)
-{
-      if(nodo){
-            Podar(nodo->izquierda); // Podar izquierdo
-            Podar(nodo->derecha); // Podar derecho
-            delete nodo; // Eliminar nodo
-            nodo = NULL;
-      }
 }
 
 bool Arbol::buscarNodo (int dato)
@@ -280,6 +265,8 @@ int Arbol:: NumeroNodos(pNodoArbol nodo){
             return 1 + NumeroNodos(nodo->izquierda) + NumeroNodos(nodo->derecha);
       }
 }
+
+
 
 
 
