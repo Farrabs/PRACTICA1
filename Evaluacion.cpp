@@ -866,16 +866,20 @@ Arbol Evaluacion:: arbolDesdePosfija(char * exp){
                   treeAux.insertarNodo(n);
                   pNodoArbol ar_der = pilaArbol.DesapilarArbol(); //(((9*2)-(2*3))-6) ===== (((2*5)-(1*2))/(11-9)) == (6-((9*2)-(2*3)))
                   treeAux.insertarArbolDerecha(ar_der,treeAux.getRaiz());
-                  if (!pilaArbol.es_Vacia()){
-                        pNodoArbol ar_izq = pilaArbol.DesapilarArbol();
-                        treeAux.insertarArbolIzquierda(ar_izq,treeAux.getRaiz());
+                  if (pila.es_Vacia()){
+                        if (!pilaArbol.es_Vacia()){
+                              pNodoArbol ar_izq = pilaArbol.DesapilarArbol();
+                              treeAux.insertarArbolIzquierda(ar_izq,treeAux.getRaiz());
+                        }
+                        else{
+                              n1 = pila.Desapilar();
+                              treeAux.insertarNodoIzquierda(n1,treeAux.getRaiz());
+                        }
                   }
                   else{
-                        n1 = pila.Desapilar();
-                        treeAux.insertarNodoIzquierda(n1,treeAux.getRaiz());
+                        treeAux.insertarNodoIzquierda(pila.Desapilar(),treeAux.getRaiz());
                   }
                   pilaArbol.ApilarArbol(treeAux.getRaiz());
-                  
             }
             
             else if(es_Oper(n) && esNumero(lista.Ver(i-1)) && es_Oper(lista.Ver(i-2))){
