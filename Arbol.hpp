@@ -7,16 +7,12 @@ class Arbol
 {
 private:
       pNodoArbol raiz;
-      int contador, altura;
+      int contador, altura, contador_parentesis;
       
 public:
       Arbol();
       ~Arbol();
       pNodoArbol actual;
-      void Podar(pNodoArbol &nodo);
-      void auxContador(pNodoArbol nodo);
-      void auxAltura(pNodoArbol nodo, int a);
-      void Mostrar(int &d);
       bool buscarNodo (int v);
       void insertarNodo (int v);
       void insertarNodoExpresion(int v, char*exp);
@@ -31,7 +27,6 @@ public:
       int getAlturaArbol(NodoArbol *nodo);
       int getValorActual();
       pNodoArbol getRaiz();
-      void setRaiz(int v, pNodoArbol izq, pNodoArbol der);
       int getValorRaiz();
       bool esRaiz(pNodoArbol nodo);
       void inOrden(NodoArbol *nodo); 
