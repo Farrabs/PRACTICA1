@@ -919,10 +919,6 @@ Arbol Evaluacion:: arbolDesdePosfija(char * exp){
       }
       
       pNodoArbol aux = pilaArbol.DesapilarArbol();
-      if (!pilaArbol.es_Vacia()){
-            pNodoArbol aux2 = pilaArbol.DesapilarArbol();
-            aux->izquierda = aux2;
-      }
       tree.insertarNodo(aux->valor);
       tree.getRaiz()->derecha = aux->derecha;
       tree.getRaiz()->izquierda = aux->izquierda;
@@ -1158,10 +1154,10 @@ int Evaluacion:: ResolverArbol(Arbol a){
 
 Arbol Evaluacion:: arbolDeExpresiones(){
       Arbol tree;
-      char Nombres[7][30] = {{"((2*5)-(1*2))"},{"((2*5)+1)"},{"((2*5)-(1*4))"},{"(((2*5)-(1*2))/(11-9))"},{"(8*4)"},{"((6*4)-(7*3))"},{"((5*4)/2)"}};
-      for (int i =0; i< 7; i++){
-            expresion = Nombres[i];
-            int n = Evaluar_ExpresionInfija(Nombres[i]);
+      char Expresiones[8][30] = {{"((2*5)-(1*2))"},{"(4*2)"},{"((2*5)+1)"},{"((2*5)-(1*4))"},{"(((2*5)-(1*2))/(11-9))"},{"(8*4)"},{"((6*4)-(7*3))"},{"((5*4)/2)"}};
+      for (int i =0; i< 8; i++){
+            expresion = Expresiones[i];
+            int n = Evaluar_ExpresionInfija(Expresiones[i]);
             tree.insertarNodoExpresion(n,expresion);
       }
       tree.inOrdenExp(tree.getRaiz());
@@ -1190,9 +1186,9 @@ void Evaluacion:: MostrarInformacionArbol(char *exp){
       cout << "\n\tNUMERO DE HOJAS:\n\t=>" << tree.NumeroHojas(tree.getRaiz());
       cout << "\n\tNUMERO DE NODOS:\n\t=>" << tree.NumeroNodos(tree.getRaiz());
       cout << "\n\tNUMERO DE NODOS INTERNOS:\n\t=>" << tree.NumeroNodos(tree.getRaiz()) - tree.NumeroHojas(tree.getRaiz());
-      int resultado = pow(2,tree.getAlturaArbol(tree.getRaiz())+1);
+      int resultado = pow(2,tree.getAlturaArbol(tree.getRaiz()));
       cout << "\n\t¿Esta el arbol lleno?\n\t=>";
-      if (resultado -1 == tree.NumeroNodos(tree.getRaiz())){
+      if (resultado == tree.NumeroHojas(tree.getRaiz())){
             cout << "El arbol si esta lleno.\n";
       }
       else{
