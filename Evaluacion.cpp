@@ -63,18 +63,29 @@ Lista Evaluacion:: expresionDesdeArbol(pNodoArbol nodo,pNodoArbol nodoB, Lista l
       return lista;
 }
 
-Cola Evaluacion:: colaDesdeArbol(pNodoArbol nodo, Cola cola){
-      if (nodo!= NULL){
-            cola = colaDesdeArbol (nodo->izquierda, cola);
-            cola = colaDesdeArbol (nodo->derecha, cola);
-            cola.Encolar(nodo->valor);
+
+int Evaluacion:: EvaluarArbol (pNodoArbol nodo){
+      if (esNumero(nodo->valor)) return nodo->valor;
+      else{
+            if (nodo->valor == '+'){
+                  return EvaluarArbol(nodo->izquierda) + EvaluarArbol(nodo->derecha);
+            }
+            else if(nodo->valor == '-'){
+                  return EvaluarArbol(nodo->izquierda) - EvaluarArbol(nodo->derecha);
+            }
+            else if(nodo->valor == '/'){
+                  return EvaluarArbol(nodo->izquierda) / EvaluarArbol(nodo->derecha);
+            }
+            else if(nodo->valor == '*'){
+                  return EvaluarArbol(nodo->izquierda) * EvaluarArbol(nodo->derecha);
+            }
       }
-      return cola;
+      
 }
 
 
 
-            /*PRIMER EJERCICIO*/
+            /*PRIMER EJERCICIO    A*/ 
 /*_________________________________________________________*/
 int Evaluacion:: Evaluar_ExpresionInfija(char* exp){
     Pila pila_car; Pila pila_num; Pila pila_NumAux; Pila pila_CarAux;
@@ -184,7 +195,7 @@ int Evaluacion:: Evaluar_ExpresionInfija(char* exp){
 
 
 
-        /*SEGUNDO EJERCICIO*/
+        /*SEGUNDO EJERCICIO     B*/
 /*___________________________________________________________*/
 int Evaluacion:: Evaluar_ExpresionInfija_2(char* exp){
       Pila pila_car; Pila pila_num; Pila pila_aux; Pila pila_CarAux;
@@ -348,7 +359,7 @@ int Evaluacion:: Evaluar_ExpresionInfija_2(char* exp){
 }
 
 
-        /*TERCER EJERCICIO*/
+        /*TERCER EJERCICIO    C*/
 /*___________________________________________________________*/
 
 Cola Evaluacion:: ExpresionInfija_a_ExpresionPostfija (char* exp){  //(2+7*(7-2)-9)
@@ -440,9 +451,6 @@ Cola Evaluacion:: ExpresionInfija_a_ExpresionPostfija (char* exp){  //(2+7*(7-2)
                   }
                   pila_car.Desapilar();
             }
-            cout<<"Pulse una tecla para siguiente iteracion\n";
-            cin.get();
-            system("clear");
             
       }
       while (!pila_car.es_Vacia()){
@@ -454,7 +462,7 @@ Cola Evaluacion:: ExpresionInfija_a_ExpresionPostfija (char* exp){  //(2+7*(7-2)
 }
 
 
-        /*CUARTO EJERCICIO*/
+        /*CUARTO EJERCICIO    D*/
 /*___________________________________________________________*/
 
 int Evaluacion :: Evaluar_ExpresionPosfija (Cola c1){
@@ -493,7 +501,7 @@ int Evaluacion :: Evaluar_ExpresionPosfija (Cola c1){
 }
 
 
-        /*QUINTO EJERCICIO*/
+        /*QUINTO EJERCICIO    E*/
 /*___________________________________________________________*/
 
 bool Evaluacion:: es_Correcta(char* exp){
@@ -595,7 +603,7 @@ bool Evaluacion:: es_Correcta(char* exp){
 }
 
 
-        /*SEXTO EJERCICIO*/
+        /*SEXTO EJERCICIO     F*/
 /*___________________________________________________________*/  //(2*5-1*2)/(11-9)
 
 char* Evaluacion::completar_parentesis(char* expresion){
@@ -837,7 +845,7 @@ char* Evaluacion::completar_parentesis(char* expresion){
 }
 
 
-        /*SEPTIMO EJERCICIO*/
+        /*SEPTIMO EJERCICIO    G*/
 /*___________________________________________________________*/
 
 Arbol Evaluacion:: arbolDesdePosfija(char * exp){
@@ -928,20 +936,16 @@ Arbol Evaluacion:: arbolDesdePosfija(char * exp){
 }
 
 
-        /*OCTAVO EJERCICIO*/
+        /*OCTAVO EJERCICIO    H*/
 /*___________________________________________________________*/
 
 int Evaluacion:: ResolverArbol(Arbol a){
-      Lista lista; Cola cola;
+      Lista lista;
       lista = expresionDesdeArbol(a.getRaiz(),a.getRaiz(), lista);  
       lista.Mostrar();
-      cout<<"\tMOSTRAR COLA\n";
     	cin.get();
     	system("clear");
-      
-      cola = colaDesdeArbol(a.getRaiz(),cola);
-      cola.Mostrar();
-      int resultado = Evaluar_ExpresionPosfija(cola);
+      int resultado = EvaluarArbol(a.getRaiz());
       cout << "\n";
       a.printTree(a.getRaiz(),a.getAlturaArbol(a.getRaiz()));
       cout << "\n\tLa expresion final es ==> " ;
@@ -952,7 +956,7 @@ int Evaluacion:: ResolverArbol(Arbol a){
 }
 
 
-        /*NOVENO EJERCICIO*/
+        /*NOVENO EJERCICIO    I*/
 /*___________________________________________________________*/
 
 Arbol Evaluacion:: arbolDeExpresiones(){
@@ -970,7 +974,7 @@ Arbol Evaluacion:: arbolDeExpresiones(){
 }
 
 
-        /*DECIMO EJERCICIO*/
+        /*DECIMO EJERCICIO     J*/
 /*___________________________________________________________*/
 void Evaluacion:: MostrarExpresionesArbol(Arbol tree){
       tree = arbolDeExpresiones();
@@ -981,7 +985,7 @@ void Evaluacion:: MostrarExpresionesArbol(Arbol tree){
 }
 
 
-        /*UNDECIMO EJERCICIO*/
+        /*UNDECIMO EJERCICIO    K*/
 /*___________________________________________________________*/
 void Evaluacion:: MostrarInformacionArbol(char *exp){
       Arbol tree = arbolDesdePosfija(exp);
