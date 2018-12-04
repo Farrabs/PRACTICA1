@@ -867,63 +867,26 @@ Arbol Evaluacion:: arbolDesdePosfija(char * exp){
       system("cls");
       for (int i =0; i < lista.Longitud(); i++){
             n = lista.Ver(i);
-            if (!es_Oper(n)){
-                  pila.Apilar(n);
+            if (esNumero(n)){
+                  Arbol treeAux;
+                  treeAux.insertarNodo(n);
+                  pilaArbol.ApilarArbol(treeAux.getRaiz());
             }
-            else if(es_Oper(n) && (es_Oper(lista.Ver(i-1)))){
+            else if(es_Oper(n)){
                   Arbol treeAux;
                   treeAux.insertarNodo(n);
                   pNodoArbol ar_der = pilaArbol.DesapilarArbol(); //(((9*2)-(2*3))-6) ===== (((2*5)-(1*2))/(11-9)) == (6-((9*2)-(2*3)))
                   treeAux.insertarArbolDerecha(ar_der,treeAux.getRaiz());
-                  if (pila.es_Vacia()){
-                        if (!pilaArbol.es_Vacia()){
-                              pNodoArbol ar_izq = pilaArbol.DesapilarArbol();
-                              treeAux.insertarArbolIzquierda(ar_izq,treeAux.getRaiz());
-                        }
-                        else{
-                              n1 = pila.Desapilar();
-                              treeAux.insertarNodoIzquierda(n1,treeAux.getRaiz());
-                        }
-                  }
-                  else{
-                        treeAux.insertarNodoIzquierda(pila.Desapilar(),treeAux.getRaiz());
-                  }
-                  pilaArbol.ApilarArbol(treeAux.getRaiz());
-            }
-            
-            else if(es_Oper(n) && esNumero(lista.Ver(i-1)) && es_Oper(lista.Ver(i-2))){
-                  Arbol treeAux;
-                  treeAux.insertarNodo(n);
-                  treeAux.insertarNodoDerecha(lista.Ver(i-1),treeAux.getRaiz());
-                  pila.Desapilar();
                   pNodoArbol ar_izq = pilaArbol.DesapilarArbol();
                   treeAux.insertarArbolIzquierda(ar_izq,treeAux.getRaiz());
                   pilaArbol.ApilarArbol(treeAux.getRaiz());
             }
-            
-            else if(es_Oper(n)){
-                  Arbol treeAux;
-                  treeAux.insertarNodo(n);
-                  n1 = pila.Desapilar();
-                  
-                  if (!pila.es_Vacia()){
-                        n2 = pila.Desapilar();
-                        treeAux.insertarNodoIzquierda(n2,treeAux.getRaiz());
-                  }
-                  treeAux.insertarNodoDerecha(n1,treeAux.getRaiz());
-                  
-                  treeAux.printTree(treeAux.getRaiz(),treeAux.getAlturaArbol(treeAux.getRaiz()));
-                  pilaArbol.ApilarArbol(treeAux.getRaiz());
-                  
-            }
+
             if (!pilaArbol.es_Vacia()){
                   tree.printTree(pilaArbol.Cima(),tree.getAlturaArbol(pilaArbol.Cima()));
             }
-            cout << "pila arbol" ; pilaArbol.Mostrar();
-            
+            cout << "pila arbol" ; pilaArbol.Mostrar();    
             cout << "\n\n\n";
-            
-            
             system("pause");
             system("cls");
       }
