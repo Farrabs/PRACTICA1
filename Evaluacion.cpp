@@ -351,7 +351,7 @@ int Evaluacion:: Evaluar_ExpresionInfija_2(char* exp){
         /*TERCER EJERCICIO*/
 /*___________________________________________________________*/
 
-Cola Evaluacion:: ExpresionInfija_a_ExpresionPostfija (char* exp){
+Cola Evaluacion:: ExpresionInfija_a_ExpresionPostfija (char* exp){  //(2+7*(7-2)-9)
       Pila pila_car; Pila pila_num; Cola cola_exp; int n1; int n2;
       SacarTamano(expresion);
       if (tam_exp == 0){
@@ -378,7 +378,7 @@ Cola Evaluacion:: ExpresionInfija_a_ExpresionPostfija (char* exp){
                   }
             }
             if ((!es_Num(exp[i+1])) && (es_Num(exp[i]))){
-                  cola_exp.Encolar(pila_num.Cima());
+                  cola_exp.Encolar(pila_num.Desapilar());
             }
             
             if ((!es_Num(exp[i+1])) && (exp[i+1] != '(') && (exp[i+1] != ')')){
@@ -424,6 +424,11 @@ Cola Evaluacion:: ExpresionInfija_a_ExpresionPostfija (char* exp){
                   else if ((pila_car.Cima() == '*') || pila_car.Cima() == '/'){
                         cola_exp.Encolar(pila_car.Cima());
                         pila_car.Desapilar();
+                        while ((!pila_car.es_Vacia()) && (pila_car.Cima() != '(')){
+                              cola_exp.Encolar(pila_car.Cima());
+                              pila_car.Desapilar();
+                              
+                        }
                         pila_car.Apilar(exp[i]);
                   }
             }
@@ -435,6 +440,9 @@ Cola Evaluacion:: ExpresionInfija_a_ExpresionPostfija (char* exp){
                   }
                   pila_car.Desapilar();
             }
+            cout<<"Pulse una tecla para siguiente iteracion\n";
+            cin.get();
+            system("clear");
             
       }
       while (!pila_car.es_Vacia()){
@@ -928,8 +936,11 @@ int Evaluacion:: ResolverArbol(Arbol a){
     	system("clear");
       
       cola = colaDesdeArbol(a.getRaiz(),cola);
+      cola.Mostrar();
       int resultado = Evaluar_ExpresionPosfija(cola);
-      cout << "\tLa expresion final es ==> " ;
+      cout << "\n";
+      a.printTree(a.getRaiz(),a.getAlturaArbol(a.getRaiz()));
+      cout << "\n\tLa expresion final es ==> " ;
       lista.Mostrar();
       cout << "\t\nResultado: " << resultado << endl;
       return resultado;
