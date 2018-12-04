@@ -856,6 +856,7 @@ Arbol Evaluacion:: arbolDesdePosfija(char * exp){
             return tree;
       }
       cola = ExpresionInfija_a_ExpresionPostfija(exp);
+      cola.Mostrar();
       while (!cola.es_Vacia()){
             n = cola.Desencolar();
             lista.InsertarDer(n);
@@ -944,7 +945,6 @@ int Evaluacion:: ResolverArbol(Arbol a){
       lista = expresionDesdeArbol(a.getRaiz(),a.getRaiz(), lista);  
       lista.Mostrar();
     	cin.get();
-    	system("clear");
       int resultado = EvaluarArbol(a.getRaiz());
       cout << "\n";
       a.printTree(a.getRaiz(),a.getAlturaArbol(a.getRaiz()));
