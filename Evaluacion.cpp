@@ -46,15 +46,15 @@ bool Evaluacion:: es_Oper(int v){
       return ((v=='*') || (v == '-') || (v == '+') || (v=='/'));
 }
 
-Lista Evaluacion:: expresionDesdeArbol(pNodoArbol nodo,pNodoArbol nodoB, Lista lista){
+Lista Evaluacion:: expresionDesdeArbol(pNodoArbol nodo, Lista lista){
       if (nodo!= NULL){
             if (!(nodo->izquierda==NULL && nodo->derecha ==NULL)){
                         lista.InsertarDer('(');
             }
-            lista = expresionDesdeArbol(nodo->izquierda,nodoB ,lista);
+            lista = expresionDesdeArbol(nodo->izquierda,lista);
             
             lista.InsertarDer(nodo->valor);
-            lista = expresionDesdeArbol(nodo->derecha ,nodoB,lista);
+            lista = expresionDesdeArbol(nodo->derecha,lista);
             if (!(nodo->izquierda==NULL && nodo->derecha ==NULL)){
                   lista.InsertarDer(')');
             }
@@ -905,7 +905,7 @@ Arbol Evaluacion:: arbolDesdePosfija(char * exp){
 
 int Evaluacion:: ResolverArbol(Arbol a){
       Lista lista;
-      lista = expresionDesdeArbol(a.getRaiz(),a.getRaiz(), lista);  
+      lista = expresionDesdeArbol(a.getRaiz(), lista);  
       lista.Mostrar();
     	cin.get();
       int resultado = EvaluarArbol(a.getRaiz());
