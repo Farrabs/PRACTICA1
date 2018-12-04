@@ -48,19 +48,17 @@ bool Evaluacion:: es_Oper(int v){
 
 Lista Evaluacion:: expresionDesdeArbol(pNodoArbol nodo,pNodoArbol nodoB, Lista lista){
       if (nodo!= NULL){
+            if (!(nodo->izquierda==NULL && nodo->derecha ==NULL)){
+                        lista.InsertarDer('(');
+            }
             lista = expresionDesdeArbol(nodo->izquierda,nodoB ,lista);
-            if (nodo==nodoB){
-                  lista.InsertarDer(')');
-                  lista.InsertarIzq('(');
-            }
+            
             lista.InsertarDer(nodo->valor);
-            if (nodo==nodoB){
-                  lista.InsertarDer('(');
-            }
             lista = expresionDesdeArbol(nodo->derecha ,nodoB,lista);
-            if (nodo==nodoB){
+            if (!(nodo->izquierda==NULL && nodo->derecha ==NULL)){
                   lista.InsertarDer(')');
             }
+            lista.Mostrar();
       }
       return lista;
 }
@@ -437,15 +435,6 @@ Cola Evaluacion:: ExpresionInfija_a_ExpresionPostfija (char* exp){
                   }
                   pila_car.Desapilar();
             }
- /*           cout << "ite " << i << endl;
-            cout << "EXPRESION" << endl;
-            cola_exp.Mostrar();
-            cout << "PILA CAR " << endl;
-            pila_car.Mostrar();
-            
-            system("read -p 'Press Enter to continue...' var");
-            system("clear");*/
-            
             
       }
       while (!pila_car.es_Vacia()){
@@ -857,8 +846,8 @@ Arbol Evaluacion:: arbolDesdePosfija(char * exp){
       }
       lista.Mostrar();
       
-      system("read -p 'Press Enter to continue...' var");
-      system("clear");
+      system("pause");
+      system("cls");
       for (int i =0; i < lista.Longitud(); i++){
             n = lista.Ver(i);
             if (!es_Oper(n)){
@@ -914,8 +903,8 @@ Arbol Evaluacion:: arbolDesdePosfija(char * exp){
             cout << "\n\n\n";
             
             
-            system("read -p 'Press Enter to continue...' var");
-            system("clear");
+            system("pause");
+            system("cls");
       }
       
       pNodoArbol aux = pilaArbol.DesapilarArbol();
@@ -931,209 +920,8 @@ Arbol Evaluacion:: arbolDesdePosfija(char * exp){
 /*___________________________________________________________*/
 
 int Evaluacion:: ResolverArbol(Arbol a){
-      Lista lista;  int i,j,k,cont; Pila pilaNum; Cola cola;
-      lista = expresionDesdeArbol(a.getRaiz(),a.getRaiz(), lista);
-
-      i=0;
-      if(lista.Ver(0)!=40){
-        lista.InsertarDer(41);
-        lista.InsertarIzq(40);
-      }
-      
-      while(!lista.esUltimo(i)){ 
-	cout<<"\t--Completar Parentesis--\n";
-	cout<<"\t----Iteracion "<<i+1<<" ----\n";
-        if((lista.Ver(i)==42 || lista.Ver(i)==47)){
-            if(esNumero(lista.Ver(i+1)) && esNumero(lista.Ver(i-1))){
-                if(lista.Ver(i+2)!=41 || lista.Ver(i-2)!=40){
-                    cout<<"1"<<"\n";
-                    if((i-2)<=0){lista.Insertar(40,0);i++;}
-                    else{lista.Insertar(40,i-1);i++;}
-                    if((i+2)>=lista.Longitud()-1){lista.InsertarDer(41);}
-                    else{lista.Insertar(41,i+2);}
-                }
-            }
-            else if(esNumero(lista.Ver(i-1)) && lista.Ver(i+1)==40){
-                if(lista.Ver(i-2)!=40){
-                    j=i;
-                    cont=0;
-                    while(j!=lista.Longitud()){
-                        if(lista.Ver(j)==40)cont++;
-                        if(lista.Ver(j)==41){
-                            if(cont==0) break;
-                            else cont--;
-                        }
-                        j++;
-                    }
-                    j++;
-                    if((i-2)<=0){lista.Insertar(40,0);i++;}
-                    else{lista.Insertar(40,i-1);i++;}
-                    if(j>=lista.Longitud()-1){lista.InsertarDer(41);}
-                    else{lista.Insertar(41,j);}
-                }
-            }
-            else if(esNumero(lista.Ver(i+1)) && lista.Ver(i-1)==41){   
-                int pos;
-                if((i+2)>=lista.Longitud()-1)pos=lista.Longitud()-1;
-                else pos = i+2;
-                if(lista.Ver(pos)!=41){
-                    j=i;
-                    cont=0;
-                    while(j!=0){
-                        if(lista.Ver(j)==41)cont++;
-                        if(lista.Ver(j)==40){
-                            if(cont==0) break;
-                            else cont--;
-                        }
-                        j--;
-                    }
-                    if((i+2)>=lista.Longitud()-1){lista.InsertarDer(41);}
-                    else{lista.Insertar(41,i+2);}
-                    if(j<=0){lista.Insertar(40,0);i++;}
-                    else{lista.Insertar(40,j);i++;}
-                }
-            }
-            else if(lista.Ver(i+1)==40 && lista.Ver(i-1)==41){
-                  
-                j=i;
-                cont=0;
-                while(j!=lista.Longitud()){
-                    if(lista.Ver(j)==40)cont++;
-                    if(lista.Ver(j)==41){
-                          if(cont==0) break;
-                          else cont--;
-                    }
-                    j++;
-                }
-                j++;
-
-                k=i;
-                cont=0;
-                while(k!=0){
-                    if(lista.Ver(k)==41)cont++;
-                    if(lista.Ver(k)==40){
-                        if(cont==0) break;
-                        else cont--;
-                    }
-                    k--;
-                }
-                if(j>=lista.Longitud() && k<=0){
-                    lista.InsertarDer(41);
-                    lista.InsertarIzq(40);
-                    i++;
-                }
-                else{
-                    if(j>=lista.Longitud())j=lista.Longitud();
-                    if(k<=0)k=0;
-                    if(lista.Ver(k)!=40 || lista.Ver(j-1)!=41){
-                        lista.Insertar(41,j);
-                        lista.Insertar(40,k);
-                        i++;
-                    }
-                }
-            }
-        }
-        i++;
-	lista.Mostrar();
-	cout<<"\tPulse una tecla para siguiente iteracion\n";
-    	cin.get();
-    	system("clear");
-    }
-    lista.Mostrar();
-    i=0;
-    while(!lista.esUltimo(i)){ 
-	cout<<"\t--Completar Parentesis--\n";
-	cout<<"\t----Iteracion "<<i+1<<" ----\n";
-        if((lista.Ver(i)==43 || lista.Ver(i)==45)){
-            if(esNumero(lista.Ver(i+1)) && esNumero(lista.Ver(i-1))){
-                if(lista.Ver(i+2)!=41 || lista.Ver(i-2)!=40){
-                    if((i-2)<=0){lista.Insertar(40,0);i++;}
-                    else{lista.Insertar(40,i-1);i++;}
-                    if((i+2)>=lista.Longitud()-1){lista.InsertarDer(41);}
-                    else{lista.Insertar(41,i+2);}
-                }
-            }
-            else if(esNumero(lista.Ver(i-1)) && lista.Ver(i+1)==40){
-                if(lista.Ver(i-2)!=40){
-                    j=i;
-                    cont=0;
-                    while(j!=lista.Longitud()){
-                        if(lista.Ver(j)==40)cont++;
-                        if(lista.Ver(j)==41){
-                            if(cont==0) break;
-                            else cont--;
-                        }
-                        j++;
-                    }
-                    j++;
-                    if((i-2)<=0){lista.Insertar(40,0);i++;}
-                    else{lista.Insertar(40,i-1);i++;}
-                    if(j>=lista.Longitud()-1){lista.InsertarDer(41);}
-                    else{lista.Insertar(41,j);}
-                }
-            }
-            else if(esNumero(lista.Ver(i+1)) && lista.Ver(i-1)==41){
-                if((i+2)>=lista.Longitud() || lista.Ver(i+2)!=41){
-                    j=i;
-                    cont=0;
-                    while(j!=0){
-                        if(lista.Ver(j)==41)cont++;
-                        if(lista.Ver(j)==40){
-                            if(cont==0) break;
-                            else cont--;
-                        }
-                        j--;
-                    }
-                    if((i+2)>=lista.Longitud()-1){lista.InsertarDer(41);}
-                    else{lista.Insertar(41,i+2);}
-                    if(j<=0){lista.Insertar(40,0);i++;}
-                    else{lista.Insertar(40,j);i++;}
-                }
-            }
-            else if(lista.Ver(i+1)==40 && lista.Ver(i-1)==41){
-                  
-                j=i;
-                cont=0;
-                while(j!=lista.Longitud()){
-                    if(lista.Ver(j)==40)cont++;
-                    if(lista.Ver(j)==41){
-                          if(cont==0) break;
-                          else cont--;
-                    }
-                    j++;
-                }
-                j++;
-
-                k=i;
-                cont=0;
-                while(k!=0){
-                    if(lista.Ver(k)==41)cont++;
-                    if(lista.Ver(k)==40){
-                        if(cont==0) break;
-                        else cont--;
-                    }
-                    k--;
-                }
-      
-                if(j>=lista.Longitud() && k<=0){
-                    lista.InsertarDer(41);
-                    lista.InsertarIzq(40);
-                    i++;
-                }
-                else{
-                    if(j>=lista.Longitud())j=lista.Longitud();
-                    if(k<=0)k=0;
-                    if(lista.Ver(k)!=40 || lista.Ver(j-1)!=41){
-                        lista.Insertar(41,j);
-                        lista.Insertar(40,k);
-                        i++;
-                    }
-                }
-            }
-        }
-        i++;
-        system("clear");
-      }
+      Lista lista; Cola cola;
+      lista = expresionDesdeArbol(a.getRaiz(),a.getRaiz(), lista);  
       lista.Mostrar();
       cout<<"\tMOSTRAR COLA\n";
     	cin.get();
@@ -1160,6 +948,8 @@ Arbol Evaluacion:: arbolDeExpresiones(){
             int n = Evaluar_ExpresionInfija(Expresiones[i]);
             tree.insertarNodoExpresion(n,expresion);
       }
+      tree.printTree(tree.getRaiz(),tree.getAlturaArbol(tree.getRaiz()));
+      cout << "\n\tInorden con expresiones\n\t";
       tree.inOrdenExp(tree.getRaiz());
       return tree;
 }
@@ -1169,11 +959,9 @@ Arbol Evaluacion:: arbolDeExpresiones(){
 /*___________________________________________________________*/
 void Evaluacion:: MostrarExpresionesArbol(Arbol tree){
       tree = arbolDeExpresiones();
-      tree.printTree(tree.getRaiz(),tree.getAlturaArbol(tree.getRaiz()));
       cout << "\n\tInorden con resultados\n\t";
       tree.inOrden(tree.getRaiz());
-      cout << "\n\tInorden con expresiones\n\t";
-      tree.inOrdenExp(tree.getRaiz());
+      
       return;
 }
 
