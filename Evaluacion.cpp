@@ -883,7 +883,7 @@ Arbol Evaluacion:: arbolDesdePosfija(char * exp){
             }
 
             if (!pilaArbol.es_Vacia()){
-                  tree.printTree(pilaArbol.Cima(),tree.getAlturaArbol(pilaArbol.Cima()));
+                  tree.printTree(pilaArbol.Cima(),4);
             }
             cout << "pila arbol" ; pilaArbol.Mostrar();    
             cout << "\n\n\n";
@@ -895,7 +895,7 @@ Arbol Evaluacion:: arbolDesdePosfija(char * exp){
       tree.insertarNodo(aux->valor);
       tree.getRaiz()->derecha = aux->derecha;
       tree.getRaiz()->izquierda = aux->izquierda;
-      tree.printTree(tree.getRaiz(),tree.getAlturaArbol(tree.getRaiz()));
+      tree.printTree(tree.getRaiz(),4);
       return tree;     
 }
 
@@ -910,7 +910,7 @@ int Evaluacion:: ResolverArbol(Arbol a){
     	cin.get();
       int resultado = EvaluarArbol(a.getRaiz());
       cout << "\n";
-      a.printTree(a.getRaiz(),a.getAlturaArbol(a.getRaiz()));
+      a.printTree(a.getRaiz(),4);
       cout << "\n\tLa expresion final es ==> " ;
       lista.Mostrar();
       cout << "\t\nResultado: " << resultado << endl;
@@ -924,15 +924,18 @@ int Evaluacion:: ResolverArbol(Arbol a){
 
 Arbol Evaluacion:: arbolDeExpresiones(){
       Arbol tree;
-      char Expresiones[8][30] = {{"((2*5)-(1*2))"},{"(4*2)"},{"((2*5)+1)"},{"((2*5)-(1*4))"},{"(((2*5)-(1*2))/(11-9))"},{"(8*4)"},{"((6*4)-(7*3))"},{"((5*4)/2)"}};
-      for (int i =0; i< 8; i++){
+      char Expresiones[9][30] = {{"((2*5)-(1*2))"},{"(4*2)"},{"((2*5)+1)"},{"((2+(5*(12-2)))+3)"},{"((2*5)-(1*4))"},{"(((2*5)-(1*2))/(11-9))"},{"(8*4)"},{"((6*4)-(7*3))"},{"((5*4)/2)"}};
+      for (int i =0; i< 9; i++){
             expresion = Expresiones[i];
             int n = Evaluar_ExpresionInfija(Expresiones[i]);
             tree.insertarNodoExpresion(n,expresion);
       }
-      tree.printTree(tree.getRaiz(),tree.getAlturaArbol(tree.getRaiz()));
+      
+      cout << "\n\n\n\tARBOL DE EXPRESIONES\n";
+      tree.printTreeExp(tree.getRaiz(),4);
       cout << "\n\tInorden con expresiones\n\t";
       tree.inOrdenExp(tree.getRaiz());
+      
       return tree;
 }
 
@@ -941,6 +944,8 @@ Arbol Evaluacion:: arbolDeExpresiones(){
 /*___________________________________________________________*/
 void Evaluacion:: MostrarExpresionesArbol(Arbol tree){
       tree = arbolDeExpresiones();
+      cout <<"\n\n\n\tARBOL DE RESULTADOS\n" ;
+      tree.printTree(tree.getRaiz(),4);
       cout << "\n\tInorden con resultados\n\t";
       tree.inOrden(tree.getRaiz());
       
