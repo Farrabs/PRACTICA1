@@ -58,7 +58,6 @@ Lista Evaluacion:: expresionDesdeArbol(pNodoArbol nodo, Lista lista){
             if (!(nodo->izquierda==NULL && nodo->derecha ==NULL)){
                   lista.InsertarDer(')');
             }
-            lista.Mostrar();
       }
       return lista;
 }
@@ -850,10 +849,9 @@ char* Evaluacion::completar_parentesis(char* expresion){
 
 Arbol Evaluacion:: arbolDesdePosfija(char * exp){
       Cola cola; Pila pila; PilaArbol pilaArbol; Lista lista; int n; int n1;int n2; Arbol tree; 
-      expresion = exp;
-      if (!es_Correcta(exp)){
-            cout << "Error. Expresion mal introducida." << endl;
-            return tree;
+      if (!es_Correcta(expresion)){
+		cout << "\n\tLa expresion introducida no es correcta y no se pueden realizar las acciones correspondientes.\n" << endl;
+		exit(0);
       }
       cola = ExpresionInfija_a_ExpresionPostfija(exp);
       cola.Mostrar();
@@ -883,10 +881,10 @@ Arbol Evaluacion:: arbolDesdePosfija(char * exp){
             }
 
             if (!pilaArbol.es_Vacia()){
-                  tree.printTree(pilaArbol.Cima(),4);
+                  tree.printTree(pilaArbol.Cima(),8);
             }
-            cout << "pila arbol" ; pilaArbol.Mostrar();    
-            cout << "\n\n\n";
+            cout << "\n\tPila arbol" ; pilaArbol.Mostrar();    
+            
             system("pause");
             system("cls");
       }
@@ -895,7 +893,11 @@ Arbol Evaluacion:: arbolDesdePosfija(char * exp){
       tree.insertarNodo(aux->valor);
       tree.getRaiz()->derecha = aux->derecha;
       tree.getRaiz()->izquierda = aux->izquierda;
-      tree.printTree(tree.getRaiz(),4);
+      cout << "\n\tARBOL DE LA EXPRESION " << expresion << "\n" << endl;
+      tree.printTree(tree.getRaiz(),8);
+      
+      system("pause");
+      system("cls");
       return tree;     
 }
 
@@ -907,13 +909,14 @@ int Evaluacion:: ResolverArbol(Arbol a){
       Lista lista;
       lista = expresionDesdeArbol(a.getRaiz(), lista);  
       lista.Mostrar();
-    	cin.get();
       int resultado = EvaluarArbol(a.getRaiz());
-      cout << "\n";
-      a.printTree(a.getRaiz(),4);
+      cout << "\n\tARBOL DE LA EXPRESION " << expresion << "\n" << endl;
+      a.printTree(a.getRaiz(),8);
       cout << "\n\tLa expresion final es ==> " ;
       lista.Mostrar();
-      cout << "\t\nResultado: " << resultado << endl;
+      cout << "\n\tResultado: " << resultado << endl;
+      system("pause");
+      system("cls");
       return resultado;
       
 }
@@ -931,11 +934,18 @@ Arbol Evaluacion:: arbolDeExpresiones(){
             tree.insertarNodoExpresion(n,expresion);
       }
       
-      cout << "\n\n\n\tARBOL DE EXPRESIONES\n";
-      tree.printTreeExp(tree.getRaiz(),4);
-      cout << "\n\tInorden con expresiones\n\t";
+      cout << "\n\n\n\tARBOL DE EXPRESIONES\n\n";
+      tree.printTreeExp(tree.getRaiz(),8);
+      cout << "\n\tInorden con expresiones\n\n\t";
       tree.inOrdenExp(tree.getRaiz());
-      
+      cout << "\n" << endl;
+      cout <<"\n\n\n\tARBOL DE RESULTADOS\n\n" ;
+      tree.printTree(tree.getRaiz(),8);
+      cout << "\n\tInorden con resultados\n\n\t";
+      tree.inOrden(tree.getRaiz());
+      cout << "\n\n" ;
+      system("pause");
+      system("cls");
       return tree;
 }
 
@@ -944,11 +954,6 @@ Arbol Evaluacion:: arbolDeExpresiones(){
 /*___________________________________________________________*/
 void Evaluacion:: MostrarExpresionesArbol(Arbol tree){
       tree = arbolDeExpresiones();
-      cout <<"\n\n\n\tARBOL DE RESULTADOS\n" ;
-      tree.printTree(tree.getRaiz(),4);
-      cout << "\n\tInorden con resultados\n\t";
-      tree.inOrden(tree.getRaiz());
-      
       return;
 }
 
@@ -957,18 +962,22 @@ void Evaluacion:: MostrarExpresionesArbol(Arbol tree){
 /*___________________________________________________________*/
 void Evaluacion:: MostrarInformacionArbol(char *exp){
       Arbol tree = arbolDesdePosfija(exp);
-      cout << "\tALTURA:\n\t=>" << tree.getAlturaArbol(tree.getRaiz());
+      cout << "\nARBOL DE LA EXPRESION " << expresion << "\n" << endl;
+      tree.printTree(tree.getRaiz(),8);
+      cout << "\n\n\tALTURA:\n\t=>" << tree.getAlturaArbol(tree.getRaiz());
       cout << "\n\tNUMERO DE HOJAS:\n\t=>" << tree.NumeroHojas(tree.getRaiz());
       cout << "\n\tNUMERO DE NODOS:\n\t=>" << tree.NumeroNodos(tree.getRaiz());
       cout << "\n\tNUMERO DE NODOS INTERNOS:\n\t=>" << tree.NumeroNodos(tree.getRaiz()) - tree.NumeroHojas(tree.getRaiz());
       int resultado = pow(2,tree.getAlturaArbol(tree.getRaiz()));
-      cout << "\n\t¿Esta el arbol lleno?\n\t=>";
+      cout << "\n\t¿ARBOL LLENO?\n\t=>";
       if (resultado == tree.NumeroHojas(tree.getRaiz())){
             cout << "El arbol si esta lleno.\n";
       }
       else{
             cout << "El arbol no esta lleno.\n";
       }
+      system("pause");
+      system("cls");
 }
 
 
